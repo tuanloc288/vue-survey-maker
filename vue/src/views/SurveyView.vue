@@ -1,0 +1,348 @@
+<template>
+  <PageComponent>
+    <template v-slot:header>
+      <div class="flex items-center justify-between">
+        <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">
+          {{ route.params.id ? model.title : "Create a survey" }}
+        </h1>
+        <div class="flex flex-col items-center gap-3 md:flex-row md:text-sm">
+          <a
+            v-if="model.slug"
+            :href="`/view/survey/${model.slug}`"
+            target="_blank"
+            class="flex items-center p-3 cursor-pointer rounded-md text-indigo-500 hover:bg-indigo-700 hover:text-white transition-colors"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-5 h-5 mr-1"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
+              />
+            </svg>
+            <span class="hidden sm:block">View public link</span>
+          </a>
+          <button
+            v-if="route.params.id && !surveyLoading"
+            type="button"
+            @click="deleteSurvey()"
+            class="px-3 py-2 text-white rounded-md bg-red-500 hover:bg-red-600 flex items-center justify-between"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-5 h-5 mr-1"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+              />
+            </svg>
+
+            <span class="hidden sm:block">Delete survey</span>
+          </button>
+        </div>
+      </div>
+    </template>
+    <div
+      v-if="surveyLoading"
+      class="flex justify-center items-center pt-[20%] w-full"
+    >
+      <div class="loader" />
+    </div>
+    <form v-else @submit.prevent="saveSurvey" class="animate-fade-in-down">
+      <div class="shadow sm:rounded-md sm:overflow-hidden">
+        <!-- Survey all fields -->
+        <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+          <!-- Image -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700">
+              Image
+            </label>
+            <div class="mt-1 flex items-center">
+              <img
+                v-if="model.image_url"
+                :src="model.image_url"
+                :alt="model.title"
+                class="w-64 aspect-square object-cover"
+              />
+              <span
+                v-else
+                class="flex items-center justify-center h-12 w-12 rounded-full overflow-hidden bg-gray-100"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-[80%] h-[80%] text-gray-300"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+                  />
+                </svg>
+              </span>
+              <button
+                type="button"
+                class="relative z-10 overflow-hidden ml-5 bg-white px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 transition-colors duration-300 ease-in-out hover:bg-indigo-500 cursor-pointer"
+              >
+                <input
+                  type="file"
+                  @change="onImageChoose"
+                  class="absolute inset-0 opacity-0 cursor-pointer"
+                />
+                Change
+              </button>
+            </div>
+          </div>
+
+          <!-- Title -->
+          <div>
+            <label for="title" class="block text-sm font-medium text-gray-700"
+              >Title</label
+            >
+            <input
+              type="text"
+              name="title"
+              id="title"
+              v-model="model.title"
+              autocomplete="survey_title"
+              class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md"
+            />
+          </div>
+
+          <!-- Description -->
+          <div>
+            <label for="title" class="block text-sm font-medium text-gray-700"
+              >Description</label
+            >
+            <textarea
+              name="description"
+              id="description"
+              v-model="model.description"
+              autocomplete="survey_description"
+              class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md"
+              placeholder="Describe your survey here..."
+            />
+          </div>
+
+          <!-- Expire date -->
+          <div>
+            <label
+              for="expire_date"
+              class="block text-sm font-medium text-gray-700"
+              >Expire date</label
+            >
+            <input
+              type="date"
+              name="expire_date"
+              id="expire_date"
+              v-model="model.expire_date"
+              class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md"
+            />
+          </div>
+
+          <!-- Status -->
+          <div class="flex items-start">
+            <div class="flex items-center h-5">
+              <input
+                type="checkbox"
+                id="status"
+                name="status"
+                v-model="model.status"
+                class="focus:ring-indigo-500 w-4 h-4 text-indigo-600 border-gray-300 rounded-"
+              />
+            </div>
+            <div class="ml-2 text-sm">
+              <label for="status" class="font-medium text-gray-700">
+                Active
+              </label>
+            </div>
+          </div>
+
+          <!-- End survey fields-->
+        </div>
+
+        <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+          <h3 class="text-2xl font-semibold flex items-center justify-between">
+            Questions
+            <button
+              type="button"
+              @click="addQuestion()"
+              class="flex items-center text-sm px-4 py-1 rounded-sm text-white bg-indigo-600 hover:bg-indigo-700"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-4 h-4 mr-1"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 6v12m6-6H6"
+                />
+              </svg>
+
+              Add question
+            </button>
+          </h3>
+          <div v-if="!model.questions.length" class="text-center text-gray-600">
+            You don't have any questions created in this survey!
+          </div>
+          <div v-for="(question, index) in model.questions" :key="question.id">
+            <QuestionEditor
+              :question="question"
+              :index="index"
+              @change="questionChange"
+              @addQuestion="addQuestion"
+              @deleteQuestion="deleteQuestion"
+            />
+          </div>
+        </div>
+
+        <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+          <button
+            type="submit"
+            class="inline-flex justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </form>
+  </PageComponent>
+</template>
+
+<script setup>
+import store from "../store";
+import { useRoute, useRouter } from "vue-router";
+import { computed, ref, watch } from "vue";
+import PageComponent from "../components/PageComponent.vue";
+import QuestionEditor from "../components/editor/QuestionEditor.vue";
+import { v4 as uuidv4 } from "uuid";
+
+const route = useRoute();
+const router = useRouter();
+
+const surveyLoading = computed(() => store.state.currentSurvey.loading);
+
+let model = ref({
+  title: "",
+  slug: "",
+  status: false,
+  description: null,
+  image_url: null,
+  expire_date: null,
+  questions: [],
+});
+
+// watch the current survey data, if it change we update the local model, work like react hook form
+watch(
+  () => store.state.currentSurvey.data,
+  (newVal, oldVal) => {
+    model.value = {
+      ...JSON.parse(JSON.stringify(newVal)),
+      // expire_date: newVal.expire_date ? formatDate(newVal.expire_date) : null,
+    };
+  }
+);
+
+if (route.params.id) {
+  store.dispatch("getSurvey", route.params.id);
+}
+
+function formatDate(dateString) {
+  let date = new Date(dateString);
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
+function addQuestion(index) {
+  const newQuestion = {
+    id: uuidv4(),
+    type: "text",
+    question: "",
+    description: null,
+    data: {},
+  };
+
+  model.value.questions.splice(index, 0, newQuestion);
+}
+
+function deleteQuestion(question) {
+  model.value.questions = model.value.questions.filter((q) => q !== question);
+}
+
+function questionChange(question) {
+  model.value.questions = model.value.questions.map((q) => {
+    if (q.id === question.id) {
+      return JSON.parse(JSON.stringify(question));
+    }
+
+    return q;
+  });
+}
+
+function saveSurvey() {
+  store.dispatch("saveSurvey", model.value).then(({ data }) => {
+    store.commit("notify", {
+      type: "success",
+      message: "Save survey successfully!",
+    });
+    router.push({
+      name: "SurveyView",
+      params: { id: data.data.id },
+    });
+  });
+}
+
+function onImageChoose(e) {
+  const file = e.target.files[0];
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    // .image will be send to backend and apply validation
+    model.value.image = reader.result;
+    // .image_url for display here at f/e
+    model.value.image_url = reader.result;
+  };
+
+  reader.readAsDataURL(file);
+}
+
+function deleteSurvey() {
+  if (
+    confirm(
+      "Are you sure you want to delete this survey? This action cannot be undone"
+    )
+  ) {
+    store.dispatch("deleteSurvey", model.value.id).then(() => {
+      router.push({
+        name: "Surveys",
+      });
+    });
+  }
+}
+</script>
+
+<style scoped></style>
