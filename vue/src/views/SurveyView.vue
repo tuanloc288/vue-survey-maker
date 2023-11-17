@@ -153,6 +153,7 @@
               v-model="model.expire_date"
               class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md"
             />
+            <i v-if="error" class="text-sm text-red-500"> {{ error }} </i>
           </div>
 
           <!-- Status -->
@@ -252,6 +253,8 @@ let model = ref({
   questions: [],
 });
 
+let error = ref("");
+
 // watch the current survey data, if it change we update the local model, work like react hook form
 watch(
   () => store.state.currentSurvey.data,
@@ -304,16 +307,23 @@ function questionChange(question) {
 }
 
 function saveSurvey() {
-  store.dispatch("saveSurvey", model.value).then(({ data }) => {
-    store.commit("notify", {
-      type: "success",
-      message: "Save survey successfully!",
+  let tmr = new Date();
+  tmr.setDate(tmr.getDate() + 1);
+  let expire = new Date(model.value.expire_date);
+  if (model.value.expire_date && expire < tmr) {
+    error.value = "The expire date must be a date after tomorrow!";
+  } else {
+    store.dispatch("saveSurvey", model.value).then(({ data }) => {
+      store.commit("notify", {
+        type: "success",
+        message: "Save survey successfully!",
+      });
+      router.push({
+        name: "SurveyView",
+        params: { id: data.data.id },
+      });
     });
-    router.push({
-      name: "SurveyView",
-      params: { id: data.data.id },
-    });
-  });
+  }
 }
 
 function onImageChoose(e) {

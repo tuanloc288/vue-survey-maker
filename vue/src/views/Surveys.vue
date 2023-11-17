@@ -4,8 +4,9 @@
       <div class="flex justify-between items-center">
         <h1 class="text-3xl font-bold text-gray-900">Surveys</h1>
         <router-link
+          v-if="!surveys.loading"
           :to="{ name: 'SurveyCreation' }"
-          class="py-2 px-3 text-white bg-emerald-500 hover:bg-emerald-600 flex justify-between items-center "
+          class="py-2 px-3 text-white bg-emerald-500 hover:bg-emerald-600 flex justify-between items-center"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -22,7 +23,9 @@
             />
           </svg>
 
-          <span class="hidden md:block">Add new survey</span>
+          <span class="hidden md:block">{{
+            surveys.data.length ? "Add new survey" : "Create your own survey"
+          }}</span>
         </router-link>
       </div>
     </template>
@@ -44,7 +47,7 @@
         />
       </div>
       <!-- Pagination -->
-      <div class="flex justify-center mt-8">
+      <div class="flex justify-center mt-8" v-if="surveys.data.length">
         <nav
           class="relative z-0 inline-flex justify-center rounded-md shadow-sm"
           aria-label="Pagination"
@@ -68,6 +71,9 @@
           >
           </a>
         </nav>
+      </div>
+      <div v-else class="flex justify-center text-2xl text-semibold">
+        You don't have any surveys yet!
       </div>
     </div>
   </PageComponent>

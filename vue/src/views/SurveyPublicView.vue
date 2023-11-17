@@ -9,7 +9,8 @@
     <form v-else class="container mx-auto" @submit.prevent="submitSurvey">
       <div class="grid grid-cols-6 items-center">
         <div class="mr-4">
-          <img :src="survey.image_url" alt="survey public view image" />
+          <img v-if="survey.image_url" :src="survey.image_url" alt="survey public view image" />
+          <div v-else class="flex items-center justify-center border border-dashed border-black p-10"> This survey have no image </div>
         </div>
         <div class="col-span-5">
           <h1 class="text-3xl mb-3">
@@ -48,12 +49,14 @@
           />
         </div>
         <button
+          v-if="survey.questions.length"
           :disabled="surveyAnswerLoading"
           type="submit"
           class="inline-flex justify-center px-4 py-2 border border-transparent text-sm rounded-md shadow-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
           Submit
         </button>
+        <div v-else class="text-xl font-semibold"> This survey have no question... </div>
       </div>
     </form>
   </div>

@@ -137,7 +137,6 @@ const store = createStore({
         .get(`survey/${id}`)
         .then((res) => {
           commit("setCurrentSurvey", res.data);
-          console.log(res.data);
           commit("setCurrentSurveyLoading", false);
           return res;
         })

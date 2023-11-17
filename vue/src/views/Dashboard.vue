@@ -37,7 +37,7 @@
         <h3 class="text-2xl font-semibold">Latest survey</h3>
         <div v-if="data.latestSurvey">
           <img
-            :src="data.latestSurvey.image_url"
+            :src="data.latestSurvey.image_url ? data.latestSurvey.image_url : 'images/no-image.png'"
             class="w[240px] mx-auto my-2"
             alt="dashboard survey image"
           />

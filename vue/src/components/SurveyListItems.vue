@@ -1,14 +1,15 @@
 <template>
   <div
-    class="flex flex-col px-6 py-4 shadow-md bg-white hover:bg-gray-50 h-[470px] border hover:scale-125"
+    class="flex flex-col px-6 py-4 shadow-md bg-white hover:bg-gray-50 max-h-[470px] border hover:scale-125"
   >
     <img
-      :src="survey.image_url"
+      :src="survey.image_url ? survey.image_url : 'images/no-image.png'"
       alt="survey image"
       class="w-full h-48 object-cover"
     />
     <h4 class="mt-4 text-lg font-bold">{{ survey.title }}</h4>
-    <div v-html="survey.description" class="overflow-hidden flex-1"></div>
+    <div v-if="survey.description" v-html="survey.description" class="overflow-hidden flex-1"></div>
+    <div v-else class="overflow-hidden flex-1"> No description... </div>
     <div class="flex justify-between items-center mt-3">
       <router-link
         :to="{ name: 'SurveyView', params: { id: survey.id } }"
