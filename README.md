@@ -3,7 +3,7 @@
 ![Dashboard](https://res.cloudinary.com/dbiliw2ja/image/upload/v1700209232/r3cpl6hosto3zmbsgadb.png)
 ![Surveys](https://res.cloudinary.com/dbiliw2ja/image/upload/v1700209232/enqnbmagrj4iwdzy52ye.png)
 ![Create/edit](https://res.cloudinary.com/dbiliw2ja/image/upload/v1700209231/wa3mrz49krtghkvsurle.png)
-![Public-view]()
+![Public-view](https://res.cloudinary.com/dbiliw2ja/image/upload/v1700209231/ucds3hxxxwzxm7xn4ilw.png)
 
 ### Prerequisites
 
