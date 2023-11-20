@@ -1,8 +1,10 @@
 <template>
-  <PageComponent>
+  <PageComponent showJump>
     <template v-slot:header>
       <div class="flex items-center justify-between">
-        <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">
+        <h1
+          class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100"
+        >
           {{ route.params.id ? model.title : "Create a survey" }}
         </h1>
         <div class="flex flex-col items-center gap-3 md:flex-row md:text-sm">
@@ -54,31 +56,28 @@
         </div>
       </div>
     </template>
-    <div
-      v-if="surveyLoading"
-      class="flex justify-center items-center pt-[20%] w-full"
-    >
-      <div class="loader" />
-    </div>
+    <Loader v-if="surveyLoading" />
     <form v-else @submit.prevent="saveSurvey" class="animate-fade-in-down">
       <div class="shadow sm:rounded-md sm:overflow-hidden">
         <!-- Survey all fields -->
-        <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+        <div class="px-4 py-5 bg-white dark:bg-gray-800 space-y-6 sm:p-6">
           <!-- Image -->
           <div>
-            <label class="block text-sm font-medium text-gray-700">
+            <label
+              class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
               Image
             </label>
-            <div class="mt-1 flex items-center">
+            <div class="mt-1 flex flex-col space-y-5 md:flex-row items-center">
               <img
                 v-if="model.image_url"
                 :src="model.image_url"
                 :alt="model.title"
-                class="w-64 aspect-square object-cover"
+                class="w-80 md:w-64 aspect-square object-cover"
               />
               <span
                 v-else
-                class="flex items-center justify-center h-12 w-12 rounded-full overflow-hidden bg-gray-100"
+                class="flex items-center justify-center h-12 w-12 rounded-full overflow-hidden bg-gray-100 dark:bg-gray-900"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -97,7 +96,7 @@
               </span>
               <button
                 type="button"
-                class="relative z-10 overflow-hidden ml-5 bg-white px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 transition-colors duration-300 ease-in-out hover:bg-indigo-500 cursor-pointer"
+                class="relative z-10 overflow-hidden ml-5 bg-white dark:bg-black px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300 ease-in-out hover:bg-indigo-500 dark:hover:bg-indigo-500 cursor-pointer"
               >
                 <input
                   type="file"
@@ -111,7 +110,9 @@
 
           <!-- Title -->
           <div>
-            <label for="title" class="block text-sm font-medium text-gray-700"
+            <label
+              for="title"
+              class="block text-sm font-medium text-gray-700 dark:text-gray-300"
               >Title</label
             >
             <input
@@ -120,13 +121,15 @@
               id="title"
               v-model="model.title"
               autocomplete="survey_title"
-              class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md"
+              class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 dark:border-gray-700 dark:bg-transparent dark:text-gray-300 rounded-md"
             />
           </div>
 
           <!-- Description -->
           <div>
-            <label for="title" class="block text-sm font-medium text-gray-700"
+            <label
+              for="title"
+              class="block text-sm font-medium text-gray-700 dark:text-gray-300"
               >Description</label
             >
             <textarea
@@ -134,7 +137,7 @@
               id="description"
               v-model="model.description"
               autocomplete="survey_description"
-              class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md"
+              class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 dark:border-gray-700 dark:bg-transparent dark:text-gray-300 rounded-md"
               placeholder="Describe your survey here..."
             />
           </div>
@@ -143,7 +146,7 @@
           <div>
             <label
               for="expire_date"
-              class="block text-sm font-medium text-gray-700"
+              class="block text-sm font-medium text-gray-700 dark:text-gray-300"
               >Expire date</label
             >
             <input
@@ -151,7 +154,7 @@
               name="expire_date"
               id="expire_date"
               v-model="model.expire_date"
-              class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md"
+              class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 dark:border-gray-700 dark:bg-transparent dark:text-gray-300 rounded-md"
             />
             <i v-if="error" class="text-sm text-red-500"> {{ error }} </i>
           </div>
@@ -164,11 +167,14 @@
                 id="status"
                 name="status"
                 v-model="model.status"
-                class="focus:ring-indigo-500 w-4 h-4 text-indigo-600 border-gray-300 rounded-"
+                class="focus:ring-indigo-500 w-6 h-6 text-indigo-600 dark:text-indigo-400 border-gray-300 dark:border-gray-700 dark:bg-transparent rounded-md"
               />
             </div>
             <div class="ml-2 text-sm">
-              <label for="status" class="font-medium text-gray-700">
+              <label
+                for="status"
+                class="font-medium text-gray-700 dark:text-gray-300"
+              >
                 Active
               </label>
             </div>
@@ -177,8 +183,8 @@
           <!-- End survey fields-->
         </div>
 
-        <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
-          <h3 class="text-2xl font-semibold flex items-center justify-between">
+        <div class="px-4 py-5 bg-white dark:bg-gray-800 space-y-6 sm:p-6">
+          <h3 class="text-2xl font-semibold flex items-center justify-between dark:text-white">
             Questions
             <button
               type="button"
@@ -203,7 +209,10 @@
               Add question
             </button>
           </h3>
-          <div v-if="!model.questions.length" class="text-center text-gray-600">
+          <div
+            v-if="!model.questions.length"
+            class="text-center text-gray-600 dark:text-gray-400"
+          >
             You don't have any questions created in this survey!
           </div>
           <div v-for="(question, index) in model.questions" :key="question.id">
@@ -217,7 +226,7 @@
           </div>
         </div>
 
-        <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+        <div class="px-4 py-3 bg-gray-50 dark:bg-gray-800 text-right sm:px-6">
           <button
             type="submit"
             class="inline-flex justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -237,6 +246,7 @@ import { computed, ref, watch } from "vue";
 import PageComponent from "../components/PageComponent.vue";
 import QuestionEditor from "../components/editor/QuestionEditor.vue";
 import { v4 as uuidv4 } from "uuid";
+import Loader from "../components/Loader.vue";
 
 const route = useRoute();
 const router = useRouter();

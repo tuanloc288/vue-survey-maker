@@ -1,8 +1,8 @@
 <template>
-  <PageComponent>
+  <PageComponent showJump>
     <template v-slot:header>
       <div class="flex justify-between items-center">
-        <h1 class="text-3xl font-bold text-gray-900">Surveys</h1>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Surveys</h1>
         <router-link
           v-if="!surveys.loading"
           :to="{ name: 'SurveyCreation' }"
@@ -29,12 +29,7 @@
         </router-link>
       </div>
     </template>
-    <div
-      v-if="surveys.loading"
-      class="flex justify-center items-center pt-[20%] w-full"
-    >
-      <div class="loader" />
-    </div>
+    <Loader v-if="surveys.loading" />
     <div v-else>
       <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
         <SurveyListItem
@@ -63,8 +58,8 @@
             class="relative inline-flex items-center px-4 py-2 border text-sm font-medium whitespace-nowrap"
             :class="[
               link.active
-                ? 'z-10 bg-indigo-50 border-indigo-500 text-indigo-600'
-                : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50',
+                ? 'z-10 bg-indigo-50 dark:bg-indigo-950 border-indigo-500 text-indigo-600 dark:text-indigo-400'
+                : 'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700 text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-800/80',
               index === 0 ? 'rounded-l-md' : '',
               index === surveys.links.length - 1 ? 'rounded-r-md' : '',
             ]"
@@ -84,6 +79,7 @@ import store from "../store";
 import { computed } from "vue";
 import PageComponent from "../components/PageComponent.vue";
 import SurveyListItem from "../components/SurveyListItems.vue";
+import Loader from "../components/Loader.vue";
 
 const surveys = computed(() => store.state.surveys);
 

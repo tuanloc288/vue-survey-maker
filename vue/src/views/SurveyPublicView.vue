@@ -1,11 +1,6 @@
 <template>
   <div class="px-8 py-5 relative">
-    <div
-      v-if="loading"
-      class="flex justify-center items-center pt-[20%] w-full"
-    >
-      <div class="loader" />
-    </div>
+    <Loader v-if="loading"/>
     <form v-else class="container mx-auto" @submit.prevent="submitSurvey">
       <div class="grid grid-cols-6 items-center">
         <div class="mr-4">
@@ -67,6 +62,7 @@ import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useStore } from "vuex";
 import QuestionViewer from "../components/viewer/QuestionViewer.vue";
+import Loader from "../components/Loader.vue";
 
 const route = useRoute();
 const store = useStore();

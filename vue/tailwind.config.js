@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: "class",
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
     extend: {
@@ -54,6 +55,24 @@ export default {
             opacity: 1,
           },
         },
+        "to-bottom": {
+          from: {
+            transform: "translateY(0)",
+            opacity: 1,
+          },
+          to: {
+            transform: "translateY(100%)",
+            display: "hidden",
+          },
+        },
+        "appear-opacity": {
+          from : {
+            opacity: 0
+          },
+          to: {
+            opacity: 1
+          }
+        }
       },
       animation: {
         "fade-in-down": "fade-in-down .2s ease-in-out both",
@@ -61,6 +80,7 @@ export default {
         "from-bottom": "from-bottom .5s ease-in-out both",
         "from-left": "from-left .5s ease-in-out both",
         "from-right": "from-right .5s ease-in-out both",
+        "to-bottom": "to-bottom .5s ease-in-out both",
       },
     },
   },

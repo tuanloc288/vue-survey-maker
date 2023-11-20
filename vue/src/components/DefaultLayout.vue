@@ -1,11 +1,25 @@
 <template>
   <div class="min-h-full">
-    <Disclosure as="nav" class="bg-gray-800" v-slot="{ open }">
+    <Disclosure
+      as="nav"
+      class="bg-gray-800 dark:bg-black"
+      :class="[
+        fixedNav
+          ? 'fixed top-0 left-0 right-0 w-full z-20 py-3 transition-transform'
+          : '',
+      ]"
+      v-slot="{ open }"
+    >
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="flex h-16 items-center justify-between">
           <div class="flex items-center justify-center">
             <div class="flex-shrink-0">
-              <img class="h-12 w-12" src="/images/logo.png" alt="Logo" />
+              <img
+                class="h-12 w-12 cursor-pointer"
+                src="/images/logo.png"
+                alt="Logo"
+                @click="gotoHome()"
+              />
             </div>
             <div class="hidden md:block">
               <div class="ml-10 flex items-baseline space-x-4">
@@ -27,11 +41,48 @@
           </div>
           <div class="hidden md:block">
             <div class="ml-4 flex items-center md:ml-6">
+              <div
+                class="p-2 mr-2 flex text-gray-800 border bg-white rounded-3xl cursor-pointer"
+                @click="toggle()"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-6 h-6 hover:scale-125 animate-from-top"
+                  id="sun"
+                  :class="[!isDark ? 'hidden' : '']"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
+                  />
+                </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-6 h-6 hover:scale-125 animate-from-top"
+                  id="moon"
+                  :class="[isDark ? 'hidden' : '']"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"
+                  />
+                </svg>
+              </div>
               <!-- Profile dropdown -->
               <Menu as="div" class="relative ml-3">
                 <div class="flex">
                   <MenuButton
-                    class="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                    class="relative flex max-w-xs items-center rounded-full bg-gray-800 dark:bg-black text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                   >
                     <span class="absolute -inset-1.5" />
                     <span class="sr-only">Open user menu</span>
@@ -72,7 +123,7 @@
                   leave-to-class="transform opacity-0 scale-95"
                 >
                   <MenuItems
-                    class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                    class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-200 dark:bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                   >
                     <MenuItem>
                       <a
@@ -87,6 +138,43 @@
             </div>
           </div>
           <div class="-mr-2 flex md:hidden">
+            <div
+              class="p-2 mr-4 flex text-gray-800 border bg-white rounded-3xl cursor-pointer"
+              @click="toggle()"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6 hover:scale-125 animate-from-top"
+                id="sun"
+                :class="[!isDark ? 'hidden' : '']"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
+                />
+              </svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6 hover:scale-125 animate-from-top"
+                id="moon"
+                :class="[isDark ? 'hidden' : '']"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"
+                />
+              </svg>
+            </div>
             <!-- Mobile menu button -->
             <DisclosureButton
               class="relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
@@ -193,9 +281,14 @@ export default {
 </script>
 
 <script setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
+import { useDark, useToggle } from "@vueuse/core";
+
+const isDark = useDark();
+const toggleDark = useToggle(isDark);
+const fixedNav = ref(false);
 
 const navigation = [
   { name: "Dashboard", to: { name: "Dashboard" } },
@@ -208,11 +301,39 @@ const router = useRouter();
 store.dispatch("getUser");
 let user = computed(() => store.state.user.data);
 
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 65 && !fixedNav.value) {
+    fixedNav.value = true;
+  } else if (window.scrollY === 0) {
+    fixedNav.value = false;
+  }
+});
+
+function gotoHome() {
+  router.push({ name: "Dashboard" });
+}
+
 function logout() {
   store.dispatch("logout").then(() => {
     router.push({
       name: "Login",
     });
   });
+}
+
+function toggle() {
+  let tgl = document.getElementById("toggleTheme");
+
+  if (isDark) {
+    let sun = document.getElementById("sun");
+
+    sun.classList.add("animate-to-bottom");
+  } else {
+    let moon = document.getElementById("moon");
+
+    moon.classList.add("animate-to-bottom");
+  }
+
+  toggleDark();
 }
 </script>

@@ -1,17 +1,12 @@
 <template>
   <PageComponent title="Dashboard">
-    <div
-      v-if="loading"
-      class="flex justify-center items-center pt-[20%] w-full"
-    >
-      <div class="loader" />
-    </div>
+    <Loader v-if="loading" />
     <div
       v-else
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 text-gray-700"
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 text-gray-700 dark:text-gray-300"
     >
       <div
-        class="bg-white animate-from-top shadow-md p-3 text-center flex flex-col order-1 lg:order-2"
+        class="bg-white dark:bg-gray-800 animate-from-top shadow-md p-3 text-center flex flex-col order-1 lg:order-2"
       >
         <h3 class="text-2xl font-semibold">Total surveys</h3>
         <div
@@ -21,7 +16,7 @@
         </div>
       </div>
       <div
-        class="bg-white animate-from-bottom shadow-md p-3 text-center flex flex-col order-2 lg:order-4"
+        class="bg-white dark:bg-gray-800 animate-from-bottom shadow-md p-3 text-center flex flex-col order-2 lg:order-4"
       >
         <h3 class="text-2xl font-semibold">Total answers</h3>
         <div
@@ -31,14 +26,18 @@
         </div>
       </div>
       <div
-        class="row-span-2 animate-from-left order-3 bg-white shadow-md p-4 lg:order-1"
-        :class="{'h-fit' : !data.latestSurvey}"
+        class="row-span-2 animate-from-left order-3 bg-white dark:bg-gray-800 shadow-md p-4 lg:order-1"
+        :class="{ 'h-fit': !data.latestSurvey }"
       >
         <h3 class="text-2xl font-semibold">Latest survey</h3>
         <div v-if="data.latestSurvey">
           <img
-            :src="data.latestSurvey.image_url ? data.latestSurvey.image_url : 'images/no-image.png'"
-            class="w[240px] mx-auto my-2"
+            :src="
+              data.latestSurvey.image_url
+                ? data.latestSurvey.image_url
+                : 'images/no-image.png'
+            "
+            class="w[240px] mx-auto my-3"
             alt="dashboard survey image"
           />
           <h3 class="text-xl font-bold mb-3">{{ data.latestSurvey.title }}</h3>
@@ -62,7 +61,7 @@
             <div>Answers:</div>
             <div>{{ data.latestSurvey.answers }}</div>
           </div>
-          <div class="flex justify-between">
+          <div class="flex justify-between mt-2">
             <router-link
               :to="{ name: 'SurveyView', params: { id: data.latestSurvey.id } }"
               class="flex px-4 py-2 border border-transparent text-sm rounded-md text-indigo-500 hover:bg-indigo-700 hover:text-white transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -111,16 +110,19 @@
             </button>
           </div>
         </div>
-        <div v-else class="text-gray-600 text-center py-16">
+        <div v-else class="text-gray-600 dark:text-gray-400 text-center py-16">
           You don't have any surveys yet!
         </div>
       </div>
       <div
-        class="bg-white animate-from-right shadow-md p-3 row-span-2 order-4 lg:order-3 h-fit"
+        class="bg-white dark:bg-gray-800 animate-from-right shadow-md p-3 row-span-2 order-4 lg:order-3 h-fit"
       >
         <div class="flex justify-between items-center mb-2 px-2">
           <h3 class="text-2xl font-semibold">Latest answers</h3>
-          <a href="#" class="text-sm text-blue-500 hover:decoration-blue-500">
+          <a
+            href="javascript:void(0)"
+            class="text-sm text-blue-500 hover:decoration-blue-500"
+          >
             View all
           </a>
         </div>
@@ -129,7 +131,7 @@
             href="#"
             v-for="answer of data.latestAnswers"
             :key="answer.id"
-            class="block p-2 hover:bg-gray-100/90"
+            class="block p-2 hover:bg-gray-100/90 dark:hover:bg-gray-900/30"
           >
             <div class="font-semibold">{{ answer.survey.title }}</div>
             <small>
@@ -138,7 +140,7 @@
             </small>
           </a>
         </div>
-        <div v-else class="text-gray-600 text-center py-16">
+        <div v-else class="text-gray-600 dark:text-gray-400 text-center py-16">
           You don't have any answers yet!
         </div>
       </div>
@@ -150,6 +152,7 @@
 import PageComponent from "../components/PageComponent.vue";
 import { computed } from "vue";
 import store from "../store/index";
+import Loader from "../components/Loader.vue";
 
 const loading = computed(() => store.state.dashboard.loading);
 const data = computed(() => store.state.dashboard.data);

@@ -1,12 +1,12 @@
 <template>
   <!-- Question index -->
   <div class="flex items-center justify-between space-x-2">
-    <h3 class="text-sm sm:text-lg font-bold">
+    <h3 class="text-sm sm:text-lg font-bold text-black dark:text-white">
       {{ index + 1 }}. {{ model.question }}
     </h3>
 
     <div class="flex items-center">
-      <!-- Add new question -->
+      <!-- Add new question --> 
       <button
         type="button"
         @click="addQuestion()"
@@ -35,7 +35,7 @@
       <button
         type="button"
         @click="deleteQuestion()"
-        class="flex items-center text-xs py-1 px-3 rounded-sm border border-transparent text-red-500 hover:border-red-600"
+        class="flex items-center text-xs py-1 px-3 rounded-sm border border-transparent text-white border-red-400 bg-red-500 hover:bg-red-600 transition-colors"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -63,7 +63,7 @@
     <div class="mt-3 col-span-9">
       <label
         :for="'question_text_' + model.data"
-        class="block text-sm font-medium text-gray-700"
+        class="block text-sm font-medium text-gray-700 dark:text-gray-300"
       >
         Question
       </label>
@@ -74,7 +74,7 @@
         v-model="model.question"
         @change="dataChange"
         :id="'question_text_' + model.data"
-        class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+        class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 dark:border-gray-700 dark:bg-transparent dark:text-gray-200 rounded-md"
       />
     </div>
     <!--/ Question -->
@@ -83,7 +83,7 @@
     <div class="mt-3 col-span-3">
       <label
         for="question_type"
-        class="block text-sm font-medium text-gray-700"
+        class="block text-sm font-medium text-gray-700 dark:text-gray-300"
       >
         Type
       </label>
@@ -92,12 +92,13 @@
         name="question_type"
         v-model="model.type"
         @change="typeChange"
-        class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        class="mt-1 block w-full py-2 px-3 border border-gray-300 dark:border-gray-700 bg-white dark:bg-transparent text-black dark:text-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
       >
         <option
           v-for="(type, index) in questionTypes"
           :key="index"
           :value="type"
+          class="dark:bg-gray-900"
         >
           {{ upperCaseFirst(type) }}
         </option>
@@ -110,7 +111,7 @@
   <div class="mt-3 col-span-9">
     <label
       :for="'question_description_' + model.id"
-      class="block text-sm font-medium text-gray-700"
+      class="block text-sm font-medium text-gray-700 dark:text-gray-300"
       >Description</label
     >
     <textarea
@@ -118,7 +119,7 @@
       v-model="model.description"
       @change="dataChange"
       :id="'question_description_' + model.id"
-      class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+      class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 dark:border-gray-700 dark:bg-transparent dark:text-gray-200 rounded-md"
     ></textarea>
   </div>
   <!--/ Question Description -->
@@ -126,7 +127,7 @@
   <!-- Data -->
   <div>
     <div v-if="shouldHaveOptions()" class="mt-2">
-      <h4 class="text-sm font-semibold mb-1 flex justify-between items-center">
+      <h4 class="text-sm font-semibold mb-1 flex justify-between items-center text-black dark:text-gray-300">
         Options
 
         <!-- Add new option -->
@@ -156,7 +157,7 @@
 
       <div
         v-if="!model.data.options?.length"
-        class="text-xs text-gray-600 text-center py-3"
+        class="text-xs text-gray-600 dark:text-gray-400 text-center py-3"
       >
         You don't have any options defined
       </div>
@@ -166,13 +167,13 @@
         :key="option.uuid"
         class="flex items-center mb-1"
       >
-        <span class="w-6 text-sm"> {{ index + 1 }}. </span>
+        <span class="w-6 text-sm text-black dark:text-gray-300"> {{ index + 1 }}. </span>
         <input
           type="text"
           tabindex="1"
           v-model="option.text"
           @change="dataChange"
-          class="w-full rounded-sm py-1 px-2 text-xs border border-gray-300 focus:border-indigo-500"
+          class="w-full rounded-sm py-1 px-2 text-xs border border-gray-300 dark:border-gray-700 dark:bg-transparent dark:text-gray-200 focus:border-indigo-500"
         />
         <!-- Delete Option -->
         <button
@@ -202,7 +203,7 @@
   </div>
   <!--/ Data -->
 
-  <hr class="my-4" />
+  <hr class="my-1" />
 </template>
 
 <script setup>

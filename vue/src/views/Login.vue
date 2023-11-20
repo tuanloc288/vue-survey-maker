@@ -6,7 +6,7 @@
       alt="Your Company"
     />
     <h2
-      class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900"
+      class="mt-5 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 dark:text-gray-100"
     >
       Sign in to your account
     </h2>
@@ -39,7 +39,7 @@
       <div>
         <label
           for="email"
-          class="block text-sm font-medium leading-6 text-gray-900"
+          class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-100"
           >Email address</label
         >
         <div class="mt-2">
@@ -51,7 +51,7 @@
             required=""
             v-model="user.email"
             placeholder="vana@gmail.com..."
-            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-700 placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 sm:text-sm sm:leading-6"
           />
         </div>
       </div>
@@ -60,7 +60,7 @@
         <div class="flex items-center justify-between">
           <label
             for="password"
-            class="block text-sm font-medium leading-6 text-gray-900"
+            class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-100"
             >Password</label
           >
         </div>
@@ -72,7 +72,7 @@
             autocapitalize="current-password"
             required=""
             v-model="user.password"
-            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            class="block w-full rounded-md border-0 py-1.5 text-gray-900shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-700 placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 sm:text-sm sm:leading-6"
           />
         </div>
       </div>
@@ -84,9 +84,11 @@
             name="remember-me"
             type="checkbox"
             v-model="user.remember"
-            class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+            class="h-4 w-4 text-indigo-600 dark:text-indigo-400 focus:ring-indigo-500 border-gray-300 dark:border-gray-700 rounded"
           />
-          <label for="remember-me" class="ml-2 block text-sm text-gray-900"
+          <label
+            for="remember-me"
+            class="ml-2 block text-sm text-gray-900 dark:text-gray-100"
             >Remember me</label
           >
         </div>
@@ -96,7 +98,7 @@
         <button
           :disabled="loading"
           type="submit"
-          class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          class="flex w-full justify-center rounded-md bg-indigo-600 dark:bg-indigo-400 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:focus-visible:outline-indigo-400"
           :class="{
             'cursor-not-allowed': loading,
             'hover:bg-indigo-500': loading,
@@ -127,12 +129,12 @@
         </button>
       </div>
     </form>
-    <p class="mt-10 text-center text-sm text-gray-500">
+    <p class="mt-10 text-center text-sm text-gray-700 dark:text-gray-300">
       Don't have an account yet?
       {{ " " }}
       <router-link
         :to="{ name: 'Register' }"
-        class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+        class="font-semibold leading-6 text-indigo-600 dark:text-indigo-400 hover:text-indigo-500"
       >
         Click here to sign up
       </router-link>
@@ -144,7 +146,7 @@
 import { useRouter } from "vue-router";
 import store from "../store";
 import { ref } from "vue";
-import Alert from '../components/Alert.vue'
+import Alert from "../components/Alert.vue";
 
 const router = useRouter();
 const user = {
