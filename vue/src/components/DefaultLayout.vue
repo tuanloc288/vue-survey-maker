@@ -277,6 +277,26 @@ export default {
     XMarkIcon,
     Notification,
   },
+  data() {
+    return {
+      fixedNav: false,
+    };
+  },
+  mounted() {
+    window.addEventListener("scroll", this.handleScroll);
+  },
+  unmounted() {
+    window.removeEventListener("scroll", this.handleScroll);
+  },
+  methods: {
+    handleScroll() {
+      if (window.scrollY > 65 && !this.fixedNav) {
+        this.fixedNav = true;
+      } else if (window.scrollY === 0) {
+        this.fixedNav = false;
+      }
+    },
+  },
 };
 </script>
 
@@ -288,7 +308,6 @@ import { useDark, useToggle } from "@vueuse/core";
 
 const isDark = useDark();
 const toggleDark = useToggle(isDark);
-const fixedNav = ref(false);
 
 const navigation = [
   { name: "Dashboard", to: { name: "Dashboard" } },
@@ -300,14 +319,6 @@ const router = useRouter();
 
 store.dispatch("getUser");
 let user = computed(() => store.state.user.data);
-
-window.addEventListener("scroll", () => {
-  if (window.scrollY > 65 && !fixedNav.value) {
-    fixedNav.value = true;
-  } else if (window.scrollY === 0) {
-    fixedNav.value = false;
-  }
-});
 
 function gotoHome() {
   router.push({ name: "Dashboard" });
@@ -322,8 +333,6 @@ function logout() {
 }
 
 function toggle() {
-  let tgl = document.getElementById("toggleTheme");
-
   if (isDark) {
     let sun = document.getElementById("sun");
 

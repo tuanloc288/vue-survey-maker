@@ -67,32 +67,9 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-
 const props = defineProps({
   title: String,
   showJump: Boolean,
-});
-
-let topAxis = ref(
-  document.documentElement.clientHeight < document.documentElement.scrollHeight
-    ? true
-    : false
-);
-let botAxis = ref(false);
-
-window.addEventListener("scroll", () => {
-  if (window.scrollY > 0) {
-    topAxis.value = false;
-    botAxis.value = true;
-  } else if (window.scrollY === 0) {
-    botAxis.value = false;
-    if (
-      document.documentElement.clientHeight <
-      document.documentElement.scrollHeight
-    )
-      topAxis.value = true;
-  }
 });
 
 function jumpToY(pos) {
@@ -124,6 +101,38 @@ function jumpToY(pos) {
       break;
   }
 }
+</script>
+
+<script>
+export default {
+  data() {
+    return {
+      topAxis: false,
+      botAxis: false,
+    };
+  },
+  mounted() {
+    window.addEventListener("scroll", this.handleScroll);
+  },
+  unmounted() {
+    window.removeEventListener("scroll", this.handleScroll);
+  },
+  methods: {
+    handleScroll() {
+      if (window.scrollY > 0) {
+        this.topAxis = false;
+        this.botAxis = true;
+      } else if (window.scrollY === 0) {
+        this.botAxis = false;
+        if (
+          document.documentElement.clientHeight <
+          document.documentElement.scrollHeight
+        )
+          this.topAxis = true;
+      }
+    },
+  },
+};
 </script>
 
 <style scoped></style>
