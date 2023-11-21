@@ -5,13 +5,13 @@
       <div class="grid grid-cols-6 items-center">
         <div class="mr-4">
           <img v-if="survey.image_url" :src="survey.image_url" alt="survey public view image" />
-          <div v-else class="flex items-center justify-center border border-dashed border-black p-10"> This survey have no image </div>
+          <div v-else class="text-black dark:text-gray-300 flex items-center justify-center border border-dashed border-black dark:border-white p-10"> This survey have no image </div>
         </div>
         <div class="col-span-5">
-          <h1 class="text-3xl mb-3">
+          <h1 class="text-3xl mb-3 text-black dark:text-white">
             {{ survey.title }}
           </h1>
-          <p class="text-gray-500 text-sm" v-html="survey.description" />
+          <p class="text-gray-700 dark:text-gray-300 text-sm" v-html="survey.description" />
         </div>
       </div>
 
@@ -36,11 +36,10 @@
       </div>
       <div v-else>
         <hr class="my-3" />
-        <div v-for="(question, index) of survey.questions" :key="question.id">
+        <div v-for="(question) of survey.questions" :key="question.id">
           <QuestionViewer
             v-model="answers[question.id]"
             :question="question"
-            :index="index"
           />
         </div>
         <button
@@ -51,7 +50,7 @@
         >
           Submit
         </button>
-        <div v-else class="text-xl font-semibold"> This survey have no question... </div>
+        <div v-else class="text-xl font-semibold text-black dark:text-gray-300"> This survey have no question... </div>
       </div>
     </form>
   </div>

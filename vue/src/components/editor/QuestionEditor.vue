@@ -6,7 +6,7 @@
     </h3>
 
     <div class="flex items-center">
-      <!-- Add new question --> 
+      <!-- Add new question -->
       <button
         type="button"
         @click="addQuestion()"
@@ -127,7 +127,9 @@
   <!-- Data -->
   <div>
     <div v-if="shouldHaveOptions()" class="mt-2">
-      <h4 class="text-sm font-semibold mb-1 flex justify-between items-center text-black dark:text-gray-300">
+      <h4
+        class="text-sm font-semibold mb-1 flex justify-between items-center text-black dark:text-gray-300"
+      >
         Options
 
         <!-- Add new option -->
@@ -163,11 +165,13 @@
       </div>
       <!-- Option list -->
       <div
-        v-for="(option, index) in model.data.options"
+        v-for="(option, ind) in getOptions()"
         :key="option.uuid"
         class="flex items-center mb-1"
       >
-        <span class="w-6 text-sm text-black dark:text-gray-300"> {{ index + 1 }}. </span>
+        <span class="w-6 text-sm text-black dark:text-gray-300">
+          {{ ind + 1 }}.
+        </span>
         <input
           type="text"
           tabindex="1"
@@ -175,28 +179,70 @@
           @change="dataChange"
           class="w-full rounded-sm py-1 px-2 text-xs border border-gray-300 dark:border-gray-700 dark:bg-transparent dark:text-gray-200 focus:border-indigo-500"
         />
-        <!-- Delete Option -->
-        <button
-          type="button"
-          @click="removeOption(option)"
-          class="h-6 w-6 rounded-full flex items-center justify-center border border-transparent transition-colors hover:border-red-100"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-4 h-4 text-red-500"
+        <div class="flex justify-between items-center">
+          <!-- Delete Option -->
+          <button
+            type="button"
+            @click="removeOption(option)"
+            class="h-6 w-6 rounded-full flex items-center justify-center border border-transparent transition-colors hover:border-red-100 dark:hover:border-red-900"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
-            />
-          </svg>
-        </button>
-        <!--/ Delete Option -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-4 h-4 text-red-500"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+              />
+            </svg>
+          </button>
+          <!--/ Delete Option -->
+          <span
+            v-if="ind !== 0"
+            class="hover:cursor-pointer text-black dark:text-gray-200"
+            @click="changeOptPos(1, ind)"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-4 h-4"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M8.25 6.75L12 3m0 0l3.75 3.75M12 3v18"
+              />
+            </svg>
+          </span>
+          <span
+            v-if="model.data.options?.length !== ind + 1"
+            class="hover:cursor-pointer text-black dark:text-gray-200"
+            @click="changeOptPos(0, ind)"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-4 h-4"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15.75 17.25L12 21m0 0l-3.75-3.75M12 21V3"
+              />
+            </svg>
+          </span>
+        </div>
       </div>
       <!--/ Option list -->
     </div>
@@ -239,16 +285,31 @@ function setOptions(options) {
 }
 
 function addOption() {
-  setOptions([...(getOptions() || []), { uuid: uuidv4(), text: "" }]);
+  setOptions([
+    ...(getOptions() ? getOptions() : []),
+    {
+      uuid: uuidv4(),
+      text: "",
+      index:
+        getOptions() && getOptions().length !== 0 ? getOptions().length : 0,
+    },
+  ]);
   dataChange();
 }
 
 function removeOption(option) {
-  setOptions(getOptions().filter((opt) => opt !== option));
+  let newOpts = getOptions().map((opt, ind) => {
+    if (opt.uuid !== option.uuid) {
+      if (opt.index > option.index) return { ...opt, index: opt.index - 1 };
+      else return { ...opt, index: ind };
+    }
+    return { ...option };
+  });
+  setOptions(newOpts.filter((opt) => opt.uuid !== option.uuid));
   dataChange();
 }
 
-// when switching from type that should have options to something that dont
+// when switching from type that should have options to something that does't
 // setOptions here just in case if these is any options left
 function typeChange() {
   if (shouldHaveOptions()) {
@@ -258,11 +319,10 @@ function typeChange() {
 }
 
 function dataChange() {
-  const data = JSON.parse(JSON.stringify(model.value));
+  let data = model.value;
   if (!shouldHaveOptions()) {
     delete data.data.options;
   }
-
   emit("change", data);
 }
 
@@ -272,6 +332,15 @@ function addQuestion() {
 
 function deleteQuestion() {
   emit("deleteQuestion", props.question);
+}
+
+function changeOptPos(type, ind) {
+  // go up
+  if (!!type) {
+  }
+  // go down
+  else {
+  }
 }
 </script>
 

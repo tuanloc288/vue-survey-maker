@@ -184,7 +184,9 @@
         </div>
 
         <div class="px-4 py-5 bg-white dark:bg-gray-800 space-y-6 sm:p-6">
-          <h3 class="text-2xl font-semibold flex items-center justify-between dark:text-white">
+          <h3
+            class="text-2xl font-semibold flex items-center justify-between dark:text-white"
+          >
             Questions
             <button
               type="button"
@@ -270,7 +272,8 @@ watch(
   () => store.state.currentSurvey.data,
   (newVal, oldVal) => {
     model.value = {
-      ...JSON.parse(JSON.stringify(newVal)),
+      ...parseJson(newVal),
+      questions: newVal.questions.sort((a, b) => a.index - b.index),
       // expire_date: newVal.expire_date ? formatDate(newVal.expire_date) : null,
     };
   }
@@ -278,6 +281,10 @@ watch(
 
 if (route.params.id) {
   store.dispatch("getSurvey", route.params.id);
+}
+
+function parseJson(question) {
+  return JSON.parse(JSON.stringify(question));
 }
 
 function formatDate(dateString) {
@@ -297,19 +304,36 @@ function addQuestion(index) {
     question: "",
     description: null,
     data: {},
+    index: index ? index : 0,
   };
 
+  model.value.questions = model.value.questions.map((q) => {
+    if (!index) {
+      return parseJson({ ...q, index: q.index + 1 });
+    } else if (index && q.index >= index) {
+      return parseJson({ ...q, index: q.index + 1 });
+    } else return parseJson(q);
+  });
   model.value.questions.splice(index, 0, newQuestion);
 }
 
 function deleteQuestion(question) {
-  model.value.questions = model.value.questions.filter((q) => q !== question);
+  model.value.questions = model.value.questions.map((q) => {
+    if (q.id !== question.id) {
+      if (q.index > question.index)
+        return parseJson({ ...q, index: q.index - 1 });
+      else return parseJson(q);
+    } else return parseJson(question);
+  });
+  model.value.questions = model.value.questions.filter(
+    (q) => q.id !== question.id
+  );
 }
 
 function questionChange(question) {
   model.value.questions = model.value.questions.map((q) => {
     if (q.id === question.id) {
-      return JSON.parse(JSON.stringify(question));
+      return question;
     }
 
     return q;
@@ -323,6 +347,7 @@ function saveSurvey() {
   if (model.value.expire_date && expire < tmr) {
     error.value = "The expire date must be a date after tomorrow!";
   } else {
+    // console.log(model.value.questions[model.value.questions.length -1].data.options);
     store.dispatch("saveSurvey", model.value).then(({ data }) => {
       store.commit("notify", {
         type: "success",

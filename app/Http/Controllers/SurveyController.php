@@ -249,6 +249,7 @@ class SurveyController extends Controller
             ])],
             'description' => 'nullable|string',
             'data' => 'present',
+            'index' => 'nullable|integer',
             'survey_id' => 'exists:surveys,id'
         ]);
 
@@ -273,6 +274,7 @@ class SurveyController extends Controller
             ])],
             'description' => 'nullable|string',
             'data' => 'present',
+            'index'=> 'nullable|integer'
         ]);
 
         return $question->update($validator->validated());

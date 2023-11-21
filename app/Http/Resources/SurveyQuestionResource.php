@@ -20,6 +20,7 @@ class SurveyQuestionResource extends JsonResource
             'question' => $this->question,
             'description' => $this->description,
             'data' => json_decode($this->data),
+            'index' => $this->index
         ];
     }
 }

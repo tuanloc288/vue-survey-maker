@@ -1,10 +1,10 @@
 <template>
   <fieldset class="mb-4">
     <div>
-      <legend class="text-base font-medium text-gray-900">
-        {{ index + 1 }}. {{ question.question }}
+      <legend class="text-base font-medium text-gray-900 dark:text-gray-100">
+        {{ question.index + 1 }}. {{ question.question }}
       </legend>
-      <p class="text-gray-500 text-sm">
+      <p class="text-gray-800 dark:text-gray-200 text-sm">
         {{ question.description }}
       </p>
     </div>
@@ -13,7 +13,7 @@
         <select
           :value="modelValue"
           @change="emit('update:modelValue', $event.target.value)"
-          class="mt-1 block w-full px-3 py-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          class="text-black dark:text-gray-300 mt-1 block w-full px-3 py-3 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
         >
           <option value="">Select an option...</option>
           <option
@@ -36,11 +36,11 @@
             type="checkbox"
             v-model="model[option.text]"
             @change="onCheckboxChange"
-            class="focus:ring-indigo-500 w-4 h-4 text-indigo-600 border-gray-300 rounded"
+            class="focus:ring-indigo-500 w-4 h-4 text-indigo-600 dark:text-indigo-400 border-gray-300 dark:border-gray-700 rounded"
           />
           <label
             :for="option.uuid"
-            class="ml-3 block text-sm font-medium text-gray-700"
+            class="ml-3 block text-sm font-medium text-gray-700 dark:text-gray-300"
           >
             {{ option.text }}
           </label>
@@ -59,12 +59,12 @@
             :value="option.text"
             type="radio"
             @change="emit('update:modelValue', $event.target.value)"
-            class="focus:ring-indigo-500 w-4 h-4 text-indigo-600 border-gray-300"
+            class="focus:ring-indigo-500 w-4 h-4 text-indigo-600 dark:text-indigo-400 border-gray-300 dark:border-gray-700"
           />
           <label
             v-if="option.text"
             :for="option.uuid"
-            class="ml-3 block text-sm font-medium text-gray-700"
+            class="ml-3 block text-sm font-medium text-gray-700 dark:text-gray-300"
           >
             {{ option.text }}
           </label>
@@ -75,14 +75,14 @@
           type="text"
           :value="modelValue"
           @input="emit('update:modelValue', $event.target.value)"
-          class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+          class="text-black dark:text-gray-300 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-900"
         />
       </div>
       <div v-else-if="question.type === 'textarea'">
         <textarea
           :value="modelValue"
           @input="emit('update:modelValue', $event.target.value)"
-          class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+          class="text-black dark:text-gray-300 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-900"
         />
       </div>
     </div>
@@ -93,9 +93,8 @@
 <script setup>
 import { ref } from "vue";
 
-const { question, index, modelValue } = defineProps({
+const { question, modelValue } = defineProps({
   question: Object,
-  index: Number,
   modelValue: [String, Array],
 });
 

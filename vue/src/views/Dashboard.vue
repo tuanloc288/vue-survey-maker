@@ -37,7 +37,7 @@
                 ? data.latestSurvey.image_url
                 : 'images/no-image.png'
             "
-            class="w[240px] mx-auto my-3"
+            class="w[240px] mx-auto my-3 hover:scale-110 transition-transform"
             alt="dashboard survey image"
           />
           <h3 class="text-xl font-bold mb-3">{{ data.latestSurvey.title }}</h3>
@@ -47,7 +47,7 @@
           </div>
           <div class="flex justify-between text-sm mb-1">
             <div>Expired date:</div>
-            <div>{{ data.latestSurvey.expire_date }}</div>
+            <div>{{ data.latestSurvey.expire_date ? data.latestSurvey.expire_date : 'Not specified yet' }}</div>
           </div>
           <div class="flex justify-between text-sm mb-1">
             <div>Status</div>
@@ -83,7 +83,9 @@
 
               Edit survey
             </router-link>
-            <button
+            <a
+              :href="`/view/survey/${data.latestSurvey?.slug}`"
+              target="_blank"
               class="flex px-4 py-2 border border-transparent text-sm rounded-md text-indigo-500 hover:bg-indigo-700 hover:text-white transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               <svg
@@ -106,8 +108,8 @@
                 />
               </svg>
 
-              View answers
-            </button>
+              Public link
+            </a>
           </div>
         </div>
         <div v-else class="text-gray-600 dark:text-gray-400 text-center py-16">
@@ -120,6 +122,7 @@
         <div class="flex justify-between items-center mb-2 px-2">
           <h3 class="text-2xl font-semibold">Latest answers</h3>
           <a
+            v-if="data.latestAnswers.length"
             href="javascript:void(0)"
             class="text-sm text-blue-500 hover:decoration-blue-500"
           >
@@ -153,9 +156,11 @@ import PageComponent from "../components/PageComponent.vue";
 import { computed } from "vue";
 import store from "../store/index";
 import Loader from "../components/Loader.vue";
+import { useRouter } from "vue-router";
 
 const loading = computed(() => store.state.dashboard.loading);
 const data = computed(() => store.state.dashboard.data);
+const router = useRouter();
 
 store.dispatch("getDashboardData");
 </script>

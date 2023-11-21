@@ -67,7 +67,7 @@
           </a>
         </nav>
       </div>
-      <div v-else class="flex justify-center text-2xl text-semibold">
+      <div v-else class="flex justify-center text-2xl text-semibold text-black dark:text-gray-200">
         You don't have any surveys yet!
       </div>
     </div>
