@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 17, 2023 at 08:01 AM
+-- Generation Time: Nov 22, 2023 at 08:22 AM
 -- Server version: 8.0.30
 -- PHP Version: 7.4.29
 
@@ -122,7 +122,17 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (32, 'App\\Models\\User', 2, 'main', 'b9f0fd4e8d207b9ed58fd65b664f275ea9c28bbeee52729631655d721c013e28', '[\"*\"]', NULL, '2023-11-15 23:15:49', '2023-11-15 23:15:49'),
 (42, 'App\\Models\\User', 2, 'main', 'e518c29ec545024fbf6278ec91a37b007a9cdbfc9f77b3062d42580cb06b3a00', '[\"*\"]', '2023-11-16 03:11:58', '2023-11-16 03:11:56', '2023-11-16 03:11:58'),
 (52, 'App\\Models\\User', 2, 'main', 'ae86155f3ed78f6a73a5def93183a2151f4fbab1e1a0caaf95e4497c42db3493', '[\"*\"]', '2023-11-16 09:48:39', '2023-11-16 07:51:03', '2023-11-16 09:48:39'),
-(53, 'App\\Models\\User', 2, 'main', '960ae64cc34907cbd993468fdf2b3fa0bdce27f59fce675f9038d5b2470b5faf', '[\"*\"]', '2023-11-16 23:55:54', '2023-11-16 23:32:18', '2023-11-16 23:55:54');
+(53, 'App\\Models\\User', 2, 'main', '960ae64cc34907cbd993468fdf2b3fa0bdce27f59fce675f9038d5b2470b5faf', '[\"*\"]', '2023-11-16 23:55:54', '2023-11-16 23:32:18', '2023-11-16 23:55:54'),
+(60, 'App\\Models\\User', 3, 'main', '5cbe6ab216c1d69a6259d01c4b4970b88780b2af8a7a29fcecd310da37f182d4', '[\"*\"]', '2023-11-17 00:53:29', '2023-11-17 00:43:13', '2023-11-17 00:53:29'),
+(62, 'App\\Models\\User', 2, 'main', 'cc1c1d5d6619805857f923d0f6705d3f2162e2fd4e79e8a265a51edf0b80f933', '[\"*\"]', '2023-11-17 01:19:11', '2023-11-17 01:14:27', '2023-11-17 01:19:11'),
+(63, 'App\\Models\\User', 2, 'main', '7ee32c9bc628a85ac65b7baf8584a1e19440ecfad19b9e52fb43bcc5065115b3', '[\"*\"]', '2023-11-20 04:16:22', '2023-11-20 00:06:19', '2023-11-20 04:16:22'),
+(64, 'App\\Models\\User', 2, 'main', 'be9c2d096a4b3f7d4520c0f0432cb1091af9c78111f2e9b87fef90c4d1c753bd', '[\"*\"]', '2023-11-20 04:40:34', '2023-11-20 04:29:32', '2023-11-20 04:40:34'),
+(70, 'App\\Models\\User', 2, 'main', 'f11504296cee6bf22b5052c47d3c2ce7c1db3e423a20f6202ff0deb783e5874e', '[\"*\"]', '2023-11-20 07:20:07', '2023-11-20 05:58:53', '2023-11-20 07:20:07'),
+(71, 'App\\Models\\User', 2, 'main', '621db89bf23d4ea9d929df16bd10346bc857d7d1b9906f0906b520ee9c705204', '[\"*\"]', '2023-11-20 08:24:27', '2023-11-20 08:03:18', '2023-11-20 08:24:27'),
+(72, 'App\\Models\\User', 2, 'main', 'a4fc286dfabe407b4d47f5237344c1e8ab58f4a931c25173d5ab6ff3abe1da19', '[\"*\"]', '2023-11-21 01:22:51', '2023-11-21 00:25:39', '2023-11-21 01:22:51'),
+(73, 'App\\Models\\User', 2, 'main', 'aeff3f269b6d20090ad487af70e3cc83d806c72fa507226b0221157e865f9dfb', '[\"*\"]', '2023-11-21 02:41:25', '2023-11-21 01:23:50', '2023-11-21 02:41:25'),
+(81, 'App\\Models\\User', 2, 'main', 'c7503fd05a240f2298827f1df7e45a6150b89c813bed3b9a51968730a24bb8f2', '[\"*\"]', '2023-11-21 10:07:03', '2023-11-21 06:32:11', '2023-11-21 10:07:03'),
+(83, 'App\\Models\\User', 2, 'main', '9b4f7f39e8e74d32c68a97549b0954bee3e880f9810e85521dfe00ffdf976092', '[\"*\"]', '2023-11-22 00:21:17', '2023-11-22 00:21:16', '2023-11-22 00:21:17');
 
 -- --------------------------------------------------------
 
@@ -148,12 +158,12 @@ CREATE TABLE `surveys` (
 --
 
 INSERT INTO `surveys` (`id`, `user_id`, `image`, `title`, `slug`, `status`, `description`, `created_at`, `updated_at`, `expire_date`) VALUES
-(1, 2, 'images/JAn4qPXyBbiPhXI7.png', 'VueJS', 'vuejs', 1, 'Vue is a front-end JavaScript framework written in JavaScript. <br/> Similar frameworks to Vue are React and Angular, but Vue is more lightweight and easier to start with. <br/> Vue is distributed as a JavaScript file, and can be added to a web page with a script tag:', '2023-11-15 00:38:36', '2023-11-16 23:50:45', '2023-11-22 17:00:00'),
-(2, 2, 'images/95BWoWV3iwYBmLRu.png', 'Laravel 10', 'laravel-10', 1, 'Laravel is a web application framework with expressive, elegant syntax. A web framework provides a structure and starting point for creating your application, allowing you to focus on creating something amazing while we sweat the details. <br/> Laravel strives to provide an amazing developer experience while providing powerful features such as thorough dependency injection, an expressive database abstraction layer, queues and scheduled jobs, unit and integration testing, and more. <br/> Whether you are new to PHP web frameworks or have years of experience, Laravel is a framework that can grow with you. We\'ll help you take your first steps as a web developer or give you a boost as you take your expertise to the next level. We can\'t wait to see what you build.', '2023-11-15 02:54:10', '2023-11-15 07:42:35', '2023-11-22 17:00:00'),
-(3, 2, 'images/7Hm24JmHE3kXMhMv.png', 'TailwindCSS', 'tailwindcss', 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eu convallis erat, sit amet porttitor mauris. Nulla viverra rutrum nulla, vel ullamcorper nibh accumsan nec. Nullam vitae est eget turpis congue condimentum sit amet et dui. Sed fermentum et purus ut euismod.', '2023-11-15 06:03:17', '2023-11-15 06:08:03', NULL),
+(1, 2, 'images/JAn4qPXyBbiPhXI7.png', 'VueJS', 'vuejs', 1, 'Vue is a front-end JavaScript framework written in JavaScript. <br/> Similar frameworks to Vue are React and Angular, but Vue is more lightweight and easier to start with. <br/> Vue is distributed as a JavaScript file, and can be added to a web page with a script tag:', '2023-11-15 00:38:36', '2023-11-21 09:15:23', '2023-11-22 17:00:00'),
+(2, 2, 'images/95BWoWV3iwYBmLRu.png', 'Laravel 10', 'laravel-10', 1, 'Laravel is a web application framework with expressive, elegant syntax. A web framework provides a structure and starting point for creating your application, allowing you to focus on creating something amazing while we sweat the details. <br/> Laravel strives to provide an amazing developer experience while providing powerful features such as thorough dependency injection, an expressive database abstraction layer, queues and scheduled jobs, unit and integration testing, and more. <br/> Whether you are new to PHP web frameworks or have years of experience, Laravel is a framework that can grow with you. We\'ll help you take your first steps as a web developer or give you a boost as you take your expertise to the next level. We can\'t wait to see what you build.', '2023-11-15 02:54:10', '2023-11-21 09:16:11', '2023-11-22 17:00:00'),
+(3, 2, 'images/7Hm24JmHE3kXMhMv.png', 'TailwindCSS', 'tailwindcss', 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eu convallis erat, sit amet porttitor mauris. Nulla viverra rutrum nulla, vel ullamcorper nibh accumsan nec. Nullam vitae est eget turpis congue condimentum sit amet et dui. Sed fermentum et purus ut euismod. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eu convallis erat, sit amet porttitor mauris. Nulla viverra rutrum nulla, vel ullamcorper nibh accumsan nec. Nullam vitae est eget turpis congue condimentum sit amet et dui. Sed fermentum et purus ut euismod. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eu convallis erat, sit amet porttitor mauris. Nulla viverra rutrum nulla, vel ullamcorper nibh accumsan nec. Nullam vitae est eget turpis congue condimentum sit amet et dui. Sed fermentum et purus ut euismod. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eu convallis erat, sit amet porttitor mauris. Nulla viverra rutrum nulla, vel ullamcorper nibh accumsan nec. Nullam vitae est eget turpis congue condimentum sit amet et dui. Sed fermentum et purus ut euismod.', '2023-11-15 06:03:17', '2023-11-17 00:25:23', '2023-11-19 17:00:00'),
 (4, 2, 'images/8xfX8okNDnaWtoTi.png', 'CakePHP', 'cakephp', 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eu convallis erat, sit amet porttitor mauris. Nulla viverra rutrum nulla, vel ullamcorper nibh accumsan nec. Nullam vitae est eget turpis congue condimentum sit amet et dui. Sed fermentum et purus ut euismod.', '2023-11-15 06:07:11', '2023-11-15 06:07:25', NULL),
 (5, 2, 'images/xwCuvNGUPoAtj838.png', 'CodeIgniter', 'codeigniter', 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eu convallis erat, sit amet porttitor mauris. Nulla viverra rutrum nulla, vel ullamcorper nibh accumsan nec. Nullam vitae est eget turpis congue condimentum sit amet et dui. Sed fermentum et purus ut euismod.', '2023-11-15 06:08:55', '2023-11-15 06:09:57', NULL),
-(6, 2, 'images/tZtjXBW9nlbGCwVb.png', 'Yii', 'yii', 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eu convallis erat, sit amet porttitor mauris. Nulla viverra rutrum nulla, vel ullamcorper nibh accumsan nec. Nullam vitae est eget turpis congue condimentum sit amet et dui. Sed fermentum et purus ut euismod.', '2023-11-15 06:09:26', '2023-11-15 06:10:03', NULL),
+(6, 2, 'images/tZtjXBW9nlbGCwVb.png', 'Yii', 'yii', 1, NULL, '2023-11-15 06:09:26', '2023-11-17 00:42:41', '2023-11-22 17:00:00'),
 (7, 2, 'images/Wz2gDk1F815gT982.png', 'Symfony', 'symfony', 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eu convallis erat, sit amet porttitor mauris. Nulla viverra rutrum nulla, vel ullamcorper nibh accumsan nec. Nullam vitae est eget turpis congue condimentum sit amet et dui. Sed fermentum et purus ut euismod.', '2023-11-15 06:09:38', '2023-11-15 06:10:08', NULL),
 (8, 2, 'images/bReZqQMvm25TNSKG.png', 'Zend', 'zend', 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eu convallis erat, sit amet porttitor mauris. Nulla viverra rutrum nulla, vel ullamcorper nibh accumsan nec. Nullam vitae est eget turpis congue condimentum sit amet et dui. Sed fermentum et purus ut euismod.', '2023-11-15 06:10:27', '2023-11-15 06:10:27', NULL),
 (9, 2, 'images/VWis1hYDuuwAsuWa.png', 'ReactJS', 'reactjs', 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent id arcu imperdiet, elementum risus at, feugiat leo. Mauris sed velit a libero porta semper. Vivamus eu sapien ex. Ut venenatis arcu nulla, a imperdiet lectus dignissim eu. Fusce sit amet purus ullamcorper ipsum porttitor posuere. Vivamus vulputate quis metus at sollicitudin. Vestibulum consequat pharetra gravida. Nulla sed orci facilisis, hendrerit ante ac, fringilla ligula. Integer vel lorem in velit fringilla finibus sed sed justo. Maecenas augue justo, rutrum a risus sit amet, fringilla luctus enim. Cras interdum venenatis tincidunt.', '2023-11-15 06:24:40', '2023-11-15 06:24:40', '2023-11-22 17:00:00'),
@@ -161,7 +171,7 @@ INSERT INTO `surveys` (`id`, `user_id`, `image`, `title`, `slug`, `status`, `des
 (11, 2, 'images/PbbnwBrnDoeNANyh.png', 'PHP', 'php', 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent id arcu imperdiet, elementum risus at, feugiat leo. Mauris sed velit a libero porta semper. Vivamus eu sapien ex. Ut venenatis arcu nulla, a imperdiet lectus dignissim eu. Fusce sit amet purus ullamcorper ipsum porttitor posuere. Vivamus vulputate quis metus at sollicitudin. Vestibulum consequat pharetra gravida. Nulla sed orci facilisis, hendrerit ante ac, fringilla ligula. Integer vel lorem in velit fringilla finibus sed sed justo. Maecenas augue justo, rutrum a risus sit amet, fringilla luctus enim. Cras interdum venenatis tincidunt.', '2023-11-15 06:25:07', '2023-11-15 06:25:07', NULL),
 (12, 2, 'images/ioH22lQZyomI9Ric.png', 'Java', 'java', 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent id arcu imperdiet, elementum risus at, feugiat leo. Mauris sed velit a libero porta semper. Vivamus eu sapien ex. Ut venenatis arcu nulla, a imperdiet lectus dignissim eu. Fusce sit amet purus ullamcorper ipsum porttitor posuere. Vivamus vulputate quis metus at sollicitudin. Vestibulum consequat pharetra gravida. Nulla sed orci facilisis, hendrerit ante ac, fringilla ligula. Integer vel lorem in velit fringilla finibus sed sed justo. Maecenas augue justo, rutrum a risus sit amet, fringilla luctus enim. Cras interdum venenatis tincidunt.', '2023-11-15 06:25:22', '2023-11-15 06:25:22', NULL),
 (13, 2, 'images/xcPn7V76ENBgStkt.png', 'General knowledge', 'general-knowledge', 0, NULL, '2023-11-15 06:26:10', '2023-11-16 09:44:23', '2023-11-22 17:00:00'),
-(14, 2, 'images/YdiFcTJ5nMb54s5E.png', 'General knowledge 2', 'general-knowledge-2', 1, 'This is the second general knowledge survey.', '2023-11-15 06:26:28', '2023-11-16 09:00:22', '2023-12-29 17:00:00');
+(14, 2, 'images/YdiFcTJ5nMb54s5E.png', 'General knowledge 2', 'general-knowledge-2', 1, 'This is the second general knowledge survey.', '2023-11-15 06:26:28', '2023-11-21 10:07:03', '2023-12-29 17:00:00');
 
 -- --------------------------------------------------------
 
@@ -186,7 +196,8 @@ INSERT INTO `survey_answers` (`id`, `survey_id`, `start_date`, `end_date`) VALUE
 (3, 14, '2023-11-16 09:03:12', '2023-11-16 09:03:12'),
 (4, 14, '2023-11-16 09:12:59', '2023-11-16 09:12:59'),
 (5, 14, '2023-11-16 09:14:23', '2023-11-16 09:14:23'),
-(6, 1, '2023-11-16 23:54:28', '2023-11-16 23:54:28');
+(6, 1, '2023-11-16 23:54:28', '2023-11-16 23:54:28'),
+(7, 14, '2023-11-21 06:05:17', '2023-11-21 06:05:17');
 
 -- --------------------------------------------------------
 
@@ -200,6 +211,7 @@ CREATE TABLE `survey_questions` (
   `question` varchar(2000) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` longtext COLLATE utf8mb4_unicode_ci,
   `data` longtext COLLATE utf8mb4_unicode_ci,
+  `index` int DEFAULT NULL,
   `survey_id` bigint UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -209,25 +221,25 @@ CREATE TABLE `survey_questions` (
 -- Dumping data for table `survey_questions`
 --
 
-INSERT INTO `survey_questions` (`id`, `type`, `question`, `description`, `data`, `survey_id`, `created_at`, `updated_at`) VALUES
-(4, 'radio', 'Question 1', NULL, '{\"options\":[{\"uuid\":\"310ead79-2da3-4a8c-82c2-8594bd35e3fb\",\"text\":\"Radio 1\"},{\"uuid\":\"88d1ec4a-a80d-42a2-b0e7-4142198d2a12\",\"text\":\"Radio 2\"},{\"uuid\":\"e64498e3-0785-4461-8af5-d56c3744791b\",\"text\":\"Radio 3\"}]}', 2, '2023-11-15 02:54:10', '2023-11-15 05:38:18'),
-(5, 'textarea', 'Question 2', 'Lorem ipsum q2', '[]', 2, '2023-11-15 02:54:10', '2023-11-15 04:22:25'),
-(6, 'select', 'Question 3', NULL, '{\"options\":[{\"uuid\":\"174fa4fe-fbcb-4e6f-85c3-ca14fa6fa0f8\",\"text\":\"Select 1\"},{\"uuid\":\"b0b86408-22db-4229-a539-4f4a939d87c5\",\"text\":\"Select 2\"},{\"uuid\":\"bb521a06-f23e-47ed-9dac-aedd03c72319\",\"text\":\"Select 3\"}]}', 2, '2023-11-15 02:54:10', '2023-11-15 04:22:25'),
-(7, 'text', 'Question 4', 'lorem ipsum q4', '[]', 2, '2023-11-15 02:55:37', '2023-11-15 04:22:25'),
-(8, 'checkbox', 'Question 5', 'lorem ipsum q5', '{\"options\":[{\"uuid\":\"5f505c86-5270-4e15-aab2-e1958fbf9071\",\"text\":\"Checkbox 1\"},{\"uuid\":\"63685e3a-cdc4-474a-9294-a7eb7218faa8\",\"text\":\"Checkbox 2\"},{\"uuid\":\"d1d03606-4c01-48e1-8bb3-bedfa93351f0\",\"text\":\"Checkbox 3\"}]}', 2, '2023-11-15 03:30:49', '2023-11-15 05:39:30'),
-(9, 'radio', 'Question 6', NULL, '{\"options\":[{\"uuid\":\"95b123cb-8ba3-46ba-aa4b-17df32c8efed\",\"text\":\"R-1\"},{\"uuid\":\"25c442ed-ea10-483e-98ba-b042854bf39e\",\"text\":\"R-2\"},{\"uuid\":\"4376d311-379b-460c-8557-87e5915186bc\",\"text\":\"R-3\"}]}', 2, '2023-11-15 04:20:16', '2023-11-15 05:46:39'),
-(16, 'select', 'From which country are you?', 'Its just good to get to know more about our candidates.', '{\"options\":[{\"uuid\":\"e47d16d5-90aa-440d-8d8a-454e6cc9b2c2\",\"text\":\"Vietnam\"},{\"uuid\":\"7e7ee8ff-7d1b-4824-ad08-5daa3eeb14c2\",\"text\":\"India\"},{\"uuid\":\"a2738d7b-2132-47b7-b76d-2363cff9ce96\",\"text\":\"Singapore\"},{\"uuid\":\"345f0448-f581-4509-8e58-514142d7f12a\",\"text\":\"Taiwan\"},{\"uuid\":\"d870f61b-a778-4c1a-a2a0-e881f494f2b6\",\"text\":\"Other\"}]}', 14, '2023-11-16 02:24:43', '2023-11-16 02:24:43'),
-(17, 'checkbox', 'What programming language can you use?', 'A programming language is a formal language comprising a set of instructions that produce various kinds of output. These instructions can be used to create computer programs that implement specific algorithms and logical operations. <br/> There are numerous programming languages, each designed for specific purposes and with unique features.', '{\"options\":[{\"uuid\":\"1d04925a-7bfd-4d6a-b7ae-1462b59ace01\",\"text\":\"Java\"},{\"uuid\":\"b1e86c77-ca29-461e-b85d-d7fa2ce6034b\",\"text\":\"Javascript\"},{\"uuid\":\"13cddb85-e04e-43b0-852a-80f1f9004fb9\",\"text\":\"Typescript\"},{\"uuid\":\"d3820d03-66e6-4c24-8a8d-a4235cd927ed\",\"text\":\"PHP\"},{\"uuid\":\"0df9dc2c-0341-4b11-a89b-c1918605416e\",\"text\":\"C#\"},{\"uuid\":\"d38669f7-4f1c-47eb-8266-6f24fa8d1a18\",\"text\":\"C \\/ C++\"},{\"uuid\":\"10661f09-f5cc-40dc-a4e6-dfd56a822d7b\",\"text\":\"Other\"}]}', 14, '2023-11-16 02:24:43', '2023-11-16 02:24:43'),
-(18, 'radio', 'What PHP framework you like the most?', 'PHP is a popular server-side scripting language used for web development. It is often utilized to create dynamic web pages and manage the content of websites. To streamline the process of web development, various PHP frameworks have been developed to provide structure, standardize workflows, and promote code reusability.', '{\"options\":[{\"uuid\":\"5c997311-08bf-4c6a-9f5f-e5e2e48053aa\",\"text\":\"Laravel\"},{\"uuid\":\"148a72a6-e67c-4e1c-83b6-0bd2870684e5\",\"text\":\"Yii\"},{\"uuid\":\"dc6c89e1-a774-4ab0-9f44-0dfd5fb739ec\",\"text\":\"Zend\"},{\"uuid\":\"63b027e6-0bc7-4910-afae-ff35ba494439\",\"text\":\"CakePHP\"},{\"uuid\":\"b3b71533-b20f-4b40-ba54-0b246b3210ed\",\"text\":\"Codeigniter\"},{\"uuid\":\"330067be-6d54-4461-bec2-cac193ca1e69\",\"text\":\"Symfony\"},{\"uuid\":\"b4b72f1f-6ef6-4a97-8aa3-38198aadde94\",\"text\":\"Other\"}]}', 14, '2023-11-16 02:24:43', '2023-11-16 02:24:43'),
-(19, 'text', 'What is your favorite phrase about web development?', 'These is multiple phrase in web development, so which is your favorite one?', '[]', 14, '2023-11-16 02:24:43', '2023-11-16 02:24:43'),
-(20, 'text', 'What do you think about the job opportunity in the future of web developer?', 'Just write down your honest opinion...', '[]', 14, '2023-11-16 02:24:43', '2023-11-16 02:24:43'),
-(21, 'radio', 'What is the main purpose of the \'data\' instance in a Vue component?', NULL, '{\"options\":[{\"uuid\":\"c4b59437-99e0-4c7c-989c-af2255f674c6\",\"text\":\"To define methods for the component\"},{\"uuid\":\"2e448947-809f-4696-a303-5deb2185e5ee\",\"text\":\"To handle user interactions\"},{\"uuid\":\"3071ec91-a0a1-41df-a8bd-968d42b95f96\",\"text\":\"To define computed properties\"},{\"uuid\":\"b0c6fbc5-6e37-4cec-b8e7-824ecf324d9a\",\"text\":\"To define variables\"}]}', 1, '2023-11-16 23:40:51', '2023-11-16 23:50:45'),
-(22, 'radio', 'How do you define a computed property in Vue', NULL, '{\"options\":[{\"uuid\":\"0af6d02b-4e69-480a-bca4-6a86821416f1\",\"text\":\"As a variable inside the \'computed\' instance\"},{\"uuid\":\"8c8ee11c-9d7c-436d-a72c-5e38b0e20200\",\"text\":\"As a method inside the \'computed\'  instance\"},{\"uuid\":\"1c346e2b-e654-4428-8c1a-c206ff8c7e2a\",\"text\":\"As a variable inside the \'methods\' instance\"},{\"uuid\":\"0f6ad0ff-03b2-4e3f-ba5e-06f5a671ab5a\",\"text\":\"As a method inside the \'methods\' instance\"}]}', 1, '2023-11-16 23:40:51', '2023-11-16 23:49:04'),
-(23, 'radio', 'Which Vue directive is used to conditionally display an element?', NULL, '{\"options\":[{\"uuid\":\"86e611f5-e901-430f-b272-aaf395ec55e0\",\"text\":\"v-model\"},{\"uuid\":\"ddd58931-0caf-4c75-b496-9fe35c2979f0\",\"text\":\"v-bind\"},{\"uuid\":\"afa88f0f-3fd0-4e71-8538-f8d0486db28e\",\"text\":\"v-show\"},{\"uuid\":\"d2f61a8d-99ba-4adc-8354-3ad0c009b637\",\"text\":\"v-for\"}]}', 1, '2023-11-16 23:45:30', '2023-11-16 23:45:30'),
-(24, 'radio', 'Which language is Vue written in?', NULL, '{\"options\":[{\"uuid\":\"ca1edc98-4cf8-481c-8dd4-94bd9f1e22e0\",\"text\":\"Javascript\"},{\"uuid\":\"4739b620-50da-4584-a6e2-5487db41e005\",\"text\":\"Python\"},{\"uuid\":\"b07a2419-9d1d-45b6-a868-6db3806a9f1f\",\"text\":\"C++\"},{\"uuid\":\"22fa58e6-0296-4dbd-92a0-f86081a2909d\",\"text\":\"C\"}]}', 1, '2023-11-16 23:45:30', '2023-11-16 23:49:04'),
-(25, 'radio', 'Which Vue directive is used for list rendering?', NULL, '{\"options\":[{\"uuid\":\"7cfa75b2-1810-4c22-8643-b4882cd26b06\",\"text\":\"v-show\"},{\"uuid\":\"eed78ede-76b5-4ba3-af9b-106b806ac523\",\"text\":\"v-for\"},{\"uuid\":\"3b7f83de-88b7-4273-b1c6-e57aa24aa163\",\"text\":\"v-bind\"},{\"uuid\":\"c8e0e1e7-c60c-4fb1-9719-067e1cb2d47e\",\"text\":\"v-if\"}]}', 1, '2023-11-16 23:45:30', '2023-11-16 23:45:30'),
-(26, 'textarea', 'What do you think about the component-driven coding style of Vuejs?', NULL, '[]', 1, '2023-11-16 23:45:30', '2023-11-16 23:45:30'),
-(27, 'text', 'What do you think about this quick survey/quiz?', NULL, '[]', 1, '2023-11-16 23:45:30', '2023-11-16 23:45:30');
+INSERT INTO `survey_questions` (`id`, `type`, `question`, `description`, `data`, `index`, `survey_id`, `created_at`, `updated_at`) VALUES
+(4, 'radio', 'Question 1', NULL, '{\"options\":[{\"uuid\":\"310ead79-2da3-4a8c-82c2-8594bd35e3fb\",\"text\":\"Radio 1\",\"index\":0},{\"uuid\":\"88d1ec4a-a80d-42a2-b0e7-4142198d2a12\",\"text\":\"Radio 2\",\"index\":1},{\"uuid\":\"e64498e3-0785-4461-8af5-d56c3744791b\",\"text\":\"Radio 3\",\"index\":2}]}', 0, 2, '2023-11-15 02:54:10', '2023-11-21 09:16:11'),
+(5, 'textarea', 'Question 2', 'Lorem ipsum q2', '[]', 1, 2, '2023-11-15 02:54:10', '2023-11-21 02:20:54'),
+(6, 'select', 'Question 3', NULL, '{\"options\":[{\"uuid\":\"174fa4fe-fbcb-4e6f-85c3-ca14fa6fa0f8\",\"text\":\"Select 1\",\"index\":0},{\"uuid\":\"b0b86408-22db-4229-a539-4f4a939d87c5\",\"text\":\"Select 2\",\"index\":1},{\"uuid\":\"bb521a06-f23e-47ed-9dac-aedd03c72319\",\"text\":\"Select 3\",\"index\":2}]}', 2, 2, '2023-11-15 02:54:10', '2023-11-21 09:16:11'),
+(7, 'text', 'Question 4', 'lorem ipsum q4', '[]', 3, 2, '2023-11-15 02:55:37', '2023-11-21 02:20:54'),
+(8, 'checkbox', 'Question 5', 'lorem ipsum q5', '{\"options\":[{\"uuid\":\"5f505c86-5270-4e15-aab2-e1958fbf9071\",\"text\":\"Checkbox 1\",\"index\":0},{\"uuid\":\"63685e3a-cdc4-474a-9294-a7eb7218faa8\",\"text\":\"Checkbox 2\",\"index\":1},{\"uuid\":\"d1d03606-4c01-48e1-8bb3-bedfa93351f0\",\"text\":\"Checkbox 3\",\"index\":2}]}', 4, 2, '2023-11-15 03:30:49', '2023-11-21 09:16:11'),
+(9, 'radio', 'Question 6', NULL, '{\"options\":[{\"uuid\":\"95b123cb-8ba3-46ba-aa4b-17df32c8efed\",\"text\":\"R-1\",\"index\":0},{\"uuid\":\"25c442ed-ea10-483e-98ba-b042854bf39e\",\"text\":\"R-2\",\"index\":1},{\"uuid\":\"4376d311-379b-460c-8557-87e5915186bc\",\"text\":\"R-3\",\"index\":2}]}', 5, 2, '2023-11-15 04:20:16', '2023-11-21 09:16:11'),
+(16, 'select', 'From which country are you?', 'Its just good to get to know more about our candidates.', '{\"options\":[{\"uuid\":\"e47d16d5-90aa-440d-8d8a-454e6cc9b2c2\",\"text\":\"Vietnam\",\"index\":0},{\"uuid\":\"7e7ee8ff-7d1b-4824-ad08-5daa3eeb14c2\",\"text\":\"India\",\"index\":1},{\"uuid\":\"a2738d7b-2132-47b7-b76d-2363cff9ce96\",\"text\":\"Singapore\",\"index\":2},{\"uuid\":\"345f0448-f581-4509-8e58-514142d7f12a\",\"text\":\"Taiwan\",\"index\":3},{\"uuid\":\"d870f61b-a778-4c1a-a2a0-e881f494f2b6\",\"text\":\"Other\",\"index\":4}]}', 0, 14, '2023-11-16 02:24:43', '2023-11-21 08:53:37'),
+(17, 'checkbox', 'What programming language can you use?', 'A programming language is a formal language comprising a set of instructions that produce various kinds of output. These instructions can be used to create computer programs that implement specific algorithms and logical operations. <br/> There are numerous programming languages, each designed for specific purposes and with unique features.', '{\"options\":[{\"uuid\":\"1d04925a-7bfd-4d6a-b7ae-1462b59ace01\",\"text\":\"Java\",\"index\":0},{\"uuid\":\"b1e86c77-ca29-461e-b85d-d7fa2ce6034b\",\"text\":\"Javascript\",\"index\":1},{\"uuid\":\"13cddb85-e04e-43b0-852a-80f1f9004fb9\",\"text\":\"Typescript\",\"index\":2},{\"uuid\":\"d3820d03-66e6-4c24-8a8d-a4235cd927ed\",\"text\":\"PHP\",\"index\":3},{\"uuid\":\"0df9dc2c-0341-4b11-a89b-c1918605416e\",\"text\":\"C#\",\"index\":4},{\"uuid\":\"d38669f7-4f1c-47eb-8266-6f24fa8d1a18\",\"text\":\"C \\/ C++\",\"index\":5},{\"uuid\":\"10661f09-f5cc-40dc-a4e6-dfd56a822d7b\",\"text\":\"Other\",\"index\":6}]}', 1, 14, '2023-11-16 02:24:43', '2023-11-21 08:53:37'),
+(18, 'radio', 'What PHP framework you like the most?', 'PHP is a popular server-side scripting language used for web development. It is often utilized to create dynamic web pages and manage the content of websites. To streamline the process of web development, various PHP frameworks have been developed to provide structure, standardize workflows, and promote code reusability.', '{\"options\":[{\"uuid\":\"5c997311-08bf-4c6a-9f5f-e5e2e48053aa\",\"text\":\"Laravel\",\"index\":0},{\"uuid\":\"148a72a6-e67c-4e1c-83b6-0bd2870684e5\",\"text\":\"Yii\",\"index\":1},{\"uuid\":\"dc6c89e1-a774-4ab0-9f44-0dfd5fb739ec\",\"text\":\"Zend\",\"index\":2},{\"uuid\":\"63b027e6-0bc7-4910-afae-ff35ba494439\",\"text\":\"CakePHP\",\"index\":3},{\"uuid\":\"b3b71533-b20f-4b40-ba54-0b246b3210ed\",\"text\":\"Codeigniter\",\"index\":4},{\"uuid\":\"330067be-6d54-4461-bec2-cac193ca1e69\",\"text\":\"Symfony\",\"index\":5},{\"uuid\":\"b4b72f1f-6ef6-4a97-8aa3-38198aadde94\",\"text\":\"Other\",\"index\":6}]}', 2, 14, '2023-11-16 02:24:43', '2023-11-21 08:53:37'),
+(19, 'text', 'What is your favorite phrase about web development?', 'These is multiple phrase in web development, so which is your favorite one?', '[]', 3, 14, '2023-11-16 02:24:43', '2023-11-21 08:53:37'),
+(20, 'textarea', 'What do you think about the job opportunity in the future of web developer?', 'Just write down your honest opinion...', '[]', 4, 14, '2023-11-16 02:24:43', '2023-11-21 08:53:37'),
+(21, 'radio', 'What is the main purpose of the \'data\' instance in a Vue component?', NULL, '{\"options\":[{\"uuid\":\"c4b59437-99e0-4c7c-989c-af2255f674c6\",\"text\":\"To define methods for the component\",\"index\":0},{\"uuid\":\"2e448947-809f-4696-a303-5deb2185e5ee\",\"text\":\"To handle user interactions\",\"index\":1},{\"uuid\":\"3071ec91-a0a1-41df-a8bd-968d42b95f96\",\"text\":\"To define computed properties\",\"index\":2},{\"uuid\":\"b0c6fbc5-6e37-4cec-b8e7-824ecf324d9a\",\"text\":\"To define variables\",\"index\":3}]}', 0, 1, '2023-11-16 23:40:51', '2023-11-21 09:15:23'),
+(22, 'radio', 'How do you define a computed property in Vue', NULL, '{\"options\":[{\"uuid\":\"0af6d02b-4e69-480a-bca4-6a86821416f1\",\"text\":\"As a variable inside the \'computed\' instance\",\"index\":0},{\"uuid\":\"8c8ee11c-9d7c-436d-a72c-5e38b0e20200\",\"text\":\"As a method inside the \'computed\'  instance\",\"index\":1},{\"uuid\":\"1c346e2b-e654-4428-8c1a-c206ff8c7e2a\",\"text\":\"As a variable inside the \'methods\' instance\",\"index\":2},{\"uuid\":\"0f6ad0ff-03b2-4e3f-ba5e-06f5a671ab5a\",\"text\":\"As a method inside the \'methods\' instance\",\"index\":3}]}', 1, 1, '2023-11-16 23:40:51', '2023-11-21 09:15:23'),
+(23, 'radio', 'Which Vue directive is used to conditionally display an element?', NULL, '{\"options\":[{\"uuid\":\"86e611f5-e901-430f-b272-aaf395ec55e0\",\"text\":\"v-model\",\"index\":0},{\"uuid\":\"ddd58931-0caf-4c75-b496-9fe35c2979f0\",\"text\":\"v-bind\",\"index\":1},{\"uuid\":\"afa88f0f-3fd0-4e71-8538-f8d0486db28e\",\"text\":\"v-show\",\"index\":2},{\"uuid\":\"d2f61a8d-99ba-4adc-8354-3ad0c009b637\",\"text\":\"v-for\",\"index\":3}]}', 2, 1, '2023-11-16 23:45:30', '2023-11-21 09:15:23'),
+(24, 'radio', 'Which language is Vue written in?', NULL, '{\"options\":[{\"uuid\":\"ca1edc98-4cf8-481c-8dd4-94bd9f1e22e0\",\"text\":\"Javascript\",\"index\":0},{\"uuid\":\"4739b620-50da-4584-a6e2-5487db41e005\",\"text\":\"Python\",\"index\":1},{\"uuid\":\"b07a2419-9d1d-45b6-a868-6db3806a9f1f\",\"text\":\"C++\",\"index\":2},{\"uuid\":\"22fa58e6-0296-4dbd-92a0-f86081a2909d\",\"text\":\"C\",\"index\":3}]}', 3, 1, '2023-11-16 23:45:30', '2023-11-21 09:15:23'),
+(25, 'radio', 'Which Vue directive is used for list rendering?', NULL, '{\"options\":[{\"uuid\":\"7cfa75b2-1810-4c22-8643-b4882cd26b06\",\"text\":\"v-show\",\"index\":0},{\"uuid\":\"eed78ede-76b5-4ba3-af9b-106b806ac523\",\"text\":\"v-for\",\"index\":1},{\"uuid\":\"3b7f83de-88b7-4273-b1c6-e57aa24aa163\",\"text\":\"v-bind\",\"index\":2},{\"uuid\":\"c8e0e1e7-c60c-4fb1-9719-067e1cb2d47e\",\"text\":\"v-if\",\"index\":3}]}', 4, 1, '2023-11-16 23:45:30', '2023-11-21 09:15:23'),
+(26, 'textarea', 'What do you think about the component-driven coding style of Vuejs?', NULL, '[]', 5, 1, '2023-11-16 23:45:30', '2023-11-21 05:39:19'),
+(27, 'text', 'What do you think about this quick survey/quiz?', NULL, '[]', 6, 1, '2023-11-16 23:45:30', '2023-11-21 05:39:19');
 
 -- --------------------------------------------------------
 
@@ -282,7 +294,8 @@ INSERT INTO `survey_question_answers` (`id`, `survey_question_id`, `survey_answe
 (49, 24, 6, 'Javascript', '2023-11-16 23:54:28', '2023-11-16 23:54:28'),
 (50, 25, 6, 'v-for', '2023-11-16 23:54:28', '2023-11-16 23:54:28'),
 (51, 26, 6, 'Good for me that i already have the experience with Reactjs which is another frontend framework with the same coding style. So overall, i can adapt to Vue pretty quickly.', '2023-11-16 23:54:28', '2023-11-16 23:54:28'),
-(52, 27, 6, 'Good', '2023-11-16 23:54:28', '2023-11-16 23:54:28');
+(52, 27, 6, 'Good', '2023-11-16 23:54:28', '2023-11-16 23:54:28'),
+(53, 17, 7, '[\"Java\"]', '2023-11-21 06:05:17', '2023-11-21 06:05:17');
 
 -- --------------------------------------------------------
 
@@ -392,31 +405,31 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT for table `surveys`
 --
 ALTER TABLE `surveys`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `survey_answers`
 --
 ALTER TABLE `survey_answers`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `survey_questions`
 --
 ALTER TABLE `survey_questions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `survey_question_answers`
 --
 ALTER TABLE `survey_question_answers`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `users`

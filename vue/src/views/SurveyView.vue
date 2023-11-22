@@ -123,6 +123,9 @@
               autocomplete="survey_title"
               class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 dark:border-gray-700 dark:bg-transparent dark:text-gray-300 rounded-md"
             />
+            <span v-if="error.title" class="text-sm text-red-500">
+              {{ error.title }}
+            </span>
           </div>
 
           <!-- Description -->
@@ -156,7 +159,9 @@
               v-model="model.expire_date"
               class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 dark:border-gray-700 dark:bg-transparent dark:text-gray-300 rounded-md"
             />
-            <i v-if="error" class="text-sm text-red-500"> {{ error }} </i>
+            <i v-if="error.date" class="text-sm text-red-500">
+              {{ error.date }}
+            </i>
           </div>
 
           <!-- Status -->
@@ -228,7 +233,12 @@
           </div>
         </div>
 
-        <div class="px-4 py-3 bg-gray-50 dark:bg-gray-800 text-right sm:px-6">
+        <div
+          class="flex justify-between p-3 bg-gray-50 dark:bg-gray-800 text-right sm:px-6"
+        >
+          <span class="flex-1 text-sm text-red-500 text-left animate-bounce">
+            {{ error.filled ? error.filled : "" }}
+          </span>
           <button
             type="submit"
             class="inline-flex justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -265,7 +275,11 @@ let model = ref({
   questions: [],
 });
 
-let error = ref("");
+let error = ref({
+  title: "",
+  date: "",
+  filled: "",
+});
 
 // watch the current survey data, if it change we update the local model, work like react hook form
 watch(
@@ -306,10 +320,9 @@ function addQuestion(index) {
     data: {},
     index: index ? index : 0,
   };
-
   model.value.questions = model.value.questions.map((q) => {
     if (!index) {
-      return parseJson({ ...q, index: q.index + 1 });
+      return parseJson({ ...q, index: 0 });
     } else if (index && q.index >= index) {
       return parseJson({ ...q, index: q.index + 1 });
     } else return parseJson(q);
@@ -345,20 +358,77 @@ function saveSurvey() {
   tmr.setDate(tmr.getDate() + 1);
   let expire = new Date(model.value.expire_date);
   if (model.value.expire_date && expire < tmr) {
-    error.value = "The expire date must be a date after tomorrow!";
+    error.value.date = "The expire date must be a date after tomorrow!";
   } else {
-    // console.log(model.value.questions[model.value.questions.length -1].data.options);
-    store.dispatch("saveSurvey", model.value).then(({ data }) => {
-      store.commit("notify", {
-        type: "success",
-        message: "Save survey successfully!",
+    if (!checkErrors()) {
+      addIndexForQuestion();
+      // console.log(model.value.questions[model.value.questions.length -1].data.options);
+      store.dispatch("saveSurvey", model.value).then(({ data }) => {
+        store.commit("notify", {
+          type: "success",
+          message: "Save survey successfully!",
+        });
+        router.push({
+          name: "SurveyView",
+          params: { id: data.data.id },
+        });
       });
-      router.push({
-        name: "SurveyView",
-        params: { id: data.data.id },
-      });
-    });
+    }
   }
+}
+
+function checkErrors() {
+  let flag = false;
+  error.value = {
+    ...error.value,
+    date: "",
+  };
+  if (model.value.title) {
+    error.value = {
+      ...error.value,
+      title: "",
+    };
+  } else {
+    error.value = {
+      ...error.value,
+      title: "The title field is required!",
+    };
+  }
+  if (
+    !flag &&
+    (error.value.date || error.value.title || checkEmptyQuestion())
+  ) {
+    flag = true;
+  }
+
+  return flag;
+}
+
+function addIndexForQuestion() {
+  model.value.questions = model.value.questions.map((q, ind) => {
+    return parseJson({ ...q, index: ind });
+  });
+}
+
+function checkEmptyQuestion() {
+  let flag = false;
+  model.value.questions.forEach((q) => {
+    if (!q.question && !flag) {
+      flag = true;
+      error.value = {
+        ...error.value,
+        filled: "You need to fill the question title before save survey!",
+      };
+    }
+  });
+  if (!flag) {
+    error.value = {
+      ...error.value,
+      filled: "",
+    };
+  }
+
+  return flag;
 }
 
 function onImageChoose(e) {

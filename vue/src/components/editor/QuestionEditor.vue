@@ -135,7 +135,7 @@
         <!-- Add new option -->
         <button
           type="button"
-          @click="addOption()"
+          @click="addOption"
           class="flex items-center text-xs py-1 px-2 rounded-sm text-white bg-indigo-600 hover:bg-indigo-700"
         >
           <svg
@@ -165,9 +165,10 @@
       </div>
       <!-- Option list -->
       <div
-        v-for="(option, ind) in getOptions()"
+        v-else
+        v-for="(option, ind) in model.data.options"
         :key="option.uuid"
-        class="flex items-center mb-1"
+        class="flex items-center mb-1 space-x-2"
       >
         <span class="w-6 text-sm text-black dark:text-gray-300">
           {{ ind + 1 }}.
@@ -177,7 +178,7 @@
           tabindex="1"
           v-model="option.text"
           @change="dataChange"
-          class="w-full rounded-sm py-1 px-2 text-xs border border-gray-300 dark:border-gray-700 dark:bg-transparent dark:text-gray-200 focus:border-indigo-500"
+          class="w-full max-w-[70%] sm:max-w-[80%] md:max-w-[85%] lg:max-w-[90%] rounded-sm py-1 px-2 text-xs border border-gray-300 dark:border-gray-700 dark:bg-transparent dark:text-gray-200 focus:border-indigo-500"
         />
         <div class="flex justify-between items-center">
           <!-- Delete Option -->
@@ -213,7 +214,7 @@
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="w-4 h-4"
+              class="w-4 h-4 hover:animate-bounce hover:text-green-400"
             >
               <path
                 stroke-linecap="round"
@@ -233,7 +234,7 @@
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="w-4 h-4"
+              class="w-4 h-4 hover:animate-bounce hover:text-red-300"
             >
               <path
                 stroke-linecap="round"
@@ -264,8 +265,7 @@ const props = defineProps({
 
 const emit = defineEmits(["change", "addQuestion", "deleteQuestion"]);
 
-const model = ref(JSON.parse(JSON.stringify(props.question)));
-
+const model = ref(parseJson(props.question));
 const questionTypes = computed(() => store.state.questionTypes);
 
 function upperCaseFirst(str) {
@@ -281,7 +281,12 @@ function getOptions() {
 }
 
 function setOptions(options) {
+  options = options.sort((a, b) => a.index - b.index);
   model.value.data.options = options;
+}
+
+function parseJson(option) {
+  return JSON.parse(JSON.stringify(option));
 }
 
 function addOption() {
@@ -300,10 +305,11 @@ function addOption() {
 function removeOption(option) {
   let newOpts = getOptions().map((opt, ind) => {
     if (opt.uuid !== option.uuid) {
-      if (opt.index > option.index) return { ...opt, index: opt.index - 1 };
-      else return { ...opt, index: ind };
+      if (opt.index > option.index)
+        return parseJson({ ...opt, index: opt.index - 1 });
+      else return parseJson({ ...opt, index: ind });
     }
-    return { ...option };
+    return parseJson({ ...option });
   });
   setOptions(newOpts.filter((opt) => opt.uuid !== option.uuid));
   dataChange();
@@ -336,11 +342,32 @@ function deleteQuestion() {
 
 function changeOptPos(type, ind) {
   // go up
+  let newOpts;
   if (!!type) {
+    newOpts = getOptions().map((opt) => {
+      if (opt.index === ind - 1) {
+        return parseJson({ ...opt, index: ind });
+      } else if (opt.index === ind) {
+        return parseJson({ ...opt, index: ind - 1 });
+      }
+
+      return parseJson({ ...opt });
+    });
   }
   // go down
   else {
+    newOpts = getOptions().map((opt) => {
+      if (opt.index === ind + 1) {
+        return parseJson({ ...opt, index: ind });
+      } else if (opt.index === ind) {
+        return parseJson({ ...opt, index: ind + 1 });
+      }
+
+      return parseJson({ ...opt });
+    });
   }
+  setOptions(newOpts);
+  emit('change', model.value)
 }
 </script>
 

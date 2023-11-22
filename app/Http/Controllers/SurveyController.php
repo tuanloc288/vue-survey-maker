@@ -234,9 +234,14 @@ class SurveyController extends Controller
 
     private function createQuestion($data)
     {
+        if ($data['type'] !== 'text' && $data['type'] !== 'textarea') {
+            $data['data']['options'] = $data['data']['options'] ?? [];
+        }
+
         if (is_array($data['data'])) {
             $data['data'] = json_encode($data['data']);
         }
+
 
         $validator = Validator::make($data, [
             'question' => 'required|string',
@@ -258,9 +263,14 @@ class SurveyController extends Controller
 
     private function updateQuestion(SurveyQuestion $question, $data)
     {
+        if ($data['type'] !== 'text' && $data['type'] !== 'textarea') {
+            $data['data']['options'] = $data['data']['options'] ?? [];
+        }
+        
         if (is_array($data['data'])) {
             $data['data'] = json_encode($data['data']);
         }
+
 
         $validator = Validator::make($data, [
             'id' => 'exists:App\Models\SurveyQuestion,id',
@@ -274,7 +284,7 @@ class SurveyController extends Controller
             ])],
             'description' => 'nullable|string',
             'data' => 'present',
-            'index'=> 'nullable|integer'
+            'index' => 'nullable|integer'
         ]);
 
         return $question->update($validator->validated());
