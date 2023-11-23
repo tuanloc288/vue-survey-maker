@@ -1,5 +1,7 @@
 <template>
-  <PageComponent title="Dashboard">
+  <PageComponent
+    v-bind:title="i18n.global.locale == 'EN' ? 'Dashboard' : 'Trang chủ'"
+  >
     <Loader v-if="loading" />
     <div
       v-else
@@ -8,7 +10,7 @@
       <div
         class="bg-white dark:bg-gray-800 animate-from-top shadow-md p-3 text-center flex flex-col order-1 lg:order-2"
       >
-        <h3 class="text-2xl font-semibold">Total surveys</h3>
+        <h3 class="text-2xl font-semibold"> {{ $t('totalSurveys') }} </h3>
         <div
           class="text-8xl font-semibold flex flex-1 items-center justify-center"
         >
@@ -18,7 +20,7 @@
       <div
         class="bg-white dark:bg-gray-800 animate-from-bottom shadow-md p-3 text-center flex flex-col order-2 lg:order-4"
       >
-        <h3 class="text-2xl font-semibold">Total answers</h3>
+        <h3 class="text-2xl font-semibold"> {{ $t('totalAnswers') }} </h3>
         <div
           class="text-8xl font-semibold flex flex-1 items-center justify-center"
         >
@@ -29,7 +31,7 @@
         class="row-span-2 animate-from-left order-3 bg-white dark:bg-gray-800 shadow-md p-4 lg:order-1"
         :class="{ 'h-fit': !data.latestSurvey }"
       >
-        <h3 class="text-2xl font-semibold">Latest survey</h3>
+        <h3 class="text-2xl font-semibold"> {{ $t('latestSurvey') }} </h3>
         <div v-if="data.latestSurvey">
           <img
             :src="
@@ -42,23 +44,29 @@
           />
           <h3 class="text-xl font-bold mb-3">{{ data.latestSurvey.title }}</h3>
           <div class="flex justify-between text-sm mb-1">
-            <div>Created date:</div>
+            <div> {{ $t('createdDate') }} </div>
             <div>{{ data.latestSurvey.created_at }}</div>
           </div>
           <div class="flex justify-between text-sm mb-1">
-            <div>Expired date:</div>
-            <div>{{ data.latestSurvey.expire_date ? data.latestSurvey.expire_date : 'Not specified yet' }}</div>
+            <div> {{ $t('expiredDate') }} </div>
+            <div>
+              {{
+                data.latestSurvey.expire_date
+                  ? data.latestSurvey.expire_date
+                  : $t('notSpecified')
+              }}
+            </div>
           </div>
           <div class="flex justify-between text-sm mb-1">
             <div>Status</div>
-            <div>{{ data.latestSurvey.status ? "Active" : "Draft" }}</div>
+            <div>{{ data.latestSurvey.status ? $t('statusActive') : $t('statusDraft') }}</div>
           </div>
           <div class="flex justify-between text-sm mb-1">
-            <div>Questions:</div>
+            <div> {{ $t('questions') }} </div>
             <div>{{ data.latestSurvey.questions }}</div>
           </div>
           <div class="flex justify-between text-sm">
-            <div>Answers:</div>
+            <div> {{ $t('answers') }} </div>
             <div>{{ data.latestSurvey.answers }}</div>
           </div>
           <div class="flex justify-between mt-2">
@@ -81,7 +89,7 @@
                 />
               </svg>
 
-              Edit survey
+              {{ $t('editSurvey') }}
             </router-link>
             <a
               :href="`/view/survey/${data.latestSurvey?.slug}`"
@@ -108,25 +116,25 @@
                 />
               </svg>
 
-              Public link
+              {{ $t('publicLink') }}
             </a>
           </div>
         </div>
         <div v-else class="text-gray-600 dark:text-gray-400 text-center py-16">
-          You don't have any surveys yet!
+          {{ $t('noSurveys') }}
         </div>
       </div>
       <div
         class="bg-white dark:bg-gray-800 animate-from-right shadow-md p-3 row-span-2 order-4 lg:order-3 h-fit"
       >
         <div class="flex justify-between items-center mb-2 px-2">
-          <h3 class="text-2xl font-semibold">Latest answers</h3>
+          <h3 class="text-2xl font-semibold"> {{ $t('latestAnswers') }} </h3>
           <a
             v-if="data.latestAnswers.length"
             href="javascript:void(0)"
             class="text-sm text-blue-500 hover:decoration-blue-500"
           >
-            View all
+            {{ $t('viewAll') }}
           </a>
         </div>
         <div v-if="data.latestAnswers.length">
@@ -138,13 +146,13 @@
           >
             <div class="font-semibold">{{ answer.survey.title }}</div>
             <small>
-              Answer made at:
+              {{ $t('answerMadeAt') }}:
               <i class="font-semibold"> {{ answer.end_date }} </i>
             </small>
           </a>
         </div>
         <div v-else class="text-gray-600 dark:text-gray-400 text-center py-16">
-          You don't have any answers yet!
+          {{ $t('noAnswers') }}
         </div>
       </div>
     </div>
@@ -156,11 +164,10 @@ import PageComponent from "../components/PageComponent.vue";
 import { computed } from "vue";
 import store from "../store/index";
 import Loader from "../components/Loader.vue";
-import { useRouter } from "vue-router";
+import i18n from "../i18n";
 
 const loading = computed(() => store.state.dashboard.loading);
 const data = computed(() => store.state.dashboard.data);
-const router = useRouter();
 
 store.dispatch("getDashboardData");
 </script>

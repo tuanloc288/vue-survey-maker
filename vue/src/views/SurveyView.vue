@@ -5,7 +5,9 @@
         <h1
           class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100"
         >
-          {{ route.params.id ? model.title : "Create a survey" }}
+          {{
+            route.params.id ? $t("edit") + " " + model.title : $t("createTitle")
+          }}
         </h1>
         <div class="flex flex-col items-center gap-3 md:flex-row md:text-sm">
           <a
@@ -28,7 +30,7 @@
                 d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
               />
             </svg>
-            <span class="hidden sm:block">View public link</span>
+            <span class="hidden sm:block"> {{ $t("viewPublicLink") }} </span>
           </a>
           <button
             v-if="route.params.id && !surveyLoading"
@@ -51,7 +53,7 @@
               />
             </svg>
 
-            <span class="hidden sm:block">Delete survey</span>
+            <span class="hidden sm:block"> {{ $t("deleteSurvey") }} </span>
           </button>
         </div>
       </div>
@@ -66,7 +68,7 @@
             <label
               class="block text-sm font-medium text-gray-700 dark:text-gray-300"
             >
-              Image
+              {{ $t("surveyImage") }}
             </label>
             <div class="mt-1 flex flex-col space-y-5 md:flex-row items-center">
               <img
@@ -103,7 +105,7 @@
                   @change="onImageChoose"
                   class="absolute inset-0 opacity-0 cursor-pointer"
                 />
-                Change
+                {{ $t("changeImage") }}
               </button>
             </div>
           </div>
@@ -113,8 +115,9 @@
             <label
               for="title"
               class="block text-sm font-medium text-gray-700 dark:text-gray-300"
-              >Title</label
             >
+              {{ $t("surveyTitle") }}
+            </label>
             <input
               type="text"
               name="title"
@@ -133,8 +136,9 @@
             <label
               for="title"
               class="block text-sm font-medium text-gray-700 dark:text-gray-300"
-              >Description</label
             >
+              {{ $t("surveyDescription") }}
+            </label>
             <textarea
               name="description"
               id="description"
@@ -150,8 +154,9 @@
             <label
               for="expire_date"
               class="block text-sm font-medium text-gray-700 dark:text-gray-300"
-              >Expire date</label
             >
+              {{ $t("expiredDate") }}
+            </label>
             <input
               type="date"
               name="expire_date"
@@ -180,7 +185,7 @@
                 for="status"
                 class="font-medium text-gray-700 dark:text-gray-300"
               >
-                Active
+                {{ $t("statusActive") }}
               </label>
             </div>
           </div>
@@ -192,7 +197,7 @@
           <h3
             class="text-2xl font-semibold flex items-center justify-between dark:text-white"
           >
-            Questions
+            {{ $t("questions") }}
             <button
               type="button"
               @click="addQuestion()"
@@ -213,16 +218,26 @@
                 />
               </svg>
 
-              Add question
+              {{ $t("addQuestion") }}
             </button>
           </h3>
           <div
             v-if="!model.questions.length"
             class="text-center text-gray-600 dark:text-gray-400"
           >
-            You don't have any questions created in this survey!
+            {{ $t("noQuestions") }}
           </div>
-          <div v-for="(question, index) in model.questions" :key="question.id">
+          <div
+            v-bind:title="checkEnglish() ? 'Draggable' : 'Có thể kéo thả'"
+            v-for="(question, index) in model.questions"
+            :key="question.id"
+            draggable="true"
+            @dragstart="onQuestionDrag($event, question.index)"
+            @drop="onQuestionDrop($event, question)"
+            @dragenter.prevent
+            @dragover.prevent
+            class="cursor-move"
+          >
             <QuestionEditor
               :question="question"
               :index="index"
@@ -243,7 +258,7 @@
             type="submit"
             class="inline-flex justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-            Save
+            {{ $t("saveSurvey") }}
           </button>
         </div>
       </div>
@@ -259,6 +274,7 @@ import PageComponent from "../components/PageComponent.vue";
 import QuestionEditor from "../components/editor/QuestionEditor.vue";
 import { v4 as uuidv4 } from "uuid";
 import Loader from "../components/Loader.vue";
+import i18n from "../i18n";
 
 const route = useRoute();
 const router = useRouter();
@@ -358,7 +374,7 @@ function saveSurvey() {
   tmr.setDate(tmr.getDate() + 1);
   let expire = new Date(model.value.expire_date);
   if (model.value.expire_date && expire < tmr) {
-    error.value.date = "The expire date must be a date after tomorrow!";
+    error.value.date = checkEnglish() ? "The expire date must be a date after tomorrow!" : "Ngày hết hạn phải là một ngày sau ngày mai!";
   } else {
     if (!checkErrors()) {
       addIndexForQuestion();
@@ -366,7 +382,7 @@ function saveSurvey() {
       store.dispatch("saveSurvey", model.value).then(({ data }) => {
         store.commit("notify", {
           type: "success",
-          message: "Save survey successfully!",
+          message: checkEnglish() ? "Save survey successfully!" : "Lưu khảo sát thành công",
         });
         router.push({
           name: "SurveyView",
@@ -391,7 +407,7 @@ function checkErrors() {
   } else {
     error.value = {
       ...error.value,
-      title: "The title field is required!",
+      title: checkEnglish() ? "The title field is required!" : "Mục tiêu đề không được để trống!",
     };
   }
   if (
@@ -417,7 +433,7 @@ function checkEmptyQuestion() {
       flag = true;
       error.value = {
         ...error.value,
-        filled: "You need to fill the question title before save survey!",
+        filled: checkEnglish() ? "You need to fill the question title before save survey!" : "Điền đầy đủ tiêu đề của các câu hỏi trước khi lưu!",
       };
     }
   });
@@ -448,7 +464,9 @@ function onImageChoose(e) {
 function deleteSurvey() {
   if (
     confirm(
-      "Are you sure you want to delete this survey? This action cannot be undone"
+      checkEnglish()
+        ? "Are you sure you want to delete this survey? This action cannot be undone"
+        : "Bạn có chắc muốn xóa khảo sát này không? Hành động này không thể hoàn tác!"
     )
   ) {
     store.dispatch("deleteSurvey", model.value.id).then(() => {
@@ -457,6 +475,34 @@ function deleteSurvey() {
       });
     });
   }
+}
+
+function onQuestionDrag(e, index) {
+  e.dataTransfer.dropEffect = "move";
+  e.dataTransfer.effectAllowed = "move";
+  e.dataTransfer.setData("itemIndex", index);
+}
+
+function onQuestionDrop(e, question) {
+  let draggedIndex = parseInt(e.dataTransfer.getData("itemIndex"));
+  let tmpList = model.value.questions.map((q) => {
+    if (q.index === question.index) {
+      return { ...q, index: draggedIndex };
+    } else if (q.index === draggedIndex) {
+      return { ...q, index: question.index };
+    }
+    return q;
+  });
+
+  setQuestions(tmpList);
+}
+
+function setQuestions(questions) {
+  model.value.questions = questions.sort((a, b) => a.index - b.index);
+}
+
+function checkEnglish() {
+  return i18n.global.locale == "EN";
 }
 </script>
 

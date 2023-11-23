@@ -2,7 +2,7 @@
   <PageComponent showJump>
     <template v-slot:header>
       <div class="flex justify-between items-center">
-        <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Surveys</h1>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100"> {{ $t('surveys') }} </h1>
         <router-link
           v-if="!surveys.loading"
           :to="{ name: 'SurveyCreation' }"
@@ -24,7 +24,7 @@
           </svg>
 
           <span class="hidden md:block">{{
-            surveys.data.length ? "Add new survey" : "Create your own survey"
+            surveys.data.length ? $t('addSurvey') : $t('createOwn')
           }}</span>
         </router-link>
       </div>
@@ -68,7 +68,7 @@
         </nav>
       </div>
       <div v-else class="flex justify-center text-2xl text-semibold text-black dark:text-gray-200">
-        You don't have any surveys yet!
+        {{ $t('noSurveys') }}
       </div>
     </div>
   </PageComponent>
@@ -80,6 +80,7 @@ import { computed } from "vue";
 import PageComponent from "../components/PageComponent.vue";
 import SurveyListItem from "../components/SurveyListItems.vue";
 import Loader from "../components/Loader.vue";
+import i18n from "../i18n";
 
 const surveys = computed(() => store.state.surveys);
 
@@ -88,7 +89,9 @@ store.dispatch("getSurveys");
 function deleteSurvey(survey) {
   if (
     confirm(
-      "Are you sure you want to delete this survey? This action can not be undone!"
+      i18n.global.locale == 'EN' 
+        ? "Are you sure you want to delete this survey? This action can not be undone!"
+        : "Bạn có chắc muốn xóa khảo sát này không? Hành động này sẽ không thể hoàn lại!"
     )
   ) {
     store.dispatch("deleteSurvey", survey.id).then(() => {

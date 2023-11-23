@@ -27,7 +27,7 @@
           />
         </svg>
 
-        Add
+        {{ $t("add") }}
       </button>
       <!--/ Add new question -->
 
@@ -52,7 +52,7 @@
           />
         </svg>
 
-        Delete
+        {{ $t("delete") }}
       </button>
       <!--/ Delete question -->
     </div>
@@ -65,7 +65,7 @@
         :for="'question_text_' + model.data"
         class="block text-sm font-medium text-gray-700 dark:text-gray-300"
       >
-        Question
+        {{ $t("question") }}
       </label>
       <input
         type="text"
@@ -85,7 +85,7 @@
         for="question_type"
         class="block text-sm font-medium text-gray-700 dark:text-gray-300"
       >
-        Type
+        {{ $t("type") }}
       </label>
       <select
         id="question_type"
@@ -112,8 +112,9 @@
     <label
       :for="'question_description_' + model.id"
       class="block text-sm font-medium text-gray-700 dark:text-gray-300"
-      >Description</label
     >
+      {{ $t("description") }}
+    </label>
     <textarea
       :name="'question_description_' + model.id"
       v-model="model.description"
@@ -130,8 +131,7 @@
       <h4
         class="text-sm font-semibold mb-1 flex justify-between items-center text-black dark:text-gray-300"
       >
-        Options
-
+        {{ $t("options") }}
         <!-- Add new option -->
         <button
           type="button"
@@ -152,7 +152,7 @@
               d="M12 6v12m6-6H6"
             />
           </svg>
-          Add option
+          {{ $t("addOption") }}
         </button>
         <!--/ Add new option -->
       </h4>
@@ -161,7 +161,7 @@
         v-if="!model.data.options?.length"
         class="text-xs text-gray-600 dark:text-gray-400 text-center py-3"
       >
-        You don't have any options defined
+        {{ $t("noOptions") }}
       </div>
       <!-- Option list -->
       <div
@@ -204,6 +204,7 @@
           </button>
           <!--/ Delete Option -->
           <span
+            title="Move option up 1"
             v-if="ind !== 0"
             class="hover:cursor-pointer text-black dark:text-gray-200"
             @click="changeOptPos(1, ind)"
@@ -224,6 +225,7 @@
             </svg>
           </span>
           <span
+            title="Move option down 1"
             v-if="model.data.options?.length !== ind + 1"
             class="hover:cursor-pointer text-black dark:text-gray-200"
             @click="changeOptPos(0, ind)"
@@ -367,7 +369,7 @@ function changeOptPos(type, ind) {
     });
   }
   setOptions(newOpts);
-  emit('change', model.value)
+  emit("change", model.value);
 }
 </script>
 

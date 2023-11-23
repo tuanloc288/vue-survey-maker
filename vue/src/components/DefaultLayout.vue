@@ -114,6 +114,7 @@
                     </svg>
                   </MenuButton>
                 </div>
+
                 <transition
                   enter-active-class="transition ease-out duration-100"
                   enter-from-class="transform opacity-0 scale-95"
@@ -129,9 +130,83 @@
                       <a
                         @click="logout"
                         class="cursor-pointer block px-4 py-2 text-sm text-gray-700"
-                        >Sign out</a
+                        >{{ $t("signOut") }}</a
                       >
                     </MenuItem>
+                    <Menu as="div" class="relative">
+                      <div class="flex">
+                        <MenuButton
+                          class="relative flex w-full justify-between items-center"
+                        >
+                          <span class="absolute -inset-1.5" />
+                          <span class="sr-only">Open user menu</span>
+                          <div class="mx-3 space-y-1">
+                            <div
+                              class="cursor-pointer block px-1 text-sm text-gray-700"
+                            >
+                              {{ $t("language") }}
+                            </div>
+                          </div>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="w-4 h-4 mr-2 animate-bounce"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3"
+                            />
+                          </svg>
+                        </MenuButton>
+                      </div>
+                      <transition
+                        enter-active-class="transition ease-out duration-100"
+                        enter-from-class="transform opacity-0 scale-95"
+                        enter-to-class="transform opacity-100 scale-100"
+                        leave-active-class="transition ease-in duration-75"
+                        leave-from-class="transform opacity-100 scale-100"
+                        leave-to-class="transform opacity-0 scale-95"
+                      >
+                        <MenuItems
+                          class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-200 dark:bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                        >
+                          <MenuItem>
+                            <div
+                              class="flex cursor-pointer px-4 py-2 text-sm text-gray-700"
+                              @click="changeLanguage('EN')"
+                            >
+                              <img
+                                src="/images/enFlag.png"
+                                alt="language flag"
+                                class="w-6 h-6 object-contain"
+                              />
+                              <span class="flex-1 text-right">
+                                {{ $t("lanEng") }}
+                              </span>
+                            </div>
+                          </MenuItem>
+                          <MenuItem>
+                            <div
+                              class="flex cursor-pointer px-4 py-2 text-sm text-gray-700"
+                              @click="changeLanguage('VN')"
+                            >
+                              <img
+                                src="/images/vnFlag.png"
+                                alt="language flag"
+                                class="w-6 h-6 object-contain"
+                              />
+                              <span class="flex-1 text-right">
+                                {{ $t("lanVN") }}
+                              </span>
+                            </div>
+                          </MenuItem>
+                        </MenuItems>
+                      </transition>
+                    </Menu>
                   </MenuItems>
                 </transition>
               </Menu>
@@ -236,11 +311,37 @@
             </div>
           </div>
           <div class="mt-3 space-y-1 px-2">
+            <div
+              class="cursor-pointer flex rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+              @click="changeLanguage('EN')"
+            >
+              <img
+                src="/images/enFlag.png"
+                alt="language flag"
+                class="w-6 h-6 object-contain"
+              />
+              <span class="flex-1 text-right">
+                {{ $t("lanEng") }}
+              </span>
+            </div>
+            <div
+              class="cursor-pointer flex rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+              @click="changeLanguage('VN')"
+            >
+              <img
+                src="/images/vnFlag.png"
+                alt="language flag"
+                class="w-6 h-6 object-contain"
+              />
+              <span class="flex-1 text-right">
+                {{ $t("lanVN") }}
+              </span>
+            </div>
             <DisclosureButton
               as="a"
               @click="logout"
               class="cursor-pointer block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
-              >Sign out</DisclosureButton
+              >{{ $t("signOut") }}</DisclosureButton
             >
           </div>
         </div>
@@ -301,17 +402,24 @@ export default {
 </script>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import { useDark, useToggle } from "@vueuse/core";
+import i18n from "../i18n";
 
 const isDark = useDark();
 const toggleDark = useToggle(isDark);
 
-const navigation = [
-  { name: "Dashboard", to: { name: "Dashboard" } },
-  { name: "Surveys", to: { name: "Surveys" } },
+let navigation = [
+  {
+    name: "Dashboard",
+    to: { name: "Dashboard" },
+  },
+  {
+    name: "Surveys",
+    to: { name: "Surveys" },
+  },
 ];
 
 const store = useStore();
@@ -344,5 +452,10 @@ function toggle() {
   }
 
   toggleDark();
+}
+
+function changeLanguage(lan) {
+  i18n.global.locale = lan;
+  document.cookie = `locale=${lan}; path=/`;
 }
 </script>

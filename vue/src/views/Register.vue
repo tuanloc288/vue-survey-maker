@@ -8,7 +8,7 @@
     <h2
       class="mt-5 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 dark:text-gray-100"
     >
-      Register for free!
+      {{ $t("registerTitle") }}
     </h2>
   </div>
 
@@ -51,8 +51,9 @@
         <label
           for="fullname"
           class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-100"
-          >Full name</label
         >
+          {{ $t("fullName") }}
+        </label>
         <div class="mt-2">
           <input
             id="fullname"
@@ -70,7 +71,7 @@
         <label
           for="email"
           class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-100"
-          >Email address</label
+          >Email</label
         >
         <div class="mt-2">
           <input
@@ -91,8 +92,9 @@
           <label
             for="password"
             class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-100"
-            >Password</label
           >
+            {{ $t("password") }}
+          </label>
         </div>
         <div class="mt-2">
           <input
@@ -101,7 +103,7 @@
             type="password"
             required=""
             v-model="user.password"
-            placeholder="Password..."
+            :placeholder="$t('password') + '...'"
             class="block w-full rounded-md border-0 py-1.5 text-gray-900 dark:ring-gray-700 dark:focus:ring-indigo-400 dark:placeholder:text-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           />
         </div>
@@ -113,8 +115,8 @@
             for="password_confirmation"
             class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-100"
           >
-            Password Confirmation</label
-          >
+            {{ $t("passwordConfirmation") }}
+          </label>
         </div>
         <div class="mt-2">
           <input
@@ -123,7 +125,7 @@
             type="password"
             required=""
             v-model="user.password_confirmation"
-            placeholder="Password confirmation..."
+            :placeholder="$t('passwordConfirmation') + `...`"
             class="block w-full rounded-md border-0 py-1.5 text-gray-900 dark:ring-gray-700 dark:focus:ring-indigo-400 dark:placeholder:text-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           />
         </div>
@@ -160,19 +162,18 @@
               d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
             ></path>
           </svg>
-          Sign up
+          {{ $t("signUp") }}
         </button>
       </div>
     </form>
 
     <p class="mt-10 text-center text-sm text-gray-700 dark:text-gray-300">
-      Already have an account?
-      {{ " " }}
+      {{ $t("hadAccount") }}
       <router-link
         :to="{ name: 'Login' }"
         class="font-semibold leading-6 text-indigo-600 dark:text-indigo-400 hover:text-indigo-500"
       >
-        Click here to log in
+        {{ $t("clickToSignIn") }}
       </router-link>
     </p>
   </div>
@@ -183,6 +184,7 @@ import { ref } from "vue";
 import store from "../store";
 import { useRouter } from "vue-router";
 import Alert from "../components/Alert.vue";
+import i18n from "../i18n";
 
 const router = useRouter();
 const user = {
@@ -207,9 +209,37 @@ function register(e) {
     .catch((err) => {
       loading.value = false;
       if (err.response.status === 422) {
-        errors.value = err.response.data.errors;
+        errors.value =
+          i18n.global.locale == "EN"
+            ? err.response.data.errors
+            : translateErrors(err.response.data.errors);
       }
     });
+}
+
+function translateErrors(errorsList) {
+  if (errorsList["email"]) {
+    errorsList["email"][0] = "Email này đã được đăng ký.";
+  }
+  if (errorsList["password"]) {
+    errorsList["password"].map((e, index) => {
+      if (e.includes("not match")) {
+        errorsList["password"][index] = "Mật khẩu nhập lại không khớp.";
+      } else if (e.includes("8 characters")) {
+        errorsList["password"][index] = "Mật khẩu phải có ít nhất 8 ký tự.";
+      } else if (e.includes("uppercase") || e.includes("lowercase")) {
+        errorsList["password"][index] =
+          "Mật khẩu phải có ít nhất một ký tự hoa và một ký tự tường";
+      } else if (e.includes("one symbol")) {
+        errorsList["password"][index] = "Mật khẩu phải có ít nhất một ký hiệu";
+      } else if (e.includes("one number")) {
+        errorsList["password"][index] = "Mật khẩu phải có ít nhất một chữ số";
+      }
+      return e;
+    });
+  }
+
+  return errorsList;
 }
 </script>
 

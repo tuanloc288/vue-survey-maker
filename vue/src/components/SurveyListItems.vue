@@ -16,7 +16,7 @@
       class="overflow-hidden flex-1 text-black dark:text-gray-300"
     ></div>
     <div v-else class="overflow-hidden flex-1 dark:text-gray-400">
-      No description...
+      {{ $t("noDescription") }}...
     </div>
     <div class="flex justify-between items-center mt-3">
       <router-link
@@ -37,7 +37,7 @@
             d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
           />
         </svg>
-        Edit
+        {{ $t("edit") }}
       </router-link>
       <div class="flex items-center space-x-1">
         <a
