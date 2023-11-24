@@ -1,6 +1,11 @@
 <template>
   <fieldset class="mb-4">
-    <div>
+    <div
+      v-if="
+        !checkQuestionType(question.type) ||
+        (checkQuestionType(question.type) && question.data.options.length)
+      "
+    >
       <legend class="text-base font-medium text-gray-900 dark:text-gray-100">
         {{ question.index + 1 }}. {{ question.question }}
       </legend>
@@ -9,7 +14,7 @@
       </p>
     </div>
     <div class="mt-3">
-      <div v-if="question.type === 'select'">
+      <div v-if="question.type === 'select' && question.data.options.length">
         <select
           :value="modelValue"
           @change="emit('update:modelValue', $event.target.value)"
@@ -25,7 +30,9 @@
           </option>
         </select>
       </div>
-      <div v-else-if="question.type === 'checkbox'">
+      <div
+        v-else-if="question.type === 'checkbox' && question.data.options.length"
+      >
         <div
           v-for="(option, index) of question.data.options"
           :key="option.uuid"
@@ -46,7 +53,9 @@
           </label>
         </div>
       </div>
-      <div v-else-if="question.type === 'radio'">
+      <div
+        v-else-if="question.type === 'radio' && question.data.options.length"
+      >
         <div
           v-for="(option, index) of question.data.options"
           :key="option.uuid"
@@ -113,6 +122,11 @@ function onCheckboxChange($e) {
     }
   }
   emit("update:modelValue", selectedOptions);
+}
+
+function checkQuestionType(type) {
+  if (type === "select" || type === "radio" || type === "checkbox") return true;
+  return false;
 }
 </script>
 

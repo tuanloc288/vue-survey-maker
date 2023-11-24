@@ -1,5 +1,16 @@
 <template>
-  <div class="min-h-full">
+  <div
+    class="relative"
+    :class="[
+      modelOpen ? 'max-h-screen sm:min-h-screen overflow-hidden' : 'min-h-full',
+    ]"
+  >
+    <div
+      v-if="modelOpen"
+      class="absolute animate-from-left sm:animate-from-top left-0 top-0 h-screen w-screen min-h-full flex items-center justify-center bg-black/50 z-30"
+    >
+      <Model />
+    </div>
     <Disclosure
       as="nav"
       class="bg-gray-800 dark:bg-black"
@@ -407,6 +418,7 @@ import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import { useDark, useToggle } from "@vueuse/core";
 import i18n from "../i18n";
+import Model from "../components/Model.vue";
 
 const isDark = useDark();
 const toggleDark = useToggle(isDark);
@@ -427,6 +439,7 @@ const router = useRouter();
 
 store.dispatch("getUser");
 let user = computed(() => store.state.user.data);
+const modelOpen = computed(() => store.state.model.open);
 
 function gotoHome() {
   router.push({ name: "Dashboard" });

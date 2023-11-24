@@ -57,5 +57,14 @@
     "options": "Options",
     "option": "Option",
     "description": "Description",
-    "noOptions": "You don't have any option defined!"
+    "noOptions": "You don't have any option defined!",
+    "submit": "Submit",
+    "finishedSurvey": "Thank you for participating in this survey!",
+    "anotherSubmit": "Submit another response",
+    "closeSurvey": "Close this survey",
+    "noImage": "This survey have no image",
+    "notFound": "This survey URL probably not active anymore or it expired date has been passed!",
+    "totalQuestions": "Total questions",
+    "hadAnswered": "Answered",
+    "surveyNoQuestions": "This survey have no question"
 }

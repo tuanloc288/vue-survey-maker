@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use DateTime;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class SurveyAnswerResource extends JsonResource
+class SurveyQuestionAnswerResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,9 +17,9 @@ class SurveyAnswerResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'survey' => new SurveyResource($this->survey),
-            'end_date' => (new DateTime($this->end_date))->format('Y-m-d H:i:s'),
-            'answers' => SurveyQuestionAnswerResource::collection($this->questionAnswers)
+            'answer' => $this->answer,
+            'answer_id' => $this->survey_answer_id,
+            'question_id' => $this->survey_question_id
         ];
     }
 }

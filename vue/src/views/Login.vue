@@ -8,7 +8,7 @@
     <h2
       class="mt-5 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 dark:text-gray-100"
     >
-      {{ $t('signInTitle') }}
+      {{ $t("signInTitle") }}
     </h2>
   </div>
 
@@ -40,8 +40,9 @@
         <label
           for="email"
           class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-100"
-          > Email </label
         >
+          Email
+        </label>
         <div class="mt-2">
           <input
             id="email"
@@ -61,8 +62,9 @@
           <label
             for="password"
             class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-100"
-            > {{ $t('password') }} </label
           >
+            {{ $t("password") }}
+          </label>
         </div>
         <div class="mt-2">
           <input
@@ -89,8 +91,9 @@
           <label
             for="remember-me"
             class="ml-2 block text-sm text-gray-900 dark:text-gray-100"
-            > {{ $t('rememberMe') }} </label
           >
+            {{ $t("rememberMe") }}
+          </label>
         </div>
       </div>
 
@@ -125,17 +128,17 @@
               d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
             ></path>
           </svg>
-          {{ $t('signIn') }}
+          {{ $t("signIn") }}
         </button>
       </div>
     </form>
     <p class="mt-10 text-center text-sm text-gray-700 dark:text-gray-300">
-      {{ $t('noAccount') }}
+      {{ $t("noAccount") }}
       <router-link
         :to="{ name: 'Register' }"
         class="font-semibold leading-6 text-indigo-600 dark:text-indigo-400 hover:text-indigo-500"
       >
-      {{ $t('clickToSignUp') }}
+        {{ $t("clickToSignUp") }}
       </router-link>
     </p>
   </div>
@@ -171,7 +174,14 @@ function login(e) {
     })
     .catch((err) => {
       loading.value = false;
-      errorMsg.value = i18n.global.locale == 'EN' ? err.response.data.error : "Sai tài khoản hoặc mật khẩu";
+      if (err.response.data.error || err.response.data.errors) {
+        errorMsg.value =
+          i18n.global.locale == "EN"
+            ? err.response.data.error
+              ? err.response.data.error
+              : "The provided credentials are not correct"
+            : "Sai tài khoản hoặc mật khẩu";
+      }
     });
 }
 </script>

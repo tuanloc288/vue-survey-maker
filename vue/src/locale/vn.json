@@ -57,5 +57,14 @@
     "options": "Các tùy chọn",
     "option": "Tùy chọn",
     "description": "Mô tả",
-    "noOptions": "Bạn chưa tạo tùy chọn nào cho câu hỏi này"
+    "noOptions": "Bạn chưa tạo tùy chọn nào cho câu hỏi này",
+    "submit": "Gửi",
+    "finishedSurvey": "Cảm ơn bạn đã tham gia khảo sát!",
+    "anotherSubmit": "Gửi một phản hồi khác",
+    "closeSurvey": "Đóng khảo sát này",
+    "noImage": "Khảo sát này chưa có ảnh đại diện",
+    "notFound": "Liên kết của khảo sát này không còn hoạt động hoặc đã quá hạn thực hiện khảo sát!",
+    "totalQuestions": "Tổng số câu hỏi",
+    "hadAnswered": "Đã trả lời",
+    "surveyNoQuestions": "Bản khảo sát này không có câu hỏi nào"
 }

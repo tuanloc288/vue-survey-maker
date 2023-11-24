@@ -128,6 +128,10 @@ const store = createStore({
       loading: false,
       data: {},
     },
+    model: {
+      open: false,
+      data: {},
+    },
   },
   getters: {},
   actions: {
@@ -277,6 +281,10 @@ const store = createStore({
     },
     setDashboardData: (state, data) => {
       state.dashboard.data = data;
+    },
+    setModelData: (state, data) => {
+      state.model.open = data.open;
+      state.model.data = data.data;
     },
   },
   modules: {},

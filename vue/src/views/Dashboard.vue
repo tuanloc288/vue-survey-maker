@@ -10,7 +10,7 @@
       <div
         class="bg-white dark:bg-gray-800 animate-from-top shadow-md p-3 text-center flex flex-col order-1 lg:order-2"
       >
-        <h3 class="text-2xl font-semibold"> {{ $t('totalSurveys') }} </h3>
+        <h3 class="text-2xl font-semibold">{{ $t("totalSurveys") }}</h3>
         <div
           class="text-8xl font-semibold flex flex-1 items-center justify-center"
         >
@@ -20,7 +20,7 @@
       <div
         class="bg-white dark:bg-gray-800 animate-from-bottom shadow-md p-3 text-center flex flex-col order-2 lg:order-4"
       >
-        <h3 class="text-2xl font-semibold"> {{ $t('totalAnswers') }} </h3>
+        <h3 class="text-2xl font-semibold">{{ $t("totalAnswers") }}</h3>
         <div
           class="text-8xl font-semibold flex flex-1 items-center justify-center"
         >
@@ -31,7 +31,7 @@
         class="row-span-2 animate-from-left order-3 bg-white dark:bg-gray-800 shadow-md p-4 lg:order-1"
         :class="{ 'h-fit': !data.latestSurvey }"
       >
-        <h3 class="text-2xl font-semibold"> {{ $t('latestSurvey') }} </h3>
+        <h3 class="text-2xl font-semibold">{{ $t("latestSurvey") }}</h3>
         <div v-if="data.latestSurvey">
           <img
             :src="
@@ -44,29 +44,35 @@
           />
           <h3 class="text-xl font-bold mb-3">{{ data.latestSurvey.title }}</h3>
           <div class="flex justify-between text-sm mb-1">
-            <div> {{ $t('createdDate') }} </div>
+            <div>{{ $t("createdDate") }}</div>
             <div>{{ data.latestSurvey.created_at }}</div>
           </div>
           <div class="flex justify-between text-sm mb-1">
-            <div> {{ $t('expiredDate') }} </div>
+            <div>{{ $t("expiredDate") }}</div>
             <div>
               {{
                 data.latestSurvey.expire_date
                   ? data.latestSurvey.expire_date
-                  : $t('notSpecified')
+                  : $t("notSpecified")
               }}
             </div>
           </div>
           <div class="flex justify-between text-sm mb-1">
             <div>Status</div>
-            <div>{{ data.latestSurvey.status ? $t('statusActive') : $t('statusDraft') }}</div>
+            <div>
+              {{
+                data.latestSurvey.status
+                  ? $t("statusActive")
+                  : $t("statusDraft")
+              }}
+            </div>
           </div>
           <div class="flex justify-between text-sm mb-1">
-            <div> {{ $t('questions') }} </div>
+            <div>{{ $t("questions") }}</div>
             <div>{{ data.latestSurvey.questions }}</div>
           </div>
           <div class="flex justify-between text-sm">
-            <div> {{ $t('answers') }} </div>
+            <div>{{ $t("answers") }}</div>
             <div>{{ data.latestSurvey.answers }}</div>
           </div>
           <div class="flex justify-between mt-2">
@@ -89,7 +95,7 @@
                 />
               </svg>
 
-              {{ $t('editSurvey') }}
+              {{ $t("editSurvey") }}
             </router-link>
             <a
               :href="`/view/survey/${data.latestSurvey?.slug}`"
@@ -116,43 +122,44 @@
                 />
               </svg>
 
-              {{ $t('publicLink') }}
+              {{ $t("publicLink") }}
             </a>
           </div>
         </div>
         <div v-else class="text-gray-600 dark:text-gray-400 text-center py-16">
-          {{ $t('noSurveys') }}
+          {{ $t("noSurveys") }}
         </div>
       </div>
       <div
         class="bg-white dark:bg-gray-800 animate-from-right shadow-md p-3 row-span-2 order-4 lg:order-3 h-fit"
       >
         <div class="flex justify-between items-center mb-2 px-2">
-          <h3 class="text-2xl font-semibold"> {{ $t('latestAnswers') }} </h3>
+          <h3 class="text-2xl font-semibold">{{ $t("latestAnswers") }}</h3>
           <a
-            v-if="data.latestAnswers.length"
+            v-if="data.allAnswers.length"
             href="javascript:void(0)"
             class="text-sm text-blue-500 hover:decoration-blue-500"
           >
-            {{ $t('viewAll') }}
+            {{ $t("viewAll") }}
           </a>
         </div>
-        <div v-if="data.latestAnswers.length">
-          <a
-            href="#"
-            v-for="answer of data.latestAnswers"
+        <div v-if="data.allAnswers.length">
+          <span
+            v-for="answer of data?.allAnswers.slice(0, 6)"
             :key="answer.id"
             class="block p-2 hover:bg-gray-100/90 dark:hover:bg-gray-900/30"
           >
-            <div class="font-semibold">{{ answer.survey.title }}</div>
-            <small>
-              {{ $t('answerMadeAt') }}:
-              <i class="font-semibold"> {{ answer.end_date }} </i>
-            </small>
-          </a>
+            <div @click="openModel(answer)" class="cursor-pointer">
+              <div class="font-semibold">{{ answer.survey.title }}</div>
+              <small>
+                {{ $t("answerMadeAt") }}:
+                <i class="font-semibold"> {{ answer.end_date }} </i>
+              </small>
+            </div>
+          </span>
         </div>
         <div v-else class="text-gray-600 dark:text-gray-400 text-center py-16">
-          {{ $t('noAnswers') }}
+          {{ $t("noAnswers") }}
         </div>
       </div>
     </div>
@@ -170,6 +177,10 @@ const loading = computed(() => store.state.dashboard.loading);
 const data = computed(() => store.state.dashboard.data);
 
 store.dispatch("getDashboardData");
+
+function openModel(answer) {
+  store.commit("setModelData", { open: true, data: answer });
+}
 </script>
 
 <style scoped></style>

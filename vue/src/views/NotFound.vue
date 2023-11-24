@@ -6,11 +6,10 @@
           ? '/images/not-found-white.png'
           : '/images/not-found.png',
       ]"
-      class="w-[500px] aspect-video"
+      class="w-[300px] sm:w-[400px] md:w-[500px] aspect-video"
     />
-    <span class="text-gray-700 dark:text-gray-300 text-xl font-semibold">
-      This survey URL probably not active anymore or it expired date has been
-      passed!
+    <span class="text-gray-700 dark:text-gray-300 text-center px-2 md:text-xl font-semibold">
+      {{ $t('notFound') }}
     </span>
   </div>
 </template>

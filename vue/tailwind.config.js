@@ -65,12 +65,14 @@ export default {
             display: "hidden",
           },
         },
-        "appear-opacity": {
+        "appear": {
           from : {
-            opacity: 0
+            opacity: 0,
+            scale: 0,
           },
           to: {
-            opacity: 1
+            opacity: 1,
+            scale: 100
           }
         }
       },
@@ -81,6 +83,7 @@ export default {
         "from-left": "from-left .5s ease-in-out both",
         "from-right": "from-right .5s ease-in-out both",
         "to-bottom": "to-bottom .5s ease-in-out both",
+        "appear": "appear .7s ease-in-out both"
       },
     },
   },
