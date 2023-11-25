@@ -1,9 +1,17 @@
 <template>
-  <fieldset class="mt-5">
+  <fieldset
+    class="mt-5"
+    :class="[
+      question.index % 2 == 0 ? 'animate-from-left' : 'animate-from-right',
+    ]"
+    :style="{ animationDelay: `${question.index * 0.2}s` }"
+  >
     <div
       v-if="
         !checkQuestionType(question.type) ||
-        (checkQuestionType(question.type) && question.data.options.length)
+        (checkQuestionType(question.type) &&
+          question.data.options.length &&
+          removeEmptyOptions(question.data.options).length)
       "
     >
       <legend class="text-base font-bold text-gray-900 dark:text-gray-100">
@@ -15,14 +23,20 @@
       />
     </div>
     <div class="mt-3">
-      <div v-if="question.type === 'select' && question.data.options.length">
+      <div
+        v-if="
+          question.type === 'select' &&
+          question.data.options.length &&
+          removeEmptyOptions(question.data.options).length
+        "
+      >
         <select
           class="text-black dark:text-gray-300 mt-1 block w-full px-3 py-3 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
         >
           <option disabled value="">Select an option...</option>
           <option
             :disabled="!option.checked"
-            v-for="option in question.data.options"
+            v-for="option in removeEmptyOptions(question.data.options)"
             :value="option.text"
             :key="option.uuid"
             :selected="option.checked"
@@ -32,10 +46,14 @@
         </select>
       </div>
       <div
-        v-else-if="question.type === 'checkbox' && question.data.options.length"
+        v-else-if="
+          question.type === 'checkbox' &&
+          question.data.options.length &&
+          removeEmptyOptions(question.data.options).length
+        "
       >
         <div
-          v-for="(option, index) of question.data.options"
+          v-for="(option, index) of removeEmptyOptions(question.data.options)"
           :key="option.uuid"
           class="flex items-center"
         >
@@ -55,10 +73,14 @@
         </div>
       </div>
       <div
-        v-else-if="question.type === 'radio' && question.data.options.length"
+        v-else-if="
+          question.type === 'radio' &&
+          question.data.options.length &&
+          removeEmptyOptions(question.data.options).length
+        "
       >
         <div
-          v-for="(option, index) of question.data.options"
+          v-for="(option, index) of removeEmptyOptions(question.data.options)"
           :key="option.uuid"
           class="flex items-center"
         >
@@ -109,5 +131,9 @@ const { question } = defineProps({
 function checkQuestionType(type) {
   if (type === "select" || type === "radio" || type === "checkbox") return true;
   return false;
+}
+
+function removeEmptyOptions(opts) {
+  return opts.filter((opt) => opt.text);
 }
 </script>

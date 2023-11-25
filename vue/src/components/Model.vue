@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full h-full sm:w-screen sm:h-screen min-h-fit sm:min-h-fit md:w-[70%] md:h-[90%] relative overflow-y-auto px-5 py-10 bg-white dark:bg-gray-900 animate-appear"
+    class="w-full h-full sm:w-screen sm:h-screen min-h-fit sm:min-h-fit md:w-[70%] md:h-[90%] relative overflow-y-auto overflow-x-hidden px-5 py-10 bg-white dark:bg-gray-900 animate-appear"
   >
     <span
       @click="closeModel"
@@ -30,19 +30,27 @@
               : '/images/no-image.png'
           "
           alt="survey image on model"
-          class="hidden object-contain lg:block lg:w-48"
+          class="hidden object-contain lg:block lg:w-48 animate-from-left"
+          style="animation-delay: 0.5s"
         />
         <div
           class="flex flex-col space-y-3 w-fit max-w-[70%] lg:max-w-[50%] mt-3"
         >
-          <span class="text-2xl font-bold">{{ data.survey.title }}</span>
           <span
-            class="text-gray-700 dark:text-gray-300 max-h-[200px] overflow-y-auto px-2"
+            class="text-2xl font-bold animate-from-top"
+            style="animation-delay: 0.5s"
+          >
+            {{ data.survey.title }}
+          </span>
+          <span
+            class="text-gray-700 dark:text-gray-300 max-h-[200px] overflow-y-auto px-2 animate-from-bottom"
+            style="animation-delay: .5s;"
             v-html="data.survey.description"
           />
         </div>
         <div
-          class="flex flex-col mt-8 justify-around space-y-1 border-l-2 border-gray-300/20 dark:border-gray-700/20 px-4"
+          class="flex flex-col mt-8 justify-around space-y-1 animate-from-right border-l-2 border-gray-300/20 dark:border-gray-700/20 px-4"
+          style="animation-delay: .5s;"
         >
           <div class="flex flex-col space-y-1">
             <span class="font-bold">{{ $t("answerMadeAt") }}</span>
@@ -66,7 +74,11 @@
         </div>
       </div>
     </div>
-    <div class="flex flex-col" v-for="question of questionAnswers" :key="question.id">
+    <div
+      class="flex flex-col"
+      v-for="question of questionAnswers"
+      :key="question.id"
+    >
       <QuestionAnswerViewer :question="question" />
     </div>
   </div>

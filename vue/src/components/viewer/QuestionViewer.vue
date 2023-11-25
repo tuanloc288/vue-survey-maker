@@ -156,8 +156,6 @@ function checkQuestionType(type) {
 }
 
 function removeEmptyOptions(opts) {
-  console.log(opts);
-  console.log(opts.filter((opt) => opt.text));
   return opts.filter((opt) => opt.text);
 }
 </script>
