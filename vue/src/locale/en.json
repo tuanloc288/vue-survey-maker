@@ -66,5 +66,6 @@
     "notFound": "This survey URL probably not active anymore or it expired date has been passed!",
     "totalQuestions": "Total questions",
     "hadAnswered": "Answered",
-    "surveyNoQuestions": "This survey have no question"
+    "surveyNoQuestions": "This survey have no question",
+    "seeIndividual": "Click to see individual answer"
 }

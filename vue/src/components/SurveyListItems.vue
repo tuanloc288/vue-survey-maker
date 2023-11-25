@@ -5,7 +5,7 @@
     <img
       :src="survey.image_url ? survey.image_url : 'images/no-image.png'"
       alt="survey image"
-      class="w-full h-48 object-cover"
+      class="w-full h-48 object-contain"
     />
     <h4 class="mt-4 text-lg font-bold text-black dark:text-white">
       {{ survey.title }}

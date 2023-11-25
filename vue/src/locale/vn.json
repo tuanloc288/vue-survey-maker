@@ -66,5 +66,6 @@
     "notFound": "Liên kết của khảo sát này không còn hoạt động hoặc đã quá hạn thực hiện khảo sát!",
     "totalQuestions": "Tổng số câu hỏi",
     "hadAnswered": "Đã trả lời",
-    "surveyNoQuestions": "Bản khảo sát này không có câu hỏi nào"
+    "surveyNoQuestions": "Bản khảo sát này không có câu hỏi nào",
+    "seeIndividual": "Nhấn để xem các câu phản hồi riêng biệt"
 }

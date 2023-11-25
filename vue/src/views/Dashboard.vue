@@ -39,7 +39,7 @@
                 ? data.latestSurvey.image_url
                 : 'images/no-image.png'
             "
-            class="w[240px] mx-auto my-3 hover:scale-110 transition-transform"
+            class="w-[240px] mx-auto my-3 hover:scale-110 transition-transform"
             alt="dashboard survey image"
           />
           <h3 class="text-xl font-bold mb-3">{{ data.latestSurvey.title }}</h3>
@@ -149,7 +149,7 @@
             :key="answer.id"
             class="block p-2 hover:bg-gray-100/90 dark:hover:bg-gray-900/30"
           >
-            <div @click="openModel(answer)" class="cursor-pointer">
+            <div @click="openModel(answer)" class="cursor-pointer" :title="$t('seeIndividual')">
               <div class="font-semibold">{{ answer.survey.title }}</div>
               <small>
                 {{ $t("answerMadeAt") }}:
