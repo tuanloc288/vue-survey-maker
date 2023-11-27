@@ -1,85 +1,197 @@
 <template>
   <div
-    class="w-full h-full sm:w-screen sm:h-screen min-h-fit sm:min-h-fit md:w-[70%] md:h-[90%] relative overflow-y-auto overflow-x-hidden px-5 py-10 bg-white dark:bg-gray-900 animate-appear"
+    class="w-full h-full sm:w-screen sm:h-screen min-h-fit sm:min-h-fit md:w-[70%] relative overflow-y-auto overflow-x-hidden px-5 py-10 bg-white dark:bg-gray-900 animate-appear"
+    :class="[
+      individual ? 'md:h-[90%]' : data.length <= 6 ? 'md:h-fit' : 'md:h-[90%]',
+    ]"
   >
-    <span
-      @click="closeModel"
-      class="text-black dark:text-white cursor-pointer absolute right-5 top-5"
+    <div
+      class="absolute top-4 right-5 left-5 mx-3bg-white flex justify-between items-center"
+      :class="[oldValue.length ? '' : 'flex-row-reverse']"
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke-width="1.5"
-        stroke="currentColor"
-        class="w-8 h-8"
+      <span
+        v-if="oldValue.length"
+        class="text-black dark:text-white cursor-pointer"
+        @click="goBack()"
       >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M6 18L18 6M6 6l12 12"
-        />
-      </svg>
-    </span>
-    <div class="text-black dark:text-white">
-      <div class="flex justify-around">
-        <img
-          :src="
-            data.survey.image_url
-              ? data.survey.image_url
-              : '/images/no-image.png'
-          "
-          alt="survey image on model"
-          class="hidden object-contain lg:block lg:w-48 animate-from-left"
-          style="animation-delay: 0.5s"
-        />
-        <div
-          class="flex flex-col space-y-3 w-fit max-w-[70%] lg:max-w-[50%] mt-3"
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-8 h-8"
         >
-          <span
-            class="text-2xl font-bold animate-from-top"
-            style="animation-delay: 0.5s"
-          >
-            {{ data.survey.title }}
-          </span>
-          <span
-            class="text-gray-700 dark:text-gray-300 max-h-[200px] overflow-y-auto px-2 animate-from-bottom"
-            style="animation-delay: .5s;"
-            v-html="data.survey.description"
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"
+          />
+        </svg>
+      </span>
+      <span
+        @click="closeModel"
+        class="text-black dark:text-white cursor-pointer"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-8 h-8"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </span>
+    </div>
+    <div v-if="!individual" class="flex flex-col h-full space-y-3">
+      <div
+        class="text-black dark:text-white md:ml-16 flex justify-between items-center w-[85%]"
+      >
+        <div class="flex space-x-3 items-center">
+          <label for="search" class="hidden md:block"> Search by title: </label>
+          <input
+            class="text-black dark:text-gray-300 focus:ring-indigo-500 focus:border-indigo-500 flex-1 shadow-sm sm:text-sm border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-900"
+            type="text"
+            name="search"
+            placeholder="Vuejs..."
           />
         </div>
+        <div class="flex flex-col space-y-2">
+          <span class="flex items-center justify-between space-x-2">
+            <label for="dateFrom"> From: </label>
+            <input
+              type="date"
+              name="dateFrom"
+              class="text-black dark:text-gray-300 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm sm:text-sm border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-900"
+            />
+          </span>
+          <span class="flex items-center justify-between">
+            <label for="dateTo"> To: </label>
+            <input
+              type="date"
+              name="dateTo"
+              class="text-black dark:text-gray-300 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm sm:text-sm border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-900"
+            />
+          </span>
+        </div>
+        <div class="text-black dark:text-white flex items-center space-x-2">
+          <label for="finished"> Finished: </label>
+          <input
+            type="checkbox"
+            name="finished"
+            v-model="filteredOpts.finished"
+            @change="filtered"
+          />
+        </div>
+      </div>
+      <div
+        v-for="(answer, index) in filteredData.length ? filteredData : data"
+        :key="answer.id"
+        class="text-black dark:text-white cursor-pointer hover:bg-gray-100/90 dark:hover:bg-gray-800/30 sm:px-16 py-2 flex items-center justify-between border-b border-gray-200 dark:border-gray-800"
+        @click="openModel(answer, true)"
+        :title="$t('seeIndividual')"
+      >
         <div
-          class="flex flex-col mt-8 justify-around space-y-1 animate-from-right border-l-2 border-gray-300/20 dark:border-gray-700/20 px-4"
-          style="animation-delay: .5s;"
+          class="flex flex-col space-y-3 animate-from-left"
+          :style="{ animationDelay: `${index * 0.2}s` }"
         >
-          <div class="flex flex-col space-y-1">
-            <span class="font-bold">{{ $t("answerMadeAt") }}</span>
-            <span class="text-gray-700 dark:text-gray-300">
-              {{ data.end_date }}
-            </span>
+          <div class="font-bold text-xl sm:text-2xl">
+            {{ answer.survey.title }}
           </div>
+          <small>
+            <span class="font-semibold text-lg">
+              {{ $t("answerMadeAt") }}:
+              <i> {{ answer.end_date }} </i>
+            </span>
+          </small>
+        </div>
+        <div
+          class="flex flex-col justify-around space-y-1 animate-from-right border-l-2 border-gray-300/20 dark:border-gray-700/20 px-4"
+          :style="{ animationDelay: `${index * 0.2}s` }"
+        >
           <div class="flex flex-col space-y-1">
             <span class="font-bold">{{ $t("totalQuestions") }}</span>
             <span class="text-gray-700 dark:text-gray-300">
-              {{ data.survey.questions.length }}
+              {{ answer.survey.questions.length }}
             </span>
           </div>
           <div class="flex flex-col space-y-1">
             <span class="font-bold">{{ $t("hadAnswered") }}</span>
             <span class="text-gray-700 dark:text-gray-300">
-              {{ data.answers.length }}/{{ data.survey.questions.length }}
+              {{ answer.answers.length }}/{{ answer.survey.questions.length }}
               {{ $t("questions") }}
             </span>
           </div>
         </div>
       </div>
     </div>
-    <div
-      class="flex flex-col"
-      v-for="question of questionAnswers"
-      :key="question.id"
-    >
-      <QuestionAnswerViewer :question="question" />
+    <div v-else>
+      <div class="text-black dark:text-white mt-2">
+        <div class="flex justify-around">
+          <img
+            :src="
+              data.survey.image_url
+                ? data.survey.image_url
+                : '/images/no-image.png'
+            "
+            alt="survey image on model"
+            class="hidden object-contain lg:block lg:w-48 animate-from-left"
+            style="animation-delay: 0.5s"
+          />
+          <div
+            class="flex flex-col space-y-3 w-fit max-w-[70%] lg:max-w-[50%] mt-3"
+          >
+            <span
+              class="text-2xl font-bold animate-from-top"
+              style="animation-delay: 0.5s"
+            >
+              {{ data.survey.title }}
+            </span>
+            <span
+              class="text-gray-700 dark:text-gray-300 max-h-[200px] overflow-y-auto px-2 animate-from-bottom"
+              style="animation-delay: 0.5s"
+              v-html="data.survey.description"
+            />
+          </div>
+          <div
+            class="flex flex-col mt-8 justify-around space-y-1 animate-from-right border-l-2 border-gray-300/20 dark:border-gray-700/20 px-4"
+            style="animation-delay: 0.5s"
+          >
+            <div class="flex flex-col space-y-1">
+              <span class="font-bold">{{ $t("answerMadeAt") }}</span>
+              <span class="text-gray-700 dark:text-gray-300">
+                {{ data.end_date }}
+              </span>
+            </div>
+            <div class="flex flex-col space-y-1">
+              <span class="font-bold">{{ $t("totalQuestions") }}</span>
+              <span class="text-gray-700 dark:text-gray-300">
+                {{ data.survey.questions.length }}
+              </span>
+            </div>
+            <div class="flex flex-col space-y-1">
+              <span class="font-bold">{{ $t("hadAnswered") }}</span>
+              <span class="text-gray-700 dark:text-gray-300">
+                {{ data.answers.length }}/{{ data.survey.questions.length }}
+                {{ $t("questions") }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="flex flex-col"
+        v-for="question of questionAnswers"
+        :key="question.id"
+      >
+        <QuestionAnswerViewer :question="question" />
+      </div>
     </div>
   </div>
 </template>
@@ -90,12 +202,40 @@ import store from "../store";
 import { ref } from "vue";
 import { onMounted } from "vue";
 import QuestionAnswerViewer from "./viewer/QuestionAnswerViewer.vue";
+import { watch } from "vue";
+import { onUnmounted } from "vue";
 
 const data = computed(() => store.state.model.data);
+const individual = computed(() => store.state.model.individual);
+
+watch(data, (newVal, oldVal) => {
+  if (oldVal.length && individual) {
+    oldValue.value = oldVal;
+    prepareQuestionAnswers();
+  }
+});
+
+const filteredData = ref([]);
 const questionAnswers = ref([]);
+const oldValue = ref({});
+const filteredOpts = ref({
+  title: "",
+  date: {
+    from: "",
+    to: "",
+  },
+  finished: false,
+});
 
 onMounted(() => {
-  prepareQuestionAnswers();
+  if (individual.value) {
+    prepareQuestionAnswers();
+  }
+  window.addEventListener("keydown", keyListener);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("keydown", keyListener);
 });
 
 function prepareQuestionAnswers() {
@@ -155,6 +295,38 @@ function checkedOptions(question, answer) {
 }
 
 function closeModel() {
-  store.commit("setModelData", false, {});
+  store.commit("setModelData", false, {}, false);
+}
+
+function keyListener(e) {
+  if (e.key === "Escape" || e.keyCode === 27 || e.which === 27) {
+    closeModel();
+  } else if (
+    oldValue.value.length &&
+    (e.key === "Backspace" || e.keyCode === 27 || e.which === 27)
+  ) {
+    goBack();
+  }
+}
+
+function openModel(answer, individual) {
+  store.commit("setModelData", { open: true, data: answer, individual });
+}
+
+function goBack() {
+  store.commit("setModelData", {
+    open: true,
+    data: oldValue.value,
+    individual: false,
+  });
+  oldValue.value = {};
+}
+
+function filtered() {
+  if (filteredOpts.value.finished) {
+    filteredData.value = data.value.filter(
+      (answer) => answer.answers.length === answer.survey.questions.length
+    );
+  } else filteredData.value = data.value;
 }
 </script>

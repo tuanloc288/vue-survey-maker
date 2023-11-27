@@ -131,6 +131,7 @@ const store = createStore({
     model: {
       open: false,
       data: {},
+      individual: false,
     },
   },
   getters: {},
@@ -285,6 +286,7 @@ const store = createStore({
     setModelData: (state, data) => {
       state.model.open = data.open;
       state.model.data = data.data;
+      state.model.individual = data.individual;
     },
   },
   modules: {},

@@ -122,8 +122,6 @@
 </template>
 
 <script setup>
-import { defineProps } from "vue";
-
 const { question } = defineProps({
   question: Object,
 });

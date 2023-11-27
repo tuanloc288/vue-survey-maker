@@ -135,13 +135,13 @@
       >
         <div class="flex justify-between items-center mb-2 px-2">
           <h3 class="text-2xl font-semibold">{{ $t("latestAnswers") }}</h3>
-          <a
+          <span
             v-if="data.allAnswers.length"
-            href="javascript:void(0)"
-            class="text-sm text-blue-500 hover:decoration-blue-500"
+            @click="openModel(data.allAnswers, false)"
+            class="text-sm text-blue-500 hover:decoration-blue-500 cursor-pointer"
           >
             {{ $t("viewAll") }}
-          </a>
+          </span>
         </div>
         <div v-if="data.allAnswers.length">
           <span
@@ -149,7 +149,11 @@
             :key="answer.id"
             class="block p-2 hover:bg-gray-100/90 dark:hover:bg-gray-900/30"
           >
-            <div @click="openModel(answer)" class="cursor-pointer" :title="$t('seeIndividual')">
+            <div
+              @click="openModel(answer, true)"
+              class="cursor-pointer"
+              :title="$t('seeIndividual')"
+            >
               <div class="font-semibold">{{ answer.survey.title }}</div>
               <small>
                 {{ $t("answerMadeAt") }}:
@@ -178,8 +182,8 @@ const data = computed(() => store.state.dashboard.data);
 
 store.dispatch("getDashboardData");
 
-function openModel(answer) {
-  store.commit("setModelData", { open: true, data: answer });
+function openModel(answer, individual) {
+  store.commit("setModelData", { open: true, data: answer, individual });
 }
 </script>
 
