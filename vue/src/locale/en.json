@@ -67,5 +67,11 @@
     "totalQuestions": "Total questions",
     "hadAnswered": "Answered",
     "surveyNoQuestions": "This survey have no question",
-    "seeIndividual": "Click to see individual answer"
+    "seeIndividual": "Click to see individual answer",
+    "searchByTitle": "Search by title",
+    "dateFrom": "From",
+    "dateTo": "To",
+    "finished": "Finished",
+    "noMatch": "No answer that match your requirement!",
+    "surveyPerDay": "Number of surveys take per day in"
 }

@@ -67,5 +67,11 @@
     "totalQuestions": "Tổng số câu hỏi",
     "hadAnswered": "Đã trả lời",
     "surveyNoQuestions": "Bản khảo sát này không có câu hỏi nào",
-    "seeIndividual": "Nhấn để xem các câu phản hồi riêng biệt"
+    "seeIndividual": "Nhấn để xem các câu phản hồi riêng biệt",
+    "searchByTitle": "Tìm kiếm",
+    "dateFrom": "Từ",
+    "dateTo": "Đến",
+    "finished": "Hoàn thành",
+    "noMatch": "Không có câu trả lời/phản hồi nào phù hợp với yêu cầu của bạn!",
+    "surveyPerDay": "Số khảo sát được thực hiện trong từng ngày tháng"
 }

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full h-full sm:w-screen sm:h-screen min-h-fit sm:min-h-fit md:w-[70%] relative overflow-y-auto overflow-x-hidden px-5 py-10 bg-white dark:bg-gray-900 animate-appear"
+    class="w-full h-full sm:w-screen sm:h-screen min-h-fit sm:min-h-fit md:w-[70%] relative overflow-y-auto overflow-x-hidden px-5 py-10 bg-white dark:bg-gray-900 animate-appear rounded-md"
     :class="[
       individual ? 'md:h-[90%]' : data.length <= 6 ? 'md:h-fit' : 'md:h-[90%]',
     ]"
@@ -51,37 +51,50 @@
     </div>
     <div v-if="!individual" class="flex flex-col h-full space-y-3">
       <div
-        class="text-black dark:text-white md:ml-16 flex justify-between items-center w-[85%]"
+        class="text-black dark:text-white md:ml-10 lg:ml-16 flex flex-wrap sm:flex-row justify-center sm:justify-between items-center w-[85%] space-y-3"
       >
-        <div class="flex space-x-3 items-center">
-          <label for="search" class="hidden md:block"> Search by title: </label>
+        <div class="flex flex-col sm:flex-row space-x-3 items-center">
+          <label for="search"> {{ $t("searchByTitle") }} </label>
           <input
             class="text-black dark:text-gray-300 focus:ring-indigo-500 focus:border-indigo-500 flex-1 shadow-sm sm:text-sm border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-900"
             type="text"
             name="search"
             placeholder="Vuejs..."
+            v-model="filteredOpts.title"
+            @change="filtered"
+            autocomplete="off"
           />
         </div>
         <div class="flex flex-col space-y-2">
-          <span class="flex items-center justify-between space-x-2">
-            <label for="dateFrom"> From: </label>
+          <span
+            class="flex flex-col sm:flex-row items-center justify-between space-x-2"
+          >
+            <label for="dateFrom"> {{ $t("dateFrom") }}: </label>
             <input
               type="date"
               name="dateFrom"
               class="text-black dark:text-gray-300 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm sm:text-sm border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-900"
+              v-model="filteredOpts.date.from"
+              @change="filtered"
             />
           </span>
-          <span class="flex items-center justify-between">
-            <label for="dateTo"> To: </label>
+          <span
+            class="flex flex-col sm:flex-row items-center justify-between space-x-2"
+          >
+            <label for="dateTo"> {{ $t("dateTo") }}: </label>
             <input
               type="date"
               name="dateTo"
               class="text-black dark:text-gray-300 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm sm:text-sm border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-900"
+              v-model="filteredOpts.date.to"
+              @change="filtered"
             />
           </span>
         </div>
-        <div class="text-black dark:text-white flex items-center space-x-2">
-          <label for="finished"> Finished: </label>
+        <div
+          class="text-black dark:text-white flex flex-col sm:flex-row items-center sm:space-x-2 text-center"
+        >
+          <label for="finished"> {{ $t("finished") }}: </label>
           <input
             type="checkbox"
             name="finished"
@@ -91,7 +104,8 @@
         </div>
       </div>
       <div
-        v-for="(answer, index) in filteredData.length ? filteredData : data"
+        v-if="filtered().length"
+        v-for="(answer, index) in filtered()"
         :key="answer.id"
         class="text-black dark:text-white cursor-pointer hover:bg-gray-100/90 dark:hover:bg-gray-800/30 sm:px-16 py-2 flex items-center justify-between border-b border-gray-200 dark:border-gray-800"
         @click="openModel(answer, true)"
@@ -105,7 +119,7 @@
             {{ answer.survey.title }}
           </div>
           <small>
-            <span class="font-semibold text-lg">
+            <span class="font-semibold text-sm sm:text-lg">
               {{ $t("answerMadeAt") }}:
               <i> {{ answer.end_date }} </i>
             </span>
@@ -116,19 +130,29 @@
           :style="{ animationDelay: `${index * 0.2}s` }"
         >
           <div class="flex flex-col space-y-1">
-            <span class="font-bold">{{ $t("totalQuestions") }}</span>
+            <span class="font-bold text-sm sm:text-lg">{{
+              $t("totalQuestions")
+            }}</span>
             <span class="text-gray-700 dark:text-gray-300">
               {{ answer.survey.questions.length }}
             </span>
           </div>
           <div class="flex flex-col space-y-1">
-            <span class="font-bold">{{ $t("hadAnswered") }}</span>
+            <span class="font-bold text-sm sm:text-lg">{{
+              $t("hadAnswered")
+            }}</span>
             <span class="text-gray-700 dark:text-gray-300">
               {{ answer.answers.length }}/{{ answer.survey.questions.length }}
               {{ $t("questions") }}
             </span>
           </div>
         </div>
+      </div>
+      <div
+        v-else
+        class="text-black dark:text-white w-full text-center pt-5 text-lg font-bold"
+      >
+        {{ $t("noMatch") }}
       </div>
     </div>
     <div v-else>
@@ -215,7 +239,6 @@ watch(data, (newVal, oldVal) => {
   }
 });
 
-const filteredData = ref([]);
 const questionAnswers = ref([]);
 const oldValue = ref({});
 const filteredOpts = ref({
@@ -303,7 +326,7 @@ function keyListener(e) {
     closeModel();
   } else if (
     oldValue.value.length &&
-    (e.key === "Backspace" || e.keyCode === 27 || e.which === 27)
+    (e.key === "Backspace" || e.keyCode === 8 || e.which === 8)
   ) {
     goBack();
   }
@@ -323,10 +346,47 @@ function goBack() {
 }
 
 function filtered() {
+  let filteredData = data.value;
+
   if (filteredOpts.value.finished) {
-    filteredData.value = data.value.filter(
+    filteredData = filteredData.filter(
       (answer) => answer.answers.length === answer.survey.questions.length
     );
-  } else filteredData.value = data.value;
+  }
+
+  if (filteredOpts.value.title) {
+    filteredData = filteredData.filter((answer) =>
+      answer.survey.title
+        .toLowerCase()
+        .includes(filteredOpts.value.title.toLowerCase())
+    );
+  }
+
+  if (filteredOpts.value.date.from && !filteredOpts.value.date.to) {
+    let date = new Date(filteredOpts.value.date.from);
+    date.setHours(0);
+    filteredData = filteredData.filter(
+      (answer) => new Date(answer.end_date) >= date
+    );
+  } else if (!filteredOpts.value.date.from && filteredOpts.value.date.to) {
+    let date = new Date(filteredOpts.value.date.to);
+    date.setHours(23);
+    filteredData = filteredData.filter(
+      (answer) => new Date(answer.end_date) <= date
+    );
+  } else if (filteredOpts.value.date.from && filteredOpts.value.date.to) {
+    let dateFrom = new Date(filteredOpts.value.date.from);
+    let dateTo = new Date(filteredOpts.value.date.to);
+    dateFrom.setHours(0);
+    dateTo.setHours(23);
+    filteredData = filteredData.filter((answer) => {
+      return (
+        new Date(answer.end_date) >= dateFrom &&
+        new Date(answer.end_date) <= dateTo
+      );
+    });
+  }
+
+  return filteredData;
 }
 </script>
