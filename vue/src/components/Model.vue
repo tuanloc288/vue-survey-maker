@@ -54,7 +54,7 @@
         class="text-black dark:text-white md:ml-10 lg:ml-16 flex flex-wrap sm:flex-row justify-center sm:justify-between items-center w-[85%] space-y-3"
       >
         <div class="flex flex-col sm:flex-row space-x-3 items-center">
-          <label for="search"> {{ $t("searchByTitle") }} </label>
+          <label for="search"> {{ $t("search") }} </label>
           <input
             class="text-black dark:text-gray-300 focus:ring-indigo-500 focus:border-indigo-500 flex-1 shadow-sm sm:text-sm border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-900"
             type="text"

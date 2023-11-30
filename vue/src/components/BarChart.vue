@@ -16,6 +16,8 @@ import {
 
 const props = defineProps({
   data: Array,
+  month: Number,
+  year: Number,
 });
 
 ChartJS.register(
@@ -29,14 +31,7 @@ ChartJS.register(
 
 function daysGenerator() {
   const daysInMonth = [];
-  const currentDate = new Date();
-  const currentMonth = currentDate.getMonth() + 1;
-
-  const numDays = new Date(
-    currentDate.getFullYear(),
-    currentMonth,
-    0
-  ).getDate();
+  const numDays = new Date(props.year, props.month, 0).getDate();
 
   for (let day = 1; day <= numDays; day++) {
     daysInMonth.push(day);
@@ -45,14 +40,7 @@ function daysGenerator() {
 }
 
 function colorsGenerator() {
-  const currentDate = new Date();
-  const currentMonth = currentDate.getMonth() + 1;
-
-  const daysInMonth = new Date(
-    currentDate.getFullYear(),
-    currentMonth,
-    0
-  ).getDate();
+  const daysInMonth = new Date(props.year, props.month, 0).getDate();
 
   const colors = [];
   while (colors.length < parseInt(daysInMonth)) {
@@ -86,7 +74,7 @@ const chartOptions = {
     x: {
       ticks: {
         font: {
-          size: 15,
+          size: 13,
         },
         color: "#7579e7",
       },
@@ -94,7 +82,7 @@ const chartOptions = {
     y: {
       ticks: {
         font: {
-          size: 15,
+          size: 13,
         },
         color: "#7579e7",
         stepSize: 1,

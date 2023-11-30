@@ -4,6 +4,7 @@
   >
     <Loader v-if="loading" />
     <div v-else>
+      <!-- First section -->
       <div
         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 text-gray-700 dark:text-gray-300"
       >
@@ -178,11 +179,252 @@
           </div>
         </div>
       </div>
-      <div v-if="data?.allAnswers.length">
-        <div class="text-gray-700 dark:text-gray-300 font-bold text-2xl my-10">
-          {{ $t('surveyPerDay') }} {{ `${getCurrentDate().month}/${getCurrentDate().year}` }}
+
+      <!-- Second section -->
+      <div
+        v-if="data.latestSurvey"
+        class="grid grid-cols-1 lg:grid-cols-3 my-10 space-x-5 space-y-3 bg-white dark:bg-gray-800"
+      >
+        <div
+          class="h-full max-h-[600px] overflow-y-scroll"
+          :class="[data?.allAnswers.length ? 'lg:col-span-2' : 'lg:col-span-3']"
+        >
+          <!-- Show/close filter -->
+          <div
+            class="text-black dark:text-gray-300 w-fit flex items-center p-3 cursor-pointer hover:text-gray-600 dark:hover:text-gray-200 group"
+            :title="$t('showFilter')"
+            @click="showFilter()"
+          >
+            <svg
+              v-if="!filter.show"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6 border border-gray-700 rounded-lg dark:border-gray-300 mr-2 group-hover:border-gray-600 group-hover:dark:border-gray-200"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 4.5v15m7.5-7.5h-15"
+              />
+            </svg>
+            <svg
+              v-else
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6 border border-gray-700 rounded-lg dark:border-gray-300 mr-2 group-hover:border-gray-600 group-hover:dark:border-gray-200"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M19.5 12h-15"
+              />
+            </svg>
+
+            Show filter
+          </div>
+
+          <!-- Filter -->
+          <transition
+            enter-active-class="transition ease-out duration-300"
+            enter-from-class="transform opacity-0 scale-0"
+            enter-to-class="transform opacity-100 scale-100"
+            leave-active-class="transition ease-in duration-300"
+            leave-from-class="transform opacity-100 scale-100"
+            leave-to-class="transform opacity-0 scale-0"
+          >
+            <div
+              v-if="filter.show"
+              class="p-5 sm:space-x-3 space-y-4 flex flex-wrap justify-center sm:justify-between items-center text-black dark:text-gray-300"
+            >
+              <!-- Fill by title, description -->
+              <div class="flex space-x-2 items-center">
+                <label for="searchSurvey">
+                  {{ $t("search") }}
+                </label>
+                <input
+                  v-model="filter.search"
+                  @change="filtered"
+                  type="text"
+                  name="searchSurvey"
+                  id="searchInput"
+                  placeholder="Search for survey..."
+                  class="max-w-[200px] text-black dark:text-gray-300 focus:ring-indigo-500 focus:border-indigo-500 flex-1 shadow-sm sm:text-sm border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-900"
+                />
+              </div>
+
+              <!-- Fill by created from-to -->
+              <div class="flex flex-col space-y-2">
+                <span
+                  class="flex flex-col sm:flex-row items-center justify-between space-x-2"
+                >
+                  <label for="dateFrom"> {{ $t("createFrom") }} </label>
+                  <input
+                    v-model="filter.create.from"
+                    @change="filtered"
+                    type="date"
+                    name="dateFrom"
+                    class="text-black dark:text-gray-300 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm sm:text-sm border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-900"
+                  />
+                </span>
+                <span
+                  class="flex flex-col sm:flex-row items-center justify-between space-x-2"
+                >
+                  <label for="dateTo"> {{ $t("dateTo") }} </label>
+                  <input
+                    v-model="filter.create.to"
+                    @change="filtered"
+                    type="date"
+                    name="dateTo"
+                    class="text-black dark:text-gray-300 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm sm:text-sm border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-900"
+                  />
+                </span>
+              </div>
+
+              <!-- Fill by updated from-to -->
+              <div class="flex flex-col space-y-2">
+                <span
+                  class="flex flex-col sm:flex-row items-center justify-between space-x-2"
+                >
+                  <label for="dateFrom"> {{ $t("updateFrom") }} </label>
+                  <input
+                    v-model="filter.update.from"
+                    @change="filtered"
+                    type="date"
+                    name="dateFrom"
+                    class="text-black dark:text-gray-300 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm sm:text-sm border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-900"
+                  />
+                </span>
+                <span
+                  class="flex flex-col sm:flex-row items-center justify-between space-x-2"
+                >
+                  <label for="dateTo"> {{ $t("dateTo") }} </label>
+                  <input
+                    v-model="filter.update.to"
+                    @change="filtered"
+                    type="date"
+                    name="dateTo"
+                    class="text-black dark:text-gray-300 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm sm:text-sm border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-900"
+                  />
+                </span>
+              </div>
+
+              <!-- Fill by Status, Expired date -->
+              <div class="flex ml-4 sm:ml-0 items-center space-x-3">
+                <div
+                  class="text-black dark:text-white flex flex-col sm:flex-row items-center space-y-2 sm:space-x-2 text-center"
+                >
+                  <label for="status"> {{ $t("statusActive") }}: </label>
+                  <input
+                    type="checkbox"
+                    name="status"
+                    v-model="filter.active"
+                    @change="filtered"
+                  />
+                </div>
+                <div
+                  class="text-black dark:text-white flex flex-col sm:flex-row items-center space-y-2 sm:space-x-2 text-center"
+                >
+                  <label for="expired"> {{ $t("showExpired") }}: </label>
+                  <input
+                    type="checkbox"
+                    name="expired"
+                    v-model="filter.expire"
+                    @change="filtered"
+                  />
+                </div>
+              </div>
+            </div>
+          </transition>
+
+          <!-- Table -->
+          <table class="text-black dark:text-white text-center">
+            <thead>
+              <tr class="sticky top-0 bg-white dark:bg-gray-800">
+                <th></th>
+                <th class="p-5">{{ $t("status") }}</th>
+                <th class="p-5">{{ $t("surveyTitle") }}</th>
+                <th class="p-5">Slug</th>
+                <th class="p-5">{{ $t("createdDate") }}</th>
+                <th class="p-5">{{ $t("updatedDate") }}</th>
+                <th class="p-5">{{ $t("expiredDate") }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-if="filtered().length"
+                v-for="(survey, index) in filtered()"
+                :key="survey.id"
+              >
+                <td> {{ index + 1}} </td>
+                <td class="p-2">
+                  {{ survey.status ? $t("statusActive") : $t("statusDraft") }}
+                </td>
+                <td class="p-2">{{ survey.title }}</td>
+                <td class="p-2">{{ survey.slug }}</td>
+                <td class="p-2">
+                  {{ formatDate(survey.created_at) }}
+                </td>
+                <td class="p-2">
+                  {{ formatDate(survey.updated_at) }}
+                </td>
+                <td class="p-2">
+                  {{
+                    survey.expire_date
+                      ? formatDate(survey.expire_date)
+                      : $t("notSpecified")
+                  }}
+                </td>
+              </tr>
+              <tr
+                v-else
+                class="text-black dark:text-white pt-5 text-lg font-bold"
+              >
+                <td class="p-2">
+                  {{ $t("noMatch") }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <BarChart class="max-h-[300px]" :data="barChartData()" />
+
+        <!-- Chart -->
+        <div
+          v-if="data?.allAnswers.length"
+          class="flex flex-col items-center justify-between py-5"
+        >
+          <!-- Chart 1 -->
+          <div>
+            <div
+              class="text-gray-700 dark:text-gray-300 font-bold text-lg my-5"
+            >
+              {{ $t("surveyPerDay") }}
+              {{ `${getCurrentDate().month}/${getCurrentDate().year}` }}
+            </div>
+            <BarChart
+              class="max-h-[300px]"
+              :data="barChartData()"
+              :month="getCurrentDate().month"
+              :year="getCurrentDate().year"
+            />
+          </div>
+
+          <!-- Chart 2 -->
+          <div>
+            <div
+              class="text-gray-700 dark:text-gray-300 font-bold text-lg my-5"
+            >
+              {{ $t("surveyPerMonth") }}
+              {{ getCurrentDate().year }}
+            </div>
+            <LineChart class="max-h-[300px]" :data="lineChartData()" />
+          </div>
+        </div>
       </div>
     </div>
   </PageComponent>
@@ -190,11 +432,12 @@
 
 <script setup>
 import PageComponent from "../components/PageComponent.vue";
-import { computed, watch } from "vue";
+import { computed, watch, ref, onMounted, onUnmounted } from "vue";
 import store from "../store/index";
 import Loader from "../components/Loader.vue";
 import i18n from "../i18n";
 import BarChart from "../components/BarChart.vue";
+import LineChart from "../components/LineChart.vue";
 
 const loading = computed(() => store.state.dashboard.loading);
 const data = computed(() => store.state.dashboard.data);
@@ -207,24 +450,69 @@ store.dispatch("getDashboardData");
 
 watch(data, () => {
   barChartData();
+  lineChartData();
 });
+
+const filter = ref({
+  show: false,
+  search: "",
+  create: {
+    from: "",
+    to: "",
+  },
+  update: {
+    from: "",
+    to: "",
+  },
+  active: true,
+  expire: true,
+});
+
+onMounted(() => {
+  window.addEventListener("keydown", listenKeyEvent);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("keydown", listenKeyEvent);
+});
+
+function listenKeyEvent(e) {
+  if (e.ctrlKey && e.key === "k") {
+    e.preventDefault();
+    filter.value = {
+      ...filter.value,
+      show: !filter.value.show,
+    };
+  }
+}
 
 function barChartData() {
   if (data.value.allAnswers) {
     let bcData = createDaysInMonth();
 
-    const currentDate = new Date();
     data.value.allAnswers.map((answer) => {
       let date = new Date(answer.end_date);
       if (
-        currentDate.getFullYear() === date.getFullYear() &&
-        currentDate.getMonth() === date.getMonth()
+        getCurrentDate().year === date.getFullYear() &&
+        getCurrentDate().month - 1 === date.getMonth()
       ) {
-        bcData[date.getDate()] += 1;
+        bcData[date.getDate() - 1] += 1;
       }
     });
 
     return bcData;
+  }
+}
+
+function lineChartData() {
+  if (data.value.surveys) {
+    let months = Array.from({ length: 12 }, () => 0);
+    data.value.surveys.map((survey) => {
+      let date = new Date(survey.created_at);
+      months[date.getMonth()] += 1;
+    });
+
+    return months;
   }
 }
 
@@ -247,6 +535,101 @@ function getCurrentDate() {
     day: currentDate.getDate(),
   };
 }
-</script>
 
-<style scoped></style>
+function formatDate(date) {
+  const formattedDate = new Date(date);
+
+  const year = formattedDate.getFullYear();
+  const month = String(formattedDate.getMonth() + 1).padStart(2, "0");
+  const day = String(formattedDate.getDate()).padStart(2, "0");
+  const hours = String(formattedDate.getHours()).padStart(2, "0");
+  const minutes = String(formattedDate.getMinutes()).padStart(2, "0");
+  const seconds = String(formattedDate.getSeconds()).padStart(2, "0");
+
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
+function showFilter() {
+  filter.value = {
+    ...filter.value,
+    show: !filter.value.show,
+  };
+}
+
+function filtered() {
+  let filteredData = data.value.surveys;
+
+  if (filter.value.active) {
+    filteredData = filteredData.filter((survey) => survey.status);
+  }
+
+  if (!filter.value.expire) {
+    filteredData = filteredData.filter((survey) => {
+      return new Date() < new Date(survey.expire_date);
+    });
+  }
+
+  if (filter.value.search) {
+    filteredData = filteredData.filter((survey) => {
+      return (
+        survey.title
+          .toLowerCase()
+          .includes(filter.value.search.toLowerCase()) ||
+        survey.slug.toLowerCase().includes(filter.value.search.toLowerCase())
+      );
+    });
+  }
+
+  if (filter.value.create.from && !filter.value.create.to) {
+    let date = new Date(filter.value.create.from);
+    date.setHours(0);
+    filteredData = filteredData.filter(
+      (survey) => new Date(survey.created_at) >= date
+    );
+  } else if (!filter.value.create.from && filter.value.create.to) {
+    let date = new Date(filter.value.create.to);
+    date.setHours(23);
+    filteredData = filteredData.filter(
+      (survey) => new Date(survey.created_at) <= date
+    );
+  } else if (filter.value.create.from && filter.value.create.to) {
+    let dateFrom = new Date(filter.value.create.from);
+    let dateTo = new Date(filter.value.create.to);
+    dateFrom.setHours(0);
+    dateTo.setHours(23);
+    filteredData = filteredData.filter((survey) => {
+      return (
+        new Date(survey.created_at) >= dateFrom &&
+        new Date(survey.created_at) <= dateTo
+      );
+    });
+  }
+
+  if (filter.value.update.from && !filter.value.update.to) {
+    let date = new Date(filter.value.update.from);
+    date.setHours(0);
+    filteredData = filteredData.filter(
+      (survey) => new Date(survey.updated_at) >= date
+    );
+  } else if (!filter.value.update.from && filter.value.update.to) {
+    let date = new Date(filter.value.update.to);
+    date.setHours(23);
+    filteredData = filteredData.filter(
+      (survey) => new Date(survey.updated_at) <= date
+    );
+  } else if (filter.value.update.from && filter.value.update.to) {
+    let dateFrom = new Date(filter.value.update.from);
+    let dateTo = new Date(filter.value.update.to);
+    dateFrom.setHours(0);
+    dateTo.setHours(23);
+    filteredData = filteredData.filter((survey) => {
+      return (
+        new Date(survey.updated_at) >= dateFrom &&
+        new Date(survey.updated_at) <= dateTo
+      );
+    });
+  }
+
+  return filteredData;
+}
+</script>
