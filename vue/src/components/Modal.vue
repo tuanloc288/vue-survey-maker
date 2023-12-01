@@ -6,7 +6,7 @@
     ]"
   >
     <div
-      class="absolute top-4 right-5 left-5 mx-3bg-white flex justify-between items-center"
+      class="absolute top-4 right-5 left-5 mx-3 flex justify-between items-center"
       :class="[oldValue.length ? '' : 'flex-row-reverse']"
     >
       <span
@@ -229,8 +229,8 @@ import QuestionAnswerViewer from "./viewer/QuestionAnswerViewer.vue";
 import { watch } from "vue";
 import { onUnmounted } from "vue";
 
-const data = computed(() => store.state.model.data);
-const individual = computed(() => store.state.model.individual);
+const data = computed(() => store.state.modal.data);
+const individual = computed(() => store.state.modal.individual);
 
 watch(data, (newVal, oldVal) => {
   if (oldVal.length && individual) {
@@ -318,7 +318,7 @@ function checkedOptions(question, answer) {
 }
 
 function closeModel() {
-  store.commit("setModelData", false, {}, false);
+  store.commit("setModalData", false, {}, false);
 }
 
 function keyListener(e) {
@@ -333,11 +333,11 @@ function keyListener(e) {
 }
 
 function openModel(answer, individual) {
-  store.commit("setModelData", { open: true, data: answer, individual });
+  store.commit("setModalData", { open: true, data: answer, individual });
 }
 
 function goBack() {
-  store.commit("setModelData", {
+  store.commit("setModalData", {
     open: true,
     data: oldValue.value,
     individual: false,

@@ -2,7 +2,9 @@
   <PageComponent showJump>
     <template v-slot:header>
       <div class="flex justify-between items-center">
-        <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100"> {{ $t('surveys') }} </h1>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">
+          {{ $t("surveys") }}
+        </h1>
         <router-link
           v-if="!surveys.loading"
           :to="{ name: 'SurveyCreation' }"
@@ -24,7 +26,7 @@
           </svg>
 
           <span class="hidden md:block">{{
-            surveys.data.length ? $t('addSurvey') : $t('createOwn')
+            surveys.data.length ? $t("addSurvey") : $t("createOwn")
           }}</span>
         </router-link>
       </div>
@@ -38,7 +40,7 @@
           :survey="survey"
           class="opacity-0 animate-fade-in-down"
           :style="{ animationDelay: `${index * 0.1}s` }"
-          @delete="deleteSurvey(survey)"
+          @delete="showConfirm(survey)"
         />
       </div>
       <!-- Pagination -->
@@ -67,8 +69,11 @@
           </a>
         </nav>
       </div>
-      <div v-else class="flex justify-center text-2xl text-semibold text-black dark:text-gray-200">
-        {{ $t('noSurveys') }}
+      <div
+        v-else
+        class="flex justify-center text-2xl text-semibold text-black dark:text-gray-200"
+      >
+        {{ $t("noSurveys") }}
       </div>
     </div>
   </PageComponent>
@@ -76,24 +81,39 @@
 
 <script setup>
 import store from "../store";
-import { computed } from "vue";
+import { computed, watch } from "vue";
 import PageComponent from "../components/PageComponent.vue";
 import SurveyListItem from "../components/SurveyListItems.vue";
 import Loader from "../components/Loader.vue";
 import i18n from "../i18n";
 
 const surveys = computed(() => store.state.surveys);
+const confirmation = computed(() => store.state.confirmDialog.data);
+
+watch(confirmation, (newVal, oldVal) => {
+  if (newVal?.response) {
+    deleteSurvey(newVal.survey);
+  }
+});
 
 store.dispatch("getSurveys");
 
+function showConfirm(survey) {
+  store.commit("setConfirmDialogData", {
+    open: true,
+    data: {
+      title:
+        i18n.global.locale == "EN"
+          ? "Are you sure you want to delete this survey? This action can not be undone!"
+          : "Bạn có chắc muốn xóa khảo sát này không? Hành động này sẽ không thể hoàn lại!",
+      response: false,
+      survey,
+    },
+  });
+}
+
 function deleteSurvey(survey) {
-  if (
-    confirm(
-      i18n.global.locale == 'EN' 
-        ? "Are you sure you want to delete this survey? This action can not be undone!"
-        : "Bạn có chắc muốn xóa khảo sát này không? Hành động này sẽ không thể hoàn lại!"
-    )
-  ) {
+  if (confirmation.value.response) {
     store.dispatch("deleteSurvey", survey.id).then(() => {
       store.dispatch("getSurveys");
     });

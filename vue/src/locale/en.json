@@ -79,6 +79,11 @@
     "createFrom": "Create from",
     "updateFrom": "Update from",
     "showExpired": "Show expired",
-    "showFilter": "Click to show/close filter",
-    "surveyPerMonth": "Number of surveys created per month in"
+    "showFilter": "Show filter",
+    "closeFilter": "Close filter",
+    "clearFilter": "Clear filter",
+    "showFilterTitle": "Click to show/close filter",
+    "surveyPerMonth": "Number of surveys created per month in",
+    "cancel": "Cancel",
+    "confirm": "Confirm"
 }

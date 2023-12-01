@@ -189,44 +189,53 @@
           class="h-full max-h-[600px] overflow-y-scroll"
           :class="[data?.allAnswers.length ? 'lg:col-span-2' : 'lg:col-span-3']"
         >
-          <!-- Show/close filter -->
-          <div
-            class="text-black dark:text-gray-300 w-fit flex items-center p-3 cursor-pointer hover:text-gray-600 dark:hover:text-gray-200 group"
-            :title="$t('showFilter')"
-            @click="showFilter()"
-          >
-            <svg
-              v-if="!filter.show"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="w-6 h-6 border border-gray-700 rounded-lg dark:border-gray-300 mr-2 group-hover:border-gray-600 group-hover:dark:border-gray-200"
+          <div class="flex justify-between items-center px-5 py-3">
+            <!-- Show/close filter -->
+            <div
+              class="text-black dark:text-gray-300 w-fit flex items-center p-3 cursor-pointer hover:text-gray-600 dark:hover:text-gray-200 group"
+              :title="$t('showFilterTitle')"
+              @click="showFilter()"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M12 4.5v15m7.5-7.5h-15"
-              />
-            </svg>
-            <svg
-              v-else
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="w-6 h-6 border border-gray-700 rounded-lg dark:border-gray-300 mr-2 group-hover:border-gray-600 group-hover:dark:border-gray-200"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M19.5 12h-15"
-              />
-            </svg>
+              <svg
+                v-if="!filter.show"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6 border border-gray-700 rounded-lg dark:border-gray-300 mr-2 group-hover:border-gray-600 group-hover:dark:border-gray-200"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 4.5v15m7.5-7.5h-15"
+                />
+              </svg>
+              <svg
+                v-else
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6 border border-gray-700 rounded-lg dark:border-gray-300 mr-2 group-hover:border-gray-600 group-hover:dark:border-gray-200"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M19.5 12h-15"
+                />
+              </svg>
 
-            Show filter
+              {{ filter.show ? $t("closeFilter") : $t("showFilter") }}
+            </div>
+
+            <button
+              @click="clearFilter"
+              class="flex items-center space-x-2 bg-gray-800 dark:bg-white text-white dark:text-black border border-gray-300 dark:border-gray-700 py-2 px-5 rounded-lg hover:scale-110"
+            >
+              {{ $t("clearFilter") }}
+            </button>
           </div>
 
           <!-- Filter -->
@@ -240,7 +249,7 @@
           >
             <div
               v-if="filter.show"
-              class="p-5 sm:space-x-3 space-y-4 flex flex-wrap justify-center sm:justify-between items-center text-black dark:text-gray-300"
+              class="px-5 pb-5 sm:space-x-3 space-y-4 flex flex-wrap justify-center sm:justify-between items-center text-black dark:text-gray-300"
             >
               <!-- Fill by title, description -->
               <div class="flex space-x-2 items-center">
@@ -361,7 +370,7 @@
                 v-for="(survey, index) in filtered()"
                 :key="survey.id"
               >
-                <td> {{ index + 1}} </td>
+                <td>{{ index + 1 }}</td>
                 <td class="p-2">
                   {{ survey.status ? $t("statusActive") : $t("statusDraft") }}
                 </td>
@@ -394,12 +403,12 @@
         </div>
 
         <!-- Chart -->
-        <div
-          v-if="data?.allAnswers.length"
-          class="flex flex-col items-center justify-between py-5"
-        >
+        <div class="flex flex-col items-center justify-between py-5">
           <!-- Chart 1 -->
-          <div>
+          <div
+            v-if="data?.allAnswers.length"
+            class="w-full lg:max-w-[400px] lg:max-h-[300px]"
+          >
             <div
               class="text-gray-700 dark:text-gray-300 font-bold text-lg my-5"
             >
@@ -407,7 +416,6 @@
               {{ `${getCurrentDate().month}/${getCurrentDate().year}` }}
             </div>
             <BarChart
-              class="max-h-[300px]"
               :data="barChartData()"
               :month="getCurrentDate().month"
               :year="getCurrentDate().year"
@@ -415,14 +423,17 @@
           </div>
 
           <!-- Chart 2 -->
-          <div>
+          <div
+            v-if="data?.surveys.length"
+            class="w-full lg:max-w-[400px] lg:max-h-[300px]"
+          >
             <div
               class="text-gray-700 dark:text-gray-300 font-bold text-lg my-5"
             >
               {{ $t("surveyPerMonth") }}
               {{ getCurrentDate().year }}
             </div>
-            <LineChart class="max-h-[300px]" :data="lineChartData()" />
+            <LineChart :data="lineChartData()" />
           </div>
         </div>
       </div>
@@ -443,7 +454,7 @@ const loading = computed(() => store.state.dashboard.loading);
 const data = computed(() => store.state.dashboard.data);
 
 function openModel(answer, individual) {
-  store.commit("setModelData", { open: true, data: answer, individual });
+  store.commit("setModalData", { open: true, data: answer, individual });
 }
 
 store.dispatch("getDashboardData");
@@ -553,6 +564,23 @@ function showFilter() {
   filter.value = {
     ...filter.value,
     show: !filter.value.show,
+  };
+}
+
+function clearFilter() {
+  filter.value = {
+    show: filter.value.show,
+    search: "",
+    create: {
+      from: "",
+      to: "",
+    },
+    update: {
+      from: "",
+      to: "",
+    },
+    active: true,
+    expire: true,
   };
 }
 

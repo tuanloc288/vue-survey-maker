@@ -2,14 +2,20 @@
   <div
     class="relative"
     :class="[
-      modelOpen ? 'max-h-screen sm:min-h-screen overflow-hidden' : 'min-h-full',
+      modalOpen || confirmDialogOpen ? 'max-h-screen sm:min-h-screen overflow-hidden' : 'min-h-full',
     ]"
   >
     <div
-      v-if="modelOpen"
+      v-if="modalOpen"
       class="absolute animate-from-left sm:animate-from-top left-0 top-0 h-screen w-screen min-h-full flex items-center justify-center bg-black/50 z-30"
     >
-      <Model />
+      <Modal />
+    </div>
+    <div
+      v-if="confirmDialogOpen"
+      class="absolute animate-from-left sm:animate-from-top left-0 top-0 h-screen w-screen min-h-full flex items-center justify-center bg-black/50 z-30"
+    >
+      <ConfirmDialog />
     </div>
     <Disclosure
       as="nav"
@@ -418,7 +424,8 @@ import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import { useDark, useToggle } from "@vueuse/core";
 import i18n from "../i18n";
-import Model from "../components/Model.vue";
+import Modal from "../components/Modal.vue";
+import ConfirmDialog from "../components/ConfirmDialog.vue";
 
 const isDark = useDark();
 const toggleDark = useToggle(isDark);
@@ -439,7 +446,8 @@ const router = useRouter();
 
 store.dispatch("getUser");
 let user = computed(() => store.state.user.data);
-const modelOpen = computed(() => store.state.model.open);
+const modalOpen = computed(() => store.state.modal.open);
+const confirmDialogOpen = computed(() => store.state.confirmDialog.open);
 
 function gotoHome() {
   router.push({ name: "Dashboard" });

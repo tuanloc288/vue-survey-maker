@@ -28,10 +28,14 @@ const store = createStore({
       loading: false,
       data: {},
     },
-    model: {
+    modal: {
       open: false,
       data: {},
       individual: false,
+    },
+    confirmDialog: {
+      open: false,
+      data: {},
     },
   },
   getters: {},
@@ -183,10 +187,14 @@ const store = createStore({
     setDashboardData: (state, data) => {
       state.dashboard.data = data;
     },
-    setModelData: (state, data) => {
-      state.model.open = data.open;
-      state.model.data = data.data;
-      state.model.individual = data.individual;
+    setModalData: (state, data) => {
+      state.modal.open = data.open;
+      state.modal.data = data.data;
+      state.modal.individual = data.individual;
+    },
+    setConfirmDialogData: (state, data) => {
+      state.confirmDialog.open = data.open;
+      state.confirmDialog.data = data.data;
     },
   },
   modules: {},

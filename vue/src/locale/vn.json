@@ -79,6 +79,11 @@
     "createFrom": "Tạo từ",
     "updateFrom": "Cập nhật từ",
     "showExpired": "Hiển thị hết hạn",
-    "showFilter": "Nhấn để đóng/mở bộ lọc",
-    "surveyPerMonth": "Số khảo sát được tạo trong từng tháng năm"
+    "showFilter": "Hiện bộ lọc",
+    "closeFilter": "Ẩn bộ lọc",
+    "clearFilter": "Xóa bộ lọc",
+    "showFilterTitle": "Nhấn để đóng/mở bộ lọc",
+    "surveyPerMonth": "Số khảo sát được tạo trong từng tháng năm",
+    "cancel": "Hủy",
+    "confirm": "Xác nhận"
 }

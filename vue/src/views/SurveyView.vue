@@ -35,7 +35,7 @@
           <button
             v-if="route.params.id && !surveyLoading"
             type="button"
-            @click="deleteSurvey()"
+            @click="showConfirm()"
             class="px-3 py-2 text-white rounded-md bg-red-500 hover:bg-red-600 flex items-center justify-between"
           >
             <svg
@@ -280,6 +280,7 @@ const route = useRoute();
 const router = useRouter();
 
 const surveyLoading = computed(() => store.state.currentSurvey.loading);
+const confirmation = computed(() => store.state.confirmDialog.data);
 
 let model = ref({
   title: "",
@@ -308,6 +309,12 @@ watch(
     };
   }
 );
+
+watch(confirmation, (newVal, oldVal) => {
+  if (newVal?.response) {
+    deleteSurvey();
+  }
+});
 
 if (route.params.id) {
   store.dispatch("getSurvey", route.params.id);
@@ -374,7 +381,9 @@ function saveSurvey() {
   tmr.setDate(tmr.getDate() + 1);
   let expire = new Date(model.value.expire_date);
   if (model.value.expire_date && expire < tmr) {
-    error.value.date = checkEnglish() ? "The expire date must be a date after tomorrow!" : "Ngày hết hạn phải là một ngày sau ngày mai!";
+    error.value.date = checkEnglish()
+      ? "The expire date must be a date after tomorrow!"
+      : "Ngày hết hạn phải là một ngày sau ngày mai!";
   } else {
     if (!checkErrors()) {
       addIndexForQuestion();
@@ -382,7 +391,9 @@ function saveSurvey() {
       store.dispatch("saveSurvey", model.value).then(({ data }) => {
         store.commit("notify", {
           type: "success",
-          message: checkEnglish() ? "Save survey successfully!" : "Lưu khảo sát thành công",
+          message: checkEnglish()
+            ? "Save survey successfully!"
+            : "Lưu khảo sát thành công",
         });
         router.push({
           name: "SurveyView",
@@ -407,7 +418,9 @@ function checkErrors() {
   } else {
     error.value = {
       ...error.value,
-      title: checkEnglish() ? "The title field is required!" : "Mục tiêu đề không được để trống!",
+      title: checkEnglish()
+        ? "The title field is required!"
+        : "Mục tiêu đề không được để trống!",
     };
   }
   if (
@@ -433,7 +446,9 @@ function checkEmptyQuestion() {
       flag = true;
       error.value = {
         ...error.value,
-        filled: checkEnglish() ? "You need to fill the question title before save survey!" : "Điền đầy đủ tiêu đề của các câu hỏi trước khi lưu!",
+        filled: checkEnglish()
+          ? "You need to fill the question title before save survey!"
+          : "Điền đầy đủ tiêu đề của các câu hỏi trước khi lưu!",
       };
     }
   });
@@ -461,14 +476,20 @@ function onImageChoose(e) {
   reader.readAsDataURL(file);
 }
 
-function deleteSurvey() {
-  if (
-    confirm(
-      checkEnglish()
+function showConfirm() {
+  store.commit("setConfirmDialogData", {
+    open: true,
+    data: {
+      response: false,
+      title: checkEnglish()
         ? "Are you sure you want to delete this survey? This action cannot be undone"
-        : "Bạn có chắc muốn xóa khảo sát này không? Hành động này không thể hoàn tác!"
-    )
-  ) {
+        : "Bạn có chắc muốn xóa khảo sát này không? Hành động này không thể hoàn tác!",
+    },
+  });
+}
+
+function deleteSurvey() {
+  if (confirmation.value.response) {
     store.dispatch("deleteSurvey", model.value.id).then(() => {
       router.push({
         name: "Surveys",
