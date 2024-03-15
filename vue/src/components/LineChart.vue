@@ -78,8 +78,8 @@ const chartOptions = {
         },
         color: "#7579e7",
         stepSize: 1,
-        beginAtZero: true,
       },
+      beginAtZero: true,
     },
   },
 };

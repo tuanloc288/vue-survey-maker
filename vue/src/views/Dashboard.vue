@@ -11,7 +11,7 @@
         <div
           class="bg-white dark:bg-gray-800 animate-from-top shadow-md p-3 text-center flex flex-col order-1 lg:order-2"
         >
-          <h3 class="text-2xl font-semibold">{{ $t("totalSurveys") }}</h3>
+          <h3 class="text-3xl font-semibold">{{ $t("totalSurveys") }}</h3>
           <div
             class="text-8xl font-semibold flex flex-1 items-center justify-center"
           >
@@ -21,7 +21,7 @@
         <div
           class="bg-white dark:bg-gray-800 animate-from-bottom shadow-md p-3 text-center flex flex-col order-2 lg:order-4"
         >
-          <h3 class="text-2xl font-semibold">{{ $t("totalAnswers") }}</h3>
+          <h3 class="text-3xl font-semibold">{{ $t("totalAnswers") }}</h3>
           <div
             class="text-8xl font-semibold flex flex-1 items-center justify-center"
           >
@@ -34,16 +34,18 @@
         >
           <h3 class="text-2xl font-semibold">{{ $t("latestSurvey") }}</h3>
           <div v-if="data.latestSurvey">
-            <img
-              :src="
-                data.latestSurvey.image_url
-                  ? data.latestSurvey.image_url
-                  : 'images/no-image.png'
-              "
-              class="w-[240px] mx-auto my-3 hover:scale-110 transition-transform"
-              alt="dashboard survey image"
-            />
-            <h3 class="text-xl font-bold mb-3">
+            <div class="h-[165px] w-full flex justify-center overflow-hidden">
+              <img
+                :src="
+                  data.latestSurvey.image_url
+                    ? data.latestSurvey.image_url
+                    : 'images/no-image.png'
+                "
+                class="w-[240px] aspect-video my-3 hover:scale-110 transition-transform"
+                alt="dashboard survey image"
+              />
+            </div>
+            <h3 class="text-xl font-bold my-3">
               {{ data.latestSurvey.title }}
             </h3>
             <div class="flex justify-between text-sm mb-1">
@@ -475,7 +477,7 @@ const filter = ref({
     from: "",
     to: "",
   },
-  active: true,
+  active: false,
   expire: true,
 });
 
@@ -520,7 +522,9 @@ function lineChartData() {
     let months = Array.from({ length: 12 }, () => 0);
     data.value.surveys.map((survey) => {
       let date = new Date(survey.created_at);
-      months[date.getMonth()] += 1;
+      if (date.getFullYear() === getCurrentDate().year) {
+        months[date.getMonth()] += 1;
+      }
     });
 
     return months;

@@ -306,7 +306,7 @@ function checkedOptions(question, answer) {
             return { ...opt, checked: false };
           }
         );
-        questionAnswers.value[index].data.options = tmpOpts;
+        questionAnswers.value[question.index].data.options = tmpOpts;
       }
     }
   } else {
@@ -349,6 +349,7 @@ function filtered() {
   let filteredData = data.value;
 
   if (filteredOpts.value.finished) {
+    console.log(filteredData);
     filteredData = filteredData.filter(
       (answer) => answer.answers.length === answer.survey.questions.length
     );
